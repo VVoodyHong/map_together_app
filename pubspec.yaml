@@ -34,6 +34,9 @@ dependencies:
   # 상태 관리 & 라우터 관리 & 종속성 관리
   get: 4.1.4
 
+  # naver 맵
+  flutter_naver_map: 0.10.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
