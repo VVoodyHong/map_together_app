@@ -1,5 +1,5 @@
 name: map_together
-description: A new Flutter project.
+description: map_together
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -29,11 +29,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
+  # 상태 관리 & 라우터 관리 & 종속성 관리
+  get: 4.1.4
 
 dev_dependencies:
   flutter_test:
