@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
+import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/utils.dart';
 
 class MyMapHomeX extends GetxController {
@@ -16,25 +17,56 @@ class MyMapHomeX extends GetxController {
     zoom: 5.7,
   ).obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   void onMapCreated(NaverMapController controller) {
     if (mapController.isCompleted) mapController = Completer();
     mapController.complete(controller);
   }
 
-  void onMapTap(LatLng position) {
+   void onPressCreate() {
+    changeCreateMode();
     if(createMode.value) {
-      Utils.showToast('mapTap\n' + position.toString());
+      Utils.showToast('추가할 장소를 선택해주세요.');
     }
   }
 
-  void onSymbolTap(LatLng? position, String? caption) {
+  void onMapTap(LatLng position) async {
     if(createMode.value) {
-      Utils.showToast('symbolTap\n' + position.toString() + '\n' + caption.toString());
+      Utils.moveTo(
+        UiState.MYMAP_CREATE,
+        arg: {
+          'position': position,
+        }
+      );
+      createMode.value = !createMode.value;
+    } else {
+      await (await mapController.future).moveCamera(
+        CameraUpdate.toCameraPosition(
+          CameraPosition(
+            target: position,
+          )
+        )
+      );
+    }
+  }
+
+  void onSymbolTap(LatLng? position, String? caption) async {
+    if(createMode.value) {
+      Utils.moveTo(
+        UiState.MYMAP_CREATE,
+        arg: {
+          'position': position,
+          'caption': caption,
+        }
+      );
+      createMode.value = !createMode.value;
+    }  else {
+      await (await mapController.future).moveCamera(
+        CameraUpdate.toCameraPosition(
+          CameraPosition(
+            target: position!,
+          )
+        )
+      );
     }
   }
 
