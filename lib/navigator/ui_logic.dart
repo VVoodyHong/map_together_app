@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:map_together/module/login/splash_screen.dart';
+import 'package:map_together/module/my_map/controller/my_map_create_controller.dart';
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
+import 'package:map_together/module/my_map/view/my_map_create_screen.dart';
 import 'package:map_together/module/my_map/view/my_map_home_screen.dart';
 import 'package:map_together/navigator/ui_state.dart';
 
@@ -17,13 +19,19 @@ class UiLogic {
   }) {
     _uiState = newState;
     _parameters = arg;
+  
+    // Screen을 공통으로 사용하는 State 처리
+    switch(newState) {
+      default: _currentScreen = newState;
+    }
 
+    //Navigator Root 상태 처리
     switch(newState){
       case UiState.MYMAP_HOME:
         goRoot = true;
         _rootScreen = newState;
         break;
-      default: break; 
+      default: break;
     }
 
     /**
@@ -52,7 +60,11 @@ class UiLogic {
       name: UiState.MYMAP_HOME.toString(),
       page: () { return MyMapHomeScreen(); },
       binding: BindingsBuilder(() { Get.put(MyMapHomeX());})
-      
+    ),
+    GetPage(
+      name: UiState.MYMAP_CREATE.toString(),
+      page: () { return MyMapCreateScreen(); },
+      binding: BindingsBuilder(() { Get.put(MyMapCreateX());})
     )
   ];
 }

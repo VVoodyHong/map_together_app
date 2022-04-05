@@ -5,5 +5,6 @@ enum UiState {
   SPLASH,
 
   //my_map
-  MYMAP_HOME
+  MYMAP_HOME,
+  MYMAP_CREATE
 }
