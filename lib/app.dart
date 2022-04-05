@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/navigator/ui_state.dart';
+import 'package:map_together/utils/utils.dart';
 
 class App extends GetxController {
   
@@ -10,7 +10,7 @@ class App extends GetxController {
   void onInit() {
     super.onInit();
     Future.delayed(Duration(milliseconds: 1500), () {
-      UiLogic.changeUiState(UiState.MYMAP_HOME);
+      Utils.moveTo(UiState.MYMAP_HOME);
     });
   }
 }
