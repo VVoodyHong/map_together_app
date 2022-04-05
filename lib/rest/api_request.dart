@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
+import 'package:map_together/auth/secrets.dart';
 
 class API extends GetConnect {
   static API get to => Get.find();
@@ -19,8 +20,8 @@ class API extends GetConnect {
   Future<Response<dynamic>> test(lon ,lat) async {
     // httpClient.defaultDecoder = (map) => map['data'];
     Map<String,String> headers = {
-      "X-NCP-APIGW-API-KEY-ID": "Client ID", // 개인 클라이언트 아이디
-      "X-NCP-APIGW-API-KEY": "Secret Key" // 개인 시크릿 키
+      "X-NCP-APIGW-API-KEY-ID": naverClientId, // 개인 클라이언트 아이디
+      "X-NCP-APIGW-API-KEY": naverClientSecret // 개인 시크릿 키
     };
     httpClient.addAuthenticator((Request request) async {
       request.headers.addAll(headers);
