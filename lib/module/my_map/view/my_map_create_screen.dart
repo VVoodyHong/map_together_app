@@ -5,55 +5,84 @@ import 'package:map_together/module/my_map/controller/my_map_create_controller.d
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/base_app_bar.dart';
+import 'package:map_together/widget/base_tff.dart';
 
 class MyMapCreateScreen extends GetView<MyMapCreateX> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
-      appBar: BaseAppBar(
-        title: '장소 추가',
-        titleWeight: FontWeight.w500,
-        leading: Utils.appBarBackButton(),
-        actions: [
-          IconButton(
-            icon: Text(
-              '등록',
-              style: TextStyle(
-                color: MtColor.black
-              )
-            ),
-            onPressed: () {
-              print('등록');
-            },
-          )
-        ]
-      ).init(),
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 200,
-              child: _naverMap()
+    return Obx(() => GestureDetector(
+      onTap: ()=> FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: BaseAppBar(
+          title: '장소 추가',
+          titleWeight: FontWeight.w500,
+          leading: Utils.appBarBackButton(),
+          actions: [
+            IconButton(
+              icon: Text(
+                '등록',
+                style: TextStyle(
+                  color: MtColor.black,
+                )
+              ),
+              onPressed: controller.onPressCreate,
             )
-          ],
-        ),
-      ),
+          ]
+        ).init(),
+        body: SafeArea(
+          child: Column(
+            children: [
+              _naverMap(),
+              _body()
+            ]
+          )
+        )
+      )
     ));
   }
 
   _naverMap() {
+    // to use GetX detector
     controller.markers.value;
-    return NaverMap(
-      initialCameraPosition: CameraPosition(
-        target: controller.position,
-        zoom: 15,
-      ),
-      onMapCreated: controller.onMapCreated,
-      locationButtonEnable: true,
-      onMapTap: controller.onMapTap,
-      onSymbolTap: controller.onSymbolTap,
-      markers: controller.markers
+    return SizedBox(
+      height: 200,
+      child: NaverMap(
+        initialCameraPosition: CameraPosition(
+          target: controller.position,
+          zoom: 15,
+        ),
+        onMapCreated: controller.onMapCreated,
+        locationButtonEnable: true,
+        onMapTap: controller.onMapTap,
+        onSymbolTap: controller.onSymbolTap,
+        markers: controller.markers
+      )
+    );
+  }
+
+  _body() {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            BaseTextFormField(
+              controller: controller.nameController,
+              hintText: '장소명을 입력해주세요.'
+            ).marginSymmetric(horizontal: 15),
+            BaseTextFormField(
+              controller: controller.addressController,
+              hintText: '위치를 선택해 주소를 입력해주세요.',
+              enabled: false
+            ).marginSymmetric(horizontal: 15),
+            BaseTextFormField(
+              controller: controller.descriptionController,
+              hintText: '장소에 대한 설명을 입력해주세요.',
+              multiline: true
+            ).marginSymmetric(horizontal: 15)
+          ],
+        ),
+      )
     );
   }
 }
