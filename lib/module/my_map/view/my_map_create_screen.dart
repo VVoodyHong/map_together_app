@@ -26,6 +26,7 @@ class MyMapCreateScreen extends GetView<MyMapCreateX> {
                   color: MtColor.black,
                 )
               ),
+              splashRadius: 24,
               onPressed: controller.onPressCreate,
             )
           ]
@@ -42,7 +43,7 @@ class MyMapCreateScreen extends GetView<MyMapCreateX> {
     ));
   }
 
-  _naverMap() {
+  Widget _naverMap() {
     // to use GetX detector
     controller.markers.value;
     return SizedBox(
@@ -61,7 +62,7 @@ class MyMapCreateScreen extends GetView<MyMapCreateX> {
     );
   }
 
-  _body() {
+  Widget _body() {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
