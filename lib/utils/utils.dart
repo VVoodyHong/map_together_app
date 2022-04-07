@@ -30,7 +30,8 @@ class Utils {
     return IconButton(
       onPressed: onPressed ?? () => Get.close(1),
       color: color ?? MtColor.black,
-      icon: Icon(Icons.arrow_back)
+      icon: Icon(Icons.arrow_back),
+      splashRadius: 24,
     );
   }
 }
