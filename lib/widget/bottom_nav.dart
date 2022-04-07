@@ -19,7 +19,7 @@ class BottomNav extends GetView<NavigatorX> {
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: MtColor.signature,
-        unselectedItemColor: MtColor.black,
+        unselectedItemColor: MtColor.paleBlack,
         currentIndex: controller.currentIndex.value,
         backgroundColor: MtColor.white,
         selectedFontSize: 14,
@@ -33,16 +33,12 @@ class BottomNav extends GetView<NavigatorX> {
             icon: Icon(Icons.person).marginSymmetric(vertical: 3),
           ),
           BottomNavigationBarItem(
-            label: '준비 중 ',
-            icon: Icon(Icons.priority_high_rounded).marginSymmetric(vertical: 3),
+            label: '검색',
+            icon: Icon(Icons.search).marginSymmetric(vertical: 3),
           ),
           BottomNavigationBarItem(
-            label: '준비 중 ',
-            icon: Icon(Icons.priority_high_rounded).marginSymmetric(vertical: 3),
-          ),
-          BottomNavigationBarItem(
-            label: '더보기',
-            icon: Icon(Icons.more_horiz).marginSymmetric(vertical: 3),
+            label: '설정',
+            icon: Icon(Icons.settings).marginSymmetric(vertical: 3),
           ),
         ],
       ),
