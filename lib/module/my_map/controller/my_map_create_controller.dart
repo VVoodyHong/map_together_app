@@ -23,7 +23,8 @@ class MyMapCreateX extends GetxController {
   @override
   void onInit() async {
     position = Get.arguments['position'];
-    nameController.text = Get.arguments['caption'] ?? '';
+    nameController.text = (Get.arguments['caption'] ?? '').replaceAll('\n', ' ');
+
     searchAddress();
     markers.add(
       Marker(
@@ -51,22 +52,27 @@ class MyMapCreateX extends GetxController {
           target: _position,
         )
       )
-    ).then((value) {
+    ).then((value) async {
       markers.clear();
-      markers.add(
-        Marker(
-          markerId: _position.json.toString(),
-          position: _position,
-          height: 30,
-          width: 20,
-        )
-      );
+      await OverlayImage.fromAssetImage(
+        assetName: 'lib/assets/markers/marker.png'
+      ).then((image) {
+        markers.add(
+          Marker(
+            markerId: _position.json.toString(),
+            position: _position,
+            height: 30,
+            width: 20,
+            icon: image,
+          )
+        );
+      });
     });
   }
 
   void onSymbolTap(LatLng? _position, String? caption) async {
     position = _position!;
-    nameController.text = caption ?? '';
+    nameController.text = (caption ?? '').replaceAll('\n', ' ');
     searchAddress();
     await (await mapController.future).moveCamera(
       CameraUpdate.toCameraPosition(
