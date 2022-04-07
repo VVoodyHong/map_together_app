@@ -15,6 +15,16 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
       appBar: BaseAppBar(
         title: 'w8kjeong',
         centerTitle: false,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+            splashRadius: 24,
+            onPressed: () {_onPressMenu(context);},
+          )
+        ]
       ).init(),
       body: SafeArea(
         child: Column(
@@ -29,7 +39,7 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
     ));
   }
 
-  _floatingActionButton() {
+  Widget _floatingActionButton() {
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
       child: FloatingActionButton(
@@ -45,7 +55,7 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
     );
   }
 
-  _profile() {
+  Widget _profile() {
     return Column(
       children: [
         Container(
@@ -128,7 +138,7 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
     );
   }
 
-  _myMap() {
+  Widget _myMap() {
     return Expanded(
       child: NaverMap(
         initialCameraPosition: controller.cameraPosition.value,
@@ -137,6 +147,70 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
         onMapTap: controller.onMapTap,
         onSymbolTap: controller.onSymbolTap,
       ),
+    );
+  }
+
+  void _onPressMenu(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20)
+        )
+      ),
+      builder: (context) {
+        return Container(
+          height: 180,
+          color: Colors.transparent,
+          child: _buildBottomNavigationMenu()
+        );
+      }
+    );
+  }
+
+  Widget _buildBottomNavigationMenu() {
+    return Column(
+      children: [
+        ListTile(
+          leading: Icon(
+            Icons.person_outline,
+            color: MtColor.black
+          ),
+          title: Text(
+            '프로필 편집',
+            style: TextStyle(
+              fontWeight: FontWeight.w500
+            )
+          ),
+          onTap: () => Get.close(1),
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.map_outlined,
+            color: MtColor.black
+          ),
+          title: Text(
+            '나의 맵 설정',
+            style: TextStyle(
+              fontWeight: FontWeight.w500
+            )
+          ),
+          onTap: () => Get.close(1),
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.star_outline,
+            color: MtColor.black
+          ),
+          title: Text(
+            '즐겨찾기',
+            style: TextStyle(
+              fontWeight: FontWeight.w500
+            )
+          ),
+          onTap: () => Get.close(1),
+        ),
+      ]
     );
   }
 }
