@@ -13,10 +13,12 @@ import 'package:map_together/widget/bottom_nav.dart';
 void main() {
   runApp(MapTogether());
   if(Platform.isAndroid) {
-    SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
-      statusBarColor: MtColor.white,
-      statusBarIconBrightness: Brightness.dark
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: MtColor.white,
+        statusBarIconBrightness: Brightness.dark
+      )
+    );
   }
 }
 
