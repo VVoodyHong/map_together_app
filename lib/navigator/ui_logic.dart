@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:map_together/module/login/splash_screen.dart';
+import 'package:map_together/module/member/profile_controller.dart';
+import 'package:map_together/module/member/profile_screen.dart';
 import 'package:map_together/module/my_map/controller/my_map_create_controller.dart';
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
 import 'package:map_together/module/my_map/view/my_map_create_screen.dart';
@@ -65,6 +67,11 @@ class UiLogic {
       name: UiState.MYMAP_CREATE.toString(),
       page: () { return MyMapCreateScreen(); },
       binding: BindingsBuilder(() { Get.put(MyMapCreateX());})
+    ),
+    GetPage(
+      name: UiState.PROFILE.toString(),
+      page: () { return ProfileScreen(); },
+      binding: BindingsBuilder(() { Get.put(ProfileX());})
     )
   ];
 }

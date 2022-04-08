@@ -6,5 +6,8 @@ enum UiState {
 
   //my_map
   MYMAP_HOME,
-  MYMAP_CREATE
+  MYMAP_CREATE,
+
+  //profile
+  PROFILE
 }
