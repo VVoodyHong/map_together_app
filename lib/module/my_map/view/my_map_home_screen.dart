@@ -3,6 +3,7 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
 import 'package:map_together/utils/constants.dart';
+import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/bottom_nav.dart';
 import 'package:map_together/widget/btn_profile.dart';
 import 'package:map_together/widget/base_app_bar.dart';
@@ -14,15 +15,12 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
     return Obx(() => Scaffold(
       appBar: BaseAppBar(
         title: 'w8kjeong',
+        titleWeight: FontWeight.bold,
         centerTitle: false,
         actions: [
-          IconButton(
-            icon: Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-            splashRadius: 24,
-            onPressed: () {_onPressMenu(context);},
+          Utils.iconButton(
+            iconData: Icons.menu,
+            onPressed: () => _onPressMenu(context)
           )
         ]
       ).init(),
@@ -120,15 +118,15 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
           child: Row(
             children: [
               BtnProfile(
-                title: 'place',
+                title: '장소',
                 number: '0'
               ),
               BtnProfile(
-                title: 'following',
+                title: '팔로잉',
                 number: '0'
               ),
               BtnProfile(
-                title: 'follower',
+                title: '팔로워',
                 number: '0'
               ),
             ],
@@ -182,10 +180,11 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
               fontWeight: FontWeight.w500
             )
           ),
-          onTap: () => Get.close(1),
+          onTap: controller.moveToProfile,
         ),
         ListTile(
           leading: Icon(
+            // Icons.edit_location_alt,
             Icons.map_outlined,
             color: MtColor.black
           ),

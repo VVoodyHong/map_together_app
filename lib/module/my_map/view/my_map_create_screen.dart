@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:map_together/module/my_map/controller/my_map_create_controller.dart';
-import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 import 'package:map_together/widget/base_tff.dart';
@@ -16,17 +15,13 @@ class MyMapCreateScreen extends GetView<MyMapCreateX> {
       child: Scaffold(
         appBar: BaseAppBar(
           title: '장소 추가',
-          titleWeight: FontWeight.w500,
-          leading: Utils.appBarBackButton(),
+          leading: Utils.iconButton(
+            iconData: Icons.arrow_back,
+            onPressed: () => Get.close(1)
+          ),
           actions: [
-            IconButton(
-              icon: Text(
-                '등록',
-                style: TextStyle(
-                  color: MtColor.black,
-                )
-              ),
-              splashRadius: 24,
+            Utils.textButton(
+              text: '등록',
               onPressed: controller.onPressCreate,
             )
           ]

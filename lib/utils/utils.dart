@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/constants.dart';
@@ -26,12 +25,27 @@ class Utils {
     );
   }
 
-  static IconButton appBarBackButton({Color? color, VoidCallback? onPressed}) {
+  static IconButton iconButton({required IconData iconData, required Function() onPressed}) {
     return IconButton(
-      onPressed: onPressed ?? () => Get.close(1),
-      color: color ?? MtColor.black,
-      icon: Icon(Icons.arrow_back),
+      icon: Icon(
+        iconData,
+        color: MtColor.black,
+      ),
       splashRadius: 24,
+      onPressed: onPressed,
+    );
+  }
+
+  static IconButton textButton({required String text, required Function() onPressed}) {
+    return IconButton(
+      icon: Text(
+        text,
+        style: TextStyle(
+          color: MtColor.black,
+        )
+      ),
+      splashRadius: 24,
+      onPressed: onPressed,
     );
   }
 }
