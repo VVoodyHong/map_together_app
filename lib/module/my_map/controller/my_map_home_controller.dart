@@ -73,4 +73,9 @@ class MyMapHomeX extends GetxController {
   void changeCreateMode() {
     createMode.value = !createMode.value;
   }
+
+  void moveToProfile() {
+    Get.close(1);
+    Utils.moveTo(UiState.PROFILE);
+  }
 }
