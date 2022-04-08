@@ -27,7 +27,7 @@ class BaseAppBar {
         style: TextStyle(
           color: titleColor ?? MtColor.black,
           fontSize: titleSize ?? FontSize.large,
-          fontWeight: titleWeight ?? FontWeight.bold,
+          fontWeight: titleWeight ?? FontWeight.w500,
         )
       ),
       backgroundColor: MtColor.white,
