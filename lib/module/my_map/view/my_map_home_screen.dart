@@ -3,9 +3,11 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
 import 'package:map_together/utils/constants.dart';
-import 'package:map_together/utils/utils.dart';
+import 'package:map_together/widget/base_button.dart';
+import 'package:map_together/widget/base_list_tile.dart';
 import 'package:map_together/widget/bottom_nav.dart';
-import 'package:map_together/widget/btn_profile.dart';
+import 'package:map_together/widget/bottom_sheet_modal.dart';
+import 'package:map_together/widget/button_profile.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 
 class MyMapHomeScreen extends GetView<MyMapHomeX> {
@@ -18,9 +20,12 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
         titleWeight: FontWeight.bold,
         centerTitle: false,
         actions: [
-          Utils.iconButton(
+          BaseButton.iconButton(
             iconData: Icons.menu,
-            onPressed: () => _onPressMenu(context)
+            onPressed: () => BottomSheetModal.show(
+              context: context,
+              listTiles: _listTiles()
+            )
           )
         ]
       ).init(),
@@ -117,15 +122,15 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
           ),
           child: Row(
             children: [
-              BtnProfile(
+              ButtonProfile(
                 title: '장소',
                 number: '0'
               ),
-              BtnProfile(
+              ButtonProfile(
                 title: '팔로잉',
                 number: '0'
               ),
-              BtnProfile(
+              ButtonProfile(
                 title: '팔로워',
                 number: '0'
               ),
@@ -139,77 +144,28 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
   Widget _myMap() {
     return Expanded(
       child: NaverMap(
-        initialCameraPosition: controller.cameraPosition.value,
+        initialCameraPosition: controller.position.value,
         locationButtonEnable: true,
         onMapCreated: controller.onMapCreated,
         onMapTap: controller.onMapTap,
-        onSymbolTap: controller.onSymbolTap,
+        onSymbolTap: controller.onSymbolTap
       ),
     );
   }
 
-  void _onPressMenu(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20)
-        )
+  List<BaseListTile> _listTiles() {
+    return [
+      BaseListTile(
+        title: '프로필 편집',
+        onTap: controller.moveToProfile,
+        icon: Icons.person_outline
       ),
-      builder: (context) {
-        return Container(
-          height: 180,
-          color: Colors.transparent,
-          child: _buildBottomNavigationMenu()
-        );
-      }
-    );
-  }
-
-  Widget _buildBottomNavigationMenu() {
-    return Column(
-      children: [
-        ListTile(
-          leading: Icon(
-            Icons.person_outline,
-            color: MtColor.black
-          ),
-          title: Text(
-            '프로필 편집',
-            style: TextStyle(
-              fontWeight: FontWeight.w500
-            )
-          ),
-          onTap: controller.moveToProfile,
-        ),
-        ListTile(
-          leading: Icon(
-            // Icons.edit_location_alt,
-            Icons.map_outlined,
-            color: MtColor.black
-          ),
-          title: Text(
-            '나의 맵 설정',
-            style: TextStyle(
-              fontWeight: FontWeight.w500
-            )
-          ),
-          onTap: () => Get.close(1),
-        ),
-        ListTile(
-          leading: Icon(
-            Icons.star_outline,
-            color: MtColor.black
-          ),
-          title: Text(
-            '즐겨찾기',
-            style: TextStyle(
-              fontWeight: FontWeight.w500
-            )
-          ),
-          onTap: () => Get.close(1),
-        ),
-      ]
-    );
+      BaseListTile(
+        title: '나의 맵 설정',
+        onTap: () => Get.close(1),
+        // icon: Icons.edit_location_alt,
+        icon: Icons.map_outlined,
+      )
+    ];
   }
 }
