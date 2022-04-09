@@ -12,7 +12,7 @@ class MyMapHomeX extends GetxController {
 
   RxBool createMode = false.obs;
 
-  Rx<CameraPosition> cameraPosition = CameraPosition(
+  Rx<CameraPosition> position = CameraPosition(
     target: LatLng(35.94841985643522, 127.68575755041469),
     zoom: 5.7,
   ).obs;
