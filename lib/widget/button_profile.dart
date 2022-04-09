@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:map_together/utils/constants.dart';
 
-class BtnProfile extends StatelessWidget {
+class ButtonProfile extends StatelessWidget {
 
   final String title;
   final String number;
 
-  BtnProfile({
+  ButtonProfile({
     required this.title,
     required this.number
   });
 
   @override
   Widget build(BuildContext context) {
-
     return Expanded(
       child: InkWell(
         onTap: () {
