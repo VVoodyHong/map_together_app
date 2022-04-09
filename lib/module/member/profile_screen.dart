@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/module/member/profile_controller.dart';
-import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/base_app_bar.dart';
+import 'package:map_together/widget/base_button.dart';
+import 'package:map_together/widget/base_list_tile.dart';
 import 'package:map_together/widget/base_tff.dart';
+import 'package:map_together/widget/bottom_sheet_modal.dart';
+import 'package:map_together/widget/image_round.dart';
 
 class ProfileScreen extends GetView<ProfileX> {
   
@@ -14,12 +17,12 @@ class ProfileScreen extends GetView<ProfileX> {
       child: Scaffold(
         appBar: BaseAppBar(
           title: controller.editMode.value ? '프로필 수정' : '프로필 정보',
-          leading: Utils.iconButton(
+          leading: BaseButton.iconButton(
             iconData: controller.editMode.value ? Icons.close : Icons.arrow_back,
             onPressed: controller.editMode.value ? controller.changeEditMode : () => Get.close(1)
           ),
           actions: [
-            Utils.iconButton(
+            BaseButton.iconButton(
               iconData: controller.editMode.value ? Icons.check : Icons.edit,
               onPressed: controller.editMode.value ? () => print('등록') : controller.changeEditMode
             )
@@ -30,7 +33,7 @@ class ProfileScreen extends GetView<ProfileX> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _image(),
+                _image(context).marginSymmetric(vertical: 30),
                 _inputs()
               ],
             )
@@ -40,8 +43,14 @@ class ProfileScreen extends GetView<ProfileX> {
     ));
   }
 
-  Widget _image() {
-    return Container();
+  Widget _image(BuildContext context) {
+    return ImageRound(
+      editMode: controller.editMode.value,
+      onTap: () => BottomSheetModal.show(
+        context: context,
+        listTiles: _listTiles()
+      )
+    );
   }
 
   Widget _inputs() {
@@ -51,18 +60,35 @@ class ProfileScreen extends GetView<ProfileX> {
           controller: controller.nickNameController,
           label: '닉네임',
           enabled: controller.editMode.value,
-        ).marginSymmetric(horizontal: 15),
+        ).marginOnly(left: 15, right: 15, top: 10),
         BaseTextFormField(
           controller: controller.nameController,
           label: '이름',
           enabled: controller.editMode.value,
-        ).marginSymmetric(horizontal: 15),
+        ).marginOnly(left: 15, right: 15, top: 10),
         BaseTextFormField(
           controller: controller.introduceController,
           label: '소개',
           enabled: controller.editMode.value,
-        ).marginSymmetric(horizontal: 15)
+        ).marginOnly(left: 15, right: 15, top: 10),
       ],
     );
+  }
+
+  List<BaseListTile> _listTiles() {
+    return [
+      BaseListTile(
+        title: '앨범에서 사진 선택',
+        onTap: () => Get.close(1),
+      ),
+      BaseListTile(
+        title: '카메라 촬영',
+        onTap: () => Get.close(1),
+      ),
+      BaseListTile(
+        title: '기본 이미지로 변경',
+        onTap: () => Get.close(1),
+      )
+    ];
   }
 }
