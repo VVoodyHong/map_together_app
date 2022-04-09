@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/navigator/ui_state.dart';
@@ -22,30 +21,6 @@ class Utils {
       state,
       prevState: UiLogic.getUiState(),
       arg: arg
-    );
-  }
-
-  static IconButton iconButton({required IconData iconData, required Function() onPressed}) {
-    return IconButton(
-      icon: Icon(
-        iconData,
-        color: MtColor.black,
-      ),
-      splashRadius: 24,
-      onPressed: onPressed,
-    );
-  }
-
-  static IconButton textButton({required String text, required Function() onPressed}) {
-    return IconButton(
-      icon: Text(
-        text,
-        style: TextStyle(
-          color: MtColor.black,
-        )
-      ),
-      splashRadius: 24,
-      onPressed: onPressed,
     );
   }
 }
