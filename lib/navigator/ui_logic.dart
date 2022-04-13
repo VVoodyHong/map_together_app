@@ -6,6 +6,8 @@ import 'package:map_together/module/my_map/controller/my_map_create_controller.d
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
 import 'package:map_together/module/my_map/view/my_map_create_screen.dart';
 import 'package:map_together/module/my_map/view/my_map_home_screen.dart';
+import 'package:map_together/module/search/controller/search_home_controller.dart';
+import 'package:map_together/module/search/view/search_home_screen.dart';
 import 'package:map_together/navigator/ui_state.dart';
 
 class UiLogic {
@@ -30,6 +32,10 @@ class UiLogic {
     //Navigator Root 상태 처리
     switch(newState){
       case UiState.MYMAP_HOME:
+        goRoot = true;
+        _rootScreen = newState;
+        break;
+      case UiState.SEARCH_HOME:
         goRoot = true;
         _rootScreen = newState;
         break;
@@ -61,7 +67,8 @@ class UiLogic {
     GetPage(
       name: UiState.MYMAP_HOME.toString(),
       page: () { return MyMapHomeScreen(); },
-      binding: BindingsBuilder(() { Get.put(MyMapHomeX());})
+      binding: BindingsBuilder(() { Get.put(MyMapHomeX());}),
+      transition: Transition.noTransition
     ),
     GetPage(
       name: UiState.MYMAP_CREATE.toString(),
@@ -72,6 +79,12 @@ class UiLogic {
       name: UiState.PROFILE.toString(),
       page: () { return ProfileScreen(); },
       binding: BindingsBuilder(() { Get.put(ProfileX());})
+    ),
+    GetPage(
+      name: UiState.SEARCH_HOME.toString(),
+      page: () { return SearchHomeScreen(); },
+      binding: BindingsBuilder(() { Get.put(SearchHomeX());}),
+      transition: Transition.noTransition
     )
   ];
 }
