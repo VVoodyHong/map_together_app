@@ -14,31 +14,40 @@ class ProfileScreen extends GetView<ProfileX> {
   Widget build(BuildContext context) {
     return Obx(() => GestureDetector(
       onTap: ()=> FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        appBar: BaseAppBar(
-          title: controller.editMode.value ? '프로필 수정' : '프로필 정보',
-          leading: BaseButton.iconButton(
-            iconData: controller.editMode.value ? Icons.close : Icons.arrow_back,
-            onPressed: controller.editMode.value ? controller.changeEditMode : () => Get.close(1)
-          ),
-          actions: [
-            BaseButton.iconButton(
-              iconData: controller.editMode.value ? Icons.check : Icons.edit,
-              onPressed: controller.editMode.value ? () => print('등록') : controller.changeEditMode
-            )
-          ]
-    
-        ).init(),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _image(context).marginSymmetric(vertical: 30),
-                _inputs()
-              ],
+      child: WillPopScope(
+        onWillPop: () async {
+          if(controller.editMode.value) {
+            controller.editMode.value = false;
+            return false;
+          } else {
+            return true;
+          }
+        },
+        child: Scaffold(
+          appBar: BaseAppBar(
+            title: controller.editMode.value ? '프로필 수정' : '프로필 정보',
+            leading: BaseButton.iconButton(
+              iconData: controller.editMode.value ? Icons.close : Icons.arrow_back,
+              onPressed: controller.editMode.value ? controller.changeEditMode : () => Get.close(1)
+            ),
+            actions: [
+              BaseButton.iconButton(
+                iconData: controller.editMode.value ? Icons.check : Icons.edit,
+                onPressed: controller.editMode.value ? () => print('등록') : controller.changeEditMode
+              )
+            ]
+          ).init(),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _image(context).marginSymmetric(vertical: 30),
+                  _inputs()
+                ],
+              )
             )
           )
-        )
+        ),
       ),
     ));
   }
