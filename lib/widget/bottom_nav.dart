@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:map_together/navigator/ui_logic.dart';
+import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/constants.dart';
 
 class BottomNav extends GetView<NavigatorX> {
@@ -50,15 +52,13 @@ class NavigatorX extends GetxController{
   static NavigatorX get to => Get.find();
   var currentIndex = 0.obs;
   var navList = [
-    // UiState.COMPANY_HOME,
-    // UiState.CHAT_HOME,
-    // UiState.REQUEST_HOME,
-    // UiState.CONFIG_HOME
+    UiState.MYMAP_HOME,
+    UiState.SEARCH_HOME,
   ];
 
   void switchNav(int index){
     if(currentIndex.value == index) return;
     currentIndex.value = index;
-    // UiLogic.changeUiState(navList[index]);
+    UiLogic.changeUiState(navList[index]);
   }
 }
