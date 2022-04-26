@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:map_together/auth/secrets.dart';
+import 'package:map_together/model/request/user_create.dart';
+import 'package:map_together/rest/api_keys.dart';
 
 class API extends GetConnect {
   static API get to => Get.find();
@@ -23,5 +25,12 @@ class API extends GetConnect {
       "X-NCP-APIGW-API-KEY": naverClientSecret // 개인 시크릿 키
     };
     return await httpClient.get('https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=$lon,$lat&sourcecrs=epsg:4326&orders=addr&output=json', headers: headers);
+  }
+
+  Future<Response<Object>> signUp(UserCreate req) async {
+    return await httpClient.post(
+      SCHEME + APP_SERVER_URL + PATH_USER_CREATE,
+      body: req.toJson()
+    );
   }
 }
