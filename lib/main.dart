@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
-import 'package:map_together/module/login/splash_screen.dart';
+import 'package:map_together/module/login/view/splash_screen.dart';
 import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/rest/api_request.dart';
 import 'package:map_together/utils/constants.dart';
