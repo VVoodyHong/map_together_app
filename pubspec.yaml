@@ -34,11 +34,20 @@ dependencies:
   # 상태 관리 & 라우터 관리 & 종속성 관리
   get: 4.1.4
 
-  # naver 맵
+  # naver map
   flutter_naver_map: 0.10.5
 
   # toast
   fluttertoast: ^8.0.9
+
+  # builder
+  build_runner:
+
+  # model serializable
+  json_serializable: ^6.1.6
+
+  # local storage
+  shared_preferences: ^2.0.6
 
 dev_dependencies:
   flutter_test:
@@ -56,7 +65,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  generate: false
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
