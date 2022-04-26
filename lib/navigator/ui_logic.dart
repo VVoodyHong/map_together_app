@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
-import 'package:map_together/module/login/splash_screen.dart';
-import 'package:map_together/module/member/profile_controller.dart';
-import 'package:map_together/module/member/profile_screen.dart';
+import 'package:map_together/module/login/controller/login_home_controller.dart';
+import 'package:map_together/module/login/view/login_home_screen.dart';
+import 'package:map_together/module/login/view/splash_screen.dart';
+import 'package:map_together/module/member/controller/profile_controller.dart';
+import 'package:map_together/module/member/view/profile_screen.dart';
 import 'package:map_together/module/my_map/controller/my_map_create_controller.dart';
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
 import 'package:map_together/module/my_map/view/my_map_create_screen.dart';
@@ -63,6 +65,11 @@ class UiLogic {
     GetPage(
       name: UiState.SPLASH.toString(),
       page: () { return SplashScreen(); }
+    ),
+    GetPage(
+      name: UiState.LOGIN.toString(),
+      page: () { return LoginHomeScreen(); },
+      binding: BindingsBuilder(() { Get.put(LoginHomeX());}),
     ),
     GetPage(
       name: UiState.MYMAP_HOME.toString(),

@@ -3,6 +3,7 @@ enum UiState {
 
   //login
   SPLASH,
+  LOGIN,
 
   //my_map
   MYMAP_HOME,
