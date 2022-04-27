@@ -7,6 +7,7 @@ class MtColor {
   static const white = Colors.white;
   static const grey = Colors.grey;
   static const paleGrey = Color(0xFFEEEEEE);
+  static const kakao = Color(0xffffe812);
 }
 
 class FontSize {
