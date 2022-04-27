@@ -31,7 +31,8 @@ class ButtonRound extends StatelessWidget {
           label,
           style: TextStyle(
             color: textColor ?? Colors.white,
-            fontSize: 16
+            fontSize: 16,
+            fontWeight: FontWeight.w600
           ),
         ),
       ),
