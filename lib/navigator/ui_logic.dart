@@ -69,7 +69,7 @@ class UiLogic {
     GetPage(
       name: UiState.LOGIN.toString(),
       page: () { return LoginHomeScreen(); },
-      binding: BindingsBuilder(() { Get.put(LoginHomeX());}),
+      binding: BindingsBuilder(() { Get.put(LoginHomeX());})
     ),
     GetPage(
       name: UiState.MYMAP_HOME.toString(),
