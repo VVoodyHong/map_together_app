@@ -34,6 +34,12 @@ dependencies:
   # 상태 관리 & 라우터 관리 & 종속성 관리
   get: 4.1.4
 
+  # kakao login
+  kakao_flutter_sdk: ^0.7.0
+
+  # open store
+  open_store: ^0.2.4
+  
   # naver map
   flutter_naver_map: 0.10.5
 
