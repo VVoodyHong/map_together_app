@@ -36,9 +36,6 @@ dependencies:
 
   # kakao login
   kakao_flutter_sdk: ^0.7.0
-
-  # open store
-  open_store: ^0.2.4
   
   # naver map
   flutter_naver_map: 0.10.5
@@ -46,14 +43,28 @@ dependencies:
   # toast
   fluttertoast: ^8.0.9
 
+  # sqlite
+  path: ^1.8.0
+  sqflite: ^2.0.2+1
+
   # builder
   build_runner:
 
   # model serializable
   json_serializable: ^6.1.6
+  json_annotation: ^4.4.0
 
   # local storage
   shared_preferences: ^2.0.6
+
+  # get device info
+  device_info_plus: ^3.2.3
+
+  # get package info
+  package_info_plus: ^1.4.2
+
+  # open store
+  open_store: ^0.2.4
 
 dev_dependencies:
   flutter_test:
