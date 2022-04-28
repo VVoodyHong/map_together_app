@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:map_together/module/login/controller/login_home_controller.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/button_round.dart';
+import 'package:map_together/widget/button_text.dart';
 import 'package:map_together/widget/login_ttf.dart';
 
 class LoginHomeScreen extends GetView<LoginHomeX> {
@@ -32,7 +33,7 @@ class LoginHomeScreen extends GetView<LoginHomeX> {
           SizedBox(height: 50),
           LoginTextFormField(
             controller: controller.loginIdController,
-            hintText: "아이디",
+            hintText: "이메일",
           ).marginOnly(left: 30, right: 30, top: 10),
           LoginTextFormField(
             controller: controller.passwordController,
@@ -43,6 +44,45 @@ class LoginHomeScreen extends GetView<LoginHomeX> {
             label: "로그인",
             onTap: () {print('로그인');}
           ).marginOnly(left: 30, right: 30, top: 30),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ButtonText(
+                  label: "회원가입",
+                  onTap: () {}
+                )
+              ],
+            ).marginOnly(right: 30),
+          ),
+          ButtonRound(
+            label: "카카오 계정으로 간편 로그인",
+            onTap: controller.kakaoLogin,
+            buttonColor: MtColor.kakao,
+            textColor: MtColor.black,
+          ).marginOnly(left: 30, right: 30, top: 30),
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       child: ButtonText(
+          //         label: "아이디 찾기",
+          //         onTap: () {}
+          //       ),
+          //     ),
+          //     Expanded(
+          //       child: ButtonText(
+          //         label: "비밀번호 찾기",
+          //         onTap: () {}
+          //       ),
+          //     ),
+          //     Expanded(
+          //       child: ButtonText(
+          //         label: "간편 회원가입",
+          //         onTap: () {}
+          //       ),
+          //     )
+          //   ],
+          // ).marginOnly(left: 30, right: 30),
         ],
       )
     );
