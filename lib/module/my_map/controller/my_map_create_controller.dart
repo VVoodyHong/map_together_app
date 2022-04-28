@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
-import 'package:map_together/rest/api_request.dart';
+import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 
 class MyMapCreateX extends GetxController {
