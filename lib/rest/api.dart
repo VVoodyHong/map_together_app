@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:map_together/auth/secrets.dart';
-import 'package:map_together/model/KakaoAccount.dart';
+import 'package:map_together/model/api_response.dart';
+import 'package:map_together/model/jwt_authentication_response.dart';
+import 'package:map_together/model/kakao_account.dart';
+import 'package:map_together/model/request/login.dart';
 import 'package:map_together/model/request/user_create.dart';
 import 'package:map_together/rest/api_keys.dart';
 
@@ -37,6 +40,14 @@ class API extends GetConnect {
     });
     httpClient.defaultDecoder = (map) => KakaoAccount.fromJson(map);
     return await httpClient.get(URL_KAKAO_USER_ME);
+  }
+
+  Future<Response<ApiResponse<JwtAuthenticationResponse>>> signIn(Login req) async {
+    httpClient.defaultDecoder = (map) => ApiResponse<JwtAuthenticationResponse>.fromJson(map);
+    return await httpClient.post(
+      SCHEME + APP_SERVER_URL + PATH_LOGIN,
+      body: req.toJson()
+    );
   }
 
   Future<Response<Object>> signUp(UserCreate req) async {
