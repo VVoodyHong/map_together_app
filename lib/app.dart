@@ -1,14 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:map_together/auth/secrets.dart';
 import 'package:map_together/model/api_response.dart';
 import 'package:map_together/model/jwt_authentication_response.dart';
 import 'package:map_together/model/request/login.dart';
 import 'package:map_together/model/type/os_type.dart';
+import 'package:map_together/model/type/user_type.dart';
+import 'package:map_together/model/user.dart' as mapto;
 import 'package:map_together/module/sqlite/db_helper.dart';
+import 'package:map_together/module/sqlite/db_jwt.dart';
+import 'package:map_together/navigator/ui_logic.dart';
+import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -20,6 +27,10 @@ class App extends GetxController {
 
   Login loginData = Login();
   DBHelper db = DBHelper();
+  late SharedPreferences prefs;
+
+  // 전역변수
+  Rx<mapto.User> user = mapto.User().obs;
 
   // TODO: min version set
   int minAndroidSdk = 0;
@@ -29,7 +40,7 @@ class App extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(Duration(milliseconds: 1000), () {
       _startProcess().then((_) {
         _autoLogin();
       }).catchError((onError) {
@@ -44,6 +55,8 @@ class App extends GetxController {
 
   Future<void> _startProcess() async {
     KakaoContext.clientId = SdkKeys.kakaoClientId;
+
+    prefs = await SharedPreferences.getInstance();
     
     // 1. device check
     Map<String, dynamic> deviceInfo = await _getDeviceInfo();
@@ -107,7 +120,7 @@ class App extends GetxController {
     return deviceData;
   }
 
-  bool _checkSdkVersion(deviceSdk, minSdk) {
+  bool _checkSdkVersion(num deviceSdk, num minSdk) {
     return deviceSdk < minSdk;
 
   }
@@ -125,45 +138,147 @@ class App extends GetxController {
   /* ========================================================*/
   /* ================== Init login process ==================*/
   /* ========================================================*/
+
   void _autoLogin() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? userData = prefs.getString('userData');
-    requestLogin();
-    // if (userData != null) {
-    //   return Utils.moveTo(UiState.LOGIN);
-    // } else {
-    //   Map<String, dynamic> userDataJson = json.decode(userData!);
-    // }
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // bool loggedIn = prefs.getBool(Prefs.KEY_LOGGED_IN) ?? false;
-    // if(!loggedIn) {
-    //   return Utils.moveTo(UiState.LOGIN);
-    // } else {
-    //   await db.getLoginData().then((data) {
-    //     if(data == null) {
-    //       return Utils.moveTo(UiState.LOGIN);
-    //     } else {
-    //       requestLogin();
-    //     }
-    //   });
-    // }
+    loginData.userType = UserType.USER;
+    // Fetching jwt from local storage
+    String? jwt = prefs.getString('jwt');
+    // If there is no jwt, go to the login page
+    if(jwt == null || jwt == "") {
+      return UiLogic.changeUiState(UiState.LOGIN);
+    } else {
+      DBJwt dbJwt = DBJwt.fromJson(json.decode(jwt));
+      // Set jwt to API
+      API.to.token = dbJwt.accessToken;
+      // Check jwt remmain time
+      Duration remainJwtTime = JwtDecoder.getRemainingTime(dbJwt.accessToken);
+      int jwtRemainHours = int.parse(remainJwtTime.toString().split(':')[0]);
+      // When the jwt is expired
+      if(JwtDecoder.isExpired(dbJwt.accessToken)) {
+        bool success = await _getNewAccessToken(dbJwt);
+        if(success) moveToMain();
+      // One day before expiry
+      } else if(jwtRemainHours < 24) {
+        bool success = await _refreshJwt();
+        if(success) moveToMain();
+      // default
+      } else {
+        moveToMain();
+      }
+    }
   }
 
-  void requestLogin() async {
-    loginData.loginId = "test";
-    loginData.password = "af";
-    await API.to.signIn(loginData).then((res) async {
+  Future<bool> _getNewAccessToken(DBJwt dbJwt) async {
+    return await API.to.getNewAccessToken(dbJwt.refreshToken).then((res) async {
       ApiResponse<JwtAuthenticationResponse>? response = res.body;
-      if(response == null) {
-        print("requestLogin error:: ${res.statusCode} ${res.statusText}");
-        return Utils.showToast("서버 통신 중 오류가 발생했습니다.");
-      } else {
+      if(response != null) {
+        // When the refresh token has not expired
+        if(response.code != 653) {
           if(response.success) {
+            dbJwt.accessToken = response.data?.accessToken ?? '';
+            _setToken(dbJwt);
+            return true;
           } else {
-            print("requestLogin error:: ${response.code} ${response.message}");
-            return Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+            print("_getNewAccessToken error:: ${response.code} ${response.message}");
+            Utils.showToast(response.message);
+            return false;
           }
+        // When the refresh token has expired
+        } else {
+          prefs.setString('jwt', "");
+          UiLogic.changeUiState(UiState.LOGIN);
+          return false;
+        }
+      } else {
+        print("_getNewAccessToken error:: ${res.statusCode} ${res.statusText}");
+        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+        return false;
       }
     });
+  }
+
+  Future<bool> _refreshJwt() async {
+    return await API.to.refreshJwt().then((res) async {
+      ApiResponse<JwtAuthenticationResponse>? response = res.body;
+      if(response != null) {
+        if(response.success) {
+          DBJwt dbJwt = DBJwt.fromJson(response.data!.toJson());
+          _setToken(dbJwt);
+          return true;
+        } else {
+          print("refreshJwt error:: ${response.code} ${response.message}");
+          Utils.showToast(response.message);
+          return false;
+        }
+      } else {
+        print("refreshJwt error:: ${res.statusCode} ${res.statusText}");
+        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+        return false;
+      }
+    });
+  }
+
+  Future<bool> _getUser() async {
+    return await API.to.getUser().then((res) async {
+      ApiResponse<mapto.User>? response = res.body;
+        if(response != null) {
+          if(response.success) {
+            user.value = response.data!;
+            return true;
+          } else {
+            print("_getUser error:: ${response.code} ${response.message}");
+            Utils.showToast(response.message);
+            return false;
+          }
+        } else {
+          print("_getUser error:: ${res.statusCode} ${res.statusText}");
+          Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+          return false;
+        }
+    });
+  }
+
+  void moveToMain() async {
+    bool success = await _getUser();
+    if(success) UiLogic.changeUiState(UiState.MYMAP_HOME);
+  }
+
+  Future<bool> requestLogin() async {
+    return await API.to.signIn(loginData).then((res) async {
+      ApiResponse<JwtAuthenticationResponse>? response = res.body;
+      if(response != null) {
+        if(response.success) {
+          DBJwt dbJwt = DBJwt.fromJson(response.data!.toJson());
+          _setToken(dbJwt);
+          return true;
+        } else {
+          print("_signIn error:: ${response.code} ${response.message}");
+          Utils.showToast(response.message);
+          return false;
+        }
+      } else {
+        print("_signIn error:: ${res.statusCode} ${res.statusText}");
+        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+        return false;
+      }
+    });
+  }
+
+  void _setToken(DBJwt dbJwt) {
+    String jwt = json.encode(dbJwt);
+    prefs.setString('jwt', jwt);
+    API.to.token = dbJwt.accessToken;
+  }
+
+  DateTime? _currentBackPressTime;
+  Future<bool> exitApp() {
+    var now = DateTime.now();
+    if (_currentBackPressTime == null ||
+        now.difference(_currentBackPressTime!) > Duration(seconds: 2)) {
+      _currentBackPressTime = now;
+      Utils.showToast('뒤로가기 버튼을 한번 더 누르면 종료됩니다.');
+      return Future.value(false);
+    }
+    return Future.value(true);
   }
 }
