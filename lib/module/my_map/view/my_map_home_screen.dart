@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
+import 'package:map_together/app.dart';
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/base_button.dart';
@@ -29,12 +30,15 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
           )
         ]
       ).init(),
-      body: SafeArea(
-        child: Column(
-          children: [
-            _profile(),
-            _myMap()
-          ],
+      body: WillPopScope(
+        onWillPop: App.to.exitApp,
+        child: SafeArea(
+          child: Column(
+            children: [
+              _profile(),
+              _myMap()
+            ],
+          ),
         ),
       ),
       floatingActionButton: _floatingActionButton(),
