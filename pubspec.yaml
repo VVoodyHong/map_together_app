@@ -66,6 +66,9 @@ dependencies:
   # open store
   open_store: ^0.2.4
 
+  # jwt decode
+  jwt_decoder: ^2.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
