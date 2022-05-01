@@ -3,7 +3,10 @@ const String APP_SERVER_URL = 'localhost:8080/api/v1/app/';
 
 // Server Api Path
 const String PATH_LOGIN = 'auth';
-const String PATH_USER_CREATE = 'user';
+const String PATH_ACCESSTOKEN = 'auth/accessToken';
+const String PATH_REFRESH_JWT = 'auth/refreshJwt';
+const String PATH_USER = 'user';
+const String PATH_SIGN_UP = 'user/signUp';
 
 // Kakao Api
 const String URL_KAKAO_USER_ME = 'https://kapi.kakao.com/v2/user/me';
