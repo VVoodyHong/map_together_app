@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/all.dart';
+import 'package:map_together/app.dart';
 import 'package:map_together/model/kakao_account.dart';
 import 'package:map_together/model/request/user_create.dart';
+import 'package:map_together/model/type/login_type.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 import 'package:open_store/open_store.dart';
@@ -13,6 +15,14 @@ class LoginHomeX extends GetxController {
 
   TextEditingController loginIdController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  void defaultLogin() async {
+    App.to.loginData.loginId = loginIdController.text;
+    App.to.loginData.password = passwordController.text;
+    App.to.loginData.loginType = LoginType.DEFAULT;
+    bool success = await App.to.requestLogin();
+    if(success) App.to.moveToMain();
+  }
 
   void kakaoLogin() async {
     bool _isKakaoTalkInstalled = await isKakaoTalkInstalled();
@@ -29,7 +39,7 @@ class LoginHomeX extends GetxController {
       AccessTokenResponse? token = await _issueAccessToken(code);
       await _getKakaoAccount(token!.accessToken);
     } on PlatformException catch (e) {
-      print("_loginByKakao error:: ${e.code} ${e.message}");
+      print("_getKakaoAccount error:: ${e.code} ${e.message}");
     }
   }
 
@@ -50,7 +60,10 @@ class LoginHomeX extends GetxController {
       print("_getKakaoAccount error:: ${res.statusCode} ${res.statusText}");
       Utils.showToast("카카오톡 서버 에러가 발생했습니다.");
     } else {
-      // TODO
+      App.to.loginData.loginId = res.body?.kakaoAccount?['email'];
+      App.to.loginData.loginType = LoginType.KAKAO;
+      bool success = await App.to.requestLogin();
+      if(success) App.to.moveToMain();
     }
   }
 

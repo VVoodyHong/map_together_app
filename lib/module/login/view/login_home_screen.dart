@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:map_together/app.dart';
 import 'package:map_together/module/login/controller/login_home_controller.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/button_round.dart';
@@ -12,7 +13,10 @@ class LoginHomeScreen extends GetView<LoginHomeX> {
     return GestureDetector(
       onTap: ()=> FocusScope.of(context).unfocus(),
       child: Scaffold(
-        body: _body()
+        body: WillPopScope(
+          onWillPop: App.to.exitApp,
+          child: _body()
+        )
       ),
     );
   }
@@ -42,7 +46,7 @@ class LoginHomeScreen extends GetView<LoginHomeX> {
           ).marginOnly(left: 30, right: 30, top: 10),
           ButtonRound(
             label: "로그인",
-            onTap: () {print('로그인');}
+            onTap: controller.defaultLogin,
           ).marginOnly(left: 30, right: 30, top: 30),
           Container(
             child: Row(
