@@ -42,6 +42,4 @@ const _$LoginTypeEnumMap = {
 const _$OsTypeEnumMap = {
   OsType.ANDROID: 'ANDROID',
   OsType.IOS: 'IOS',
-  OsType.WINDOW: 'WINDOW',
-  OsType.MACOS: 'MACOS',
 };
