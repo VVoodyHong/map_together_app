@@ -1,6 +1,9 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:map_together/model/jwt_authentication_response.dart';
+import 'package:map_together/model/user.dart';
 
 part 'api_response.g.dart';
 
@@ -25,9 +28,12 @@ class ApiResponse<T> extends Response{
   Map<String, dynamic> toJson() => _$ApiResponseToJson(this);
 
   static T? _fromGenericJson<T>(Map<String, dynamic> json) {
+    if(json == null) return null;
     if (T == JwtAuthenticationResponse) {
       return JwtAuthenticationResponse.fromJson(json) as T;
-    }else {
+    } else if(T == User) {
+      return User.fromJson(json) as T;
+    } else {
       return null;
     }
   }
