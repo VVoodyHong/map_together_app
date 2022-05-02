@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:map_together/app.dart';
 import 'package:map_together/model/kakao_account.dart';
-import 'package:map_together/model/request/user_create.dart';
 import 'package:map_together/model/type/login_type.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
@@ -73,17 +72,6 @@ class LoginX extends GetxController {
       androidAppBundleId: android ?? 'com.kakao.talk',
       appStoreId: iOS ?? '362057947',
     );
-  }
-  
-  void test() async {
-    UserCreate userCreate = UserCreate(
-      loginId: 'test',
-      nickname: 'test',
-      password: 'test',
-    );
-    await API.to.signUp(userCreate).then((res) {
-      print(res.body);
-    });
   }
 
   void moveToSignUp() {
