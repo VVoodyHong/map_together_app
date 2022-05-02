@@ -65,6 +65,7 @@ class API extends GetConnect {
   }
 
   Future<Response<ApiResponse<void>>> signUp(UserCreate req) async {
+    httpClient.defaultDecoder = (map) => ApiResponse<void>.fromJson(map);
     return await httpClient.post(
       SCHEME + APP_SERVER_URL + PATH_SIGN_UP,
       body: req.toJson(),
@@ -99,6 +100,13 @@ class API extends GetConnect {
     return await httpClient.get(
       SCHEME + APP_SERVER_URL + PATH_USER,
       headers: headers
+    );
+  }
+
+  Future<Response<ApiResponse<void>>> checkExistUser(String loginId) async {
+    httpClient.defaultDecoder = (map) => ApiResponse<void>.fromJson(map);
+    return await httpClient.get(
+      SCHEME + APP_SERVER_URL + PATH_USER_EXIST +'?loginId=$loginId'
     );
   }
 }

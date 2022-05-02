@@ -6,6 +6,7 @@ const String PATH_LOGIN = 'auth';
 const String PATH_ACCESSTOKEN = 'auth/accessToken';
 const String PATH_REFRESH_JWT = 'auth/refreshJwt';
 const String PATH_USER = 'user';
+const String PATH_USER_EXIST = 'user/exist';
 const String PATH_SIGN_UP = 'user/signUp';
 
 // Kakao Api
