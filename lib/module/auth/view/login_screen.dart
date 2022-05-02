@@ -23,71 +23,75 @@ class LoginScreen extends GetView<LoginX> {
 
   Widget _body() {
     return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "MAP TOGETHER",
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: MtColor.signature
-            )
-          ),
-          SizedBox(height: 50),
-          LoginTextFormField(
-            controller: controller.loginIdController,
-            hintText: "이메일",
-          ).marginOnly(left: 30, right: 30, top: 10),
-          LoginTextFormField(
-            controller: controller.passwordController,
-            hintText: "비밀번호",
-            obscureText: true
-          ).marginOnly(left: 30, right: 30, top: 10),
-          ButtonRound(
-            label: "로그인",
-            onTap: controller.defaultLogin,
-          ).marginOnly(left: 30, right: 30, top: 30),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ButtonText(
-                  label: "회원가입",
-                  onTap: controller.moveToSignUp
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "MAP TOGETHER",
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: MtColor.signature
                 )
-              ],
-            ).marginOnly(right: 30),
+              ),
+              SizedBox(height: 50),
+              LoginTextFormField(
+                controller: controller.loginIdController,
+                hintText: "이메일",
+              ).marginOnly(left: 30, right: 30, top: 10),
+              LoginTextFormField(
+                controller: controller.passwordController,
+                hintText: "비밀번호",
+                obscureText: true
+              ).marginOnly(left: 30, right: 30, top: 10),
+              ButtonRound(
+                label: "로그인",
+                onTap: controller.defaultLogin,
+              ).marginOnly(left: 30, right: 30, top: 30),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ButtonText(
+                      label: "회원가입",
+                      onTap: controller.moveToSignUp
+                    )
+                  ],
+                ).marginOnly(right: 30),
+              ),
+              ButtonRound(
+                label: "카카오 계정으로 간편 로그인",
+                onTap: controller.kakaoLogin,
+                buttonColor: MtColor.kakao,
+                textColor: MtColor.black,
+              ).marginOnly(left: 30, right: 30, top: 30)
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: ButtonText(
+              //         label: "아이디 찾기",
+              //         onTap: () {}
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ButtonText(
+              //         label: "비밀번호 찾기",
+              //         onTap: () {}
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ButtonText(
+              //         label: "간편 회원가입",
+              //         onTap: () {}
+              //       ),
+              //     )
+              //   ],
+              // ).marginOnly(left: 30, right: 30),
+            ],
           ),
-          ButtonRound(
-            label: "카카오 계정으로 간편 로그인",
-            onTap: controller.kakaoLogin,
-            buttonColor: MtColor.kakao,
-            textColor: MtColor.black,
-          ).marginOnly(left: 30, right: 30, top: 30),
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: ButtonText(
-          //         label: "아이디 찾기",
-          //         onTap: () {}
-          //       ),
-          //     ),
-          //     Expanded(
-          //       child: ButtonText(
-          //         label: "비밀번호 찾기",
-          //         onTap: () {}
-          //       ),
-          //     ),
-          //     Expanded(
-          //       child: ButtonText(
-          //         label: "간편 회원가입",
-          //         onTap: () {}
-          //       ),
-          //     )
-          //   ],
-          // ).marginOnly(left: 30, right: 30),
-        ],
+        ),
       )
     );
   }
