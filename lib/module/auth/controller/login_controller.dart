@@ -6,12 +6,13 @@ import 'package:map_together/app.dart';
 import 'package:map_together/model/kakao_account.dart';
 import 'package:map_together/model/request/user_create.dart';
 import 'package:map_together/model/type/login_type.dart';
+import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 import 'package:open_store/open_store.dart';
 
-class LoginHomeX extends GetxController {
-  static LoginHomeX get to => Get.find();
+class LoginX extends GetxController {
+  static LoginX get to => Get.find();
 
   TextEditingController loginIdController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -83,5 +84,9 @@ class LoginHomeX extends GetxController {
     await API.to.signUp(userCreate).then((res) {
       print(res.body);
     });
+  }
+
+  void moveToSignUp() {
+    Utils.moveTo(UiState.SIGNUP);
   }
 }

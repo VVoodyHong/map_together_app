@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
-import 'package:map_together/module/login/controller/login_home_controller.dart';
+import 'package:map_together/module/auth/controller/login_controller.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/button_round.dart';
 import 'package:map_together/widget/button_text.dart';
 import 'package:map_together/widget/login_ttf.dart';
 
-class LoginHomeScreen extends GetView<LoginHomeX> {
+class LoginScreen extends GetView<LoginX> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -54,7 +54,7 @@ class LoginHomeScreen extends GetView<LoginHomeX> {
               children: [
                 ButtonText(
                   label: "회원가입",
-                  onTap: () {}
+                  onTap: controller.moveToSignUp
                 )
               ],
             ).marginOnly(right: 30),

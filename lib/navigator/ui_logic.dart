@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
-import 'package:map_together/module/login/controller/login_home_controller.dart';
-import 'package:map_together/module/login/view/login_home_screen.dart';
-import 'package:map_together/module/login/view/splash_screen.dart';
+import 'package:map_together/module/auth/controller/login_controller.dart';
+import 'package:map_together/module/auth/controller/signup_controller.dart';
+import 'package:map_together/module/auth/view/login_screen.dart';
+import 'package:map_together/module/auth/view/signup_screen.dart';
+import 'package:map_together/module/auth/view/splash_screen.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
 import 'package:map_together/module/user/view/profile_screen.dart';
 import 'package:map_together/module/my_map/controller/my_map_create_controller.dart';
@@ -68,8 +70,13 @@ class UiLogic {
     ),
     GetPage(
       name: UiState.LOGIN.toString(),
-      page: () { return LoginHomeScreen(); },
-      binding: BindingsBuilder(() { Get.put(LoginHomeX());})
+      page: () { return LoginScreen(); },
+      binding: BindingsBuilder(() { Get.put(LoginX());})
+    ),
+    GetPage(
+      name: UiState.SIGNUP.toString(),
+      page: () { return SignupScreen(); },
+      binding: BindingsBuilder(() { Get.put(SignupX());})
     ),
     GetPage(
       name: UiState.MYMAP_HOME.toString(),
