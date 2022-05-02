@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:map_together/module/member/controller/profile_controller.dart';
+import 'package:map_together/module/user/controller/profile_controller.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/base_list_tile.dart';
