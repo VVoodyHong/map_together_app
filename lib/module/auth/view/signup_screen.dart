@@ -43,7 +43,7 @@ class SignupScreen extends GetView<SignupX> {
                 ),
                 ButtonRound(
                   label: '중복확인',
-                  onTap: () {},
+                  onTap: controller.isValidLoginId.value ? controller.checkExistUser : () {},
                   buttonColor: controller.isValidLoginId.value ? MtColor.signature : MtColor.paleGrey,
                   textColor: controller.isValidLoginId.value ? MtColor.white : MtColor.grey
                 )
@@ -70,6 +70,10 @@ class SignupScreen extends GetView<SignupX> {
               isValid: controller.isValidLoginId.value
             ),
             _confirmText(
+              text: '아이디 중복체크를 해주세요.',
+              isValid: controller.availableLoginId.value
+            ),
+            _confirmText(
               text: '문자, 숫자, 특수문자 포함 8자 이상으로 입력해주세요.',
               isValid: controller.isValidPassword.value
             ),
@@ -79,9 +83,9 @@ class SignupScreen extends GetView<SignupX> {
             ),
             ButtonRound(
               label: '회원가입',
-              onTap: () {},
-              buttonColor: controller.isValidLoginId.value && controller.isValidPassword.value && controller.isValidConfirmPassword.value ? MtColor.signature : MtColor.paleGrey,
-              textColor: controller.isValidLoginId.value && controller.isValidPassword.value && controller.isValidConfirmPassword.value ? MtColor.white : MtColor.grey
+              onTap: controller.isValidLoginId.value && controller.isValidPassword.value && controller.isValidConfirmPassword.value && controller.availableLoginId.value ? controller.signUp : () {},
+              buttonColor: controller.isValidLoginId.value && controller.isValidPassword.value && controller.isValidConfirmPassword.value && controller.availableLoginId.value ? MtColor.signature : MtColor.paleGrey,
+              textColor: controller.isValidLoginId.value && controller.isValidPassword.value && controller.isValidConfirmPassword.value && controller.availableLoginId.value ? MtColor.white : MtColor.grey
             ).marginAll(15),
           ],
         ),

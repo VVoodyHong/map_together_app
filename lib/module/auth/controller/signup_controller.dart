@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:map_together/model/api_response.dart';
 import 'package:map_together/model/request/user_create.dart';
 import 'package:map_together/rest/api.dart';
+import 'package:map_together/utils/utils.dart';
 
 class SignupX extends GetxController {
   static SignupX get to => Get.find();
 
   RxBool isValidLoginId = false.obs;
+  RxBool availableLoginId = false.obs;
   RxBool isValidPassword = false.obs;
   RxBool isValidConfirmPassword = false.obs;
 
@@ -30,15 +33,38 @@ class SignupX extends GetxController {
     } else {
       if(isValidPassword.value) isValidPassword.value = false;
     }
-  }
-
-  void onChangeConfirmPassword(String confirmPassword) {
-    print(passwordController.text.compareTo(confirmPasswordController.text));
-    if(passwordController.text.compareTo(confirmPasswordController.text) == 0) {
+    if(passwordController.text.isNotEmpty && passwordController.text.compareTo(confirmPasswordController.text) == 0) {
       isValidConfirmPassword.value = true;
     } else {
       if(isValidConfirmPassword.value) isValidConfirmPassword.value = false;
     }
+  }
+
+  void onChangeConfirmPassword(String confirmPassword) {
+    if(passwordController.text.isNotEmpty && passwordController.text.compareTo(confirmPasswordController.text) == 0) {
+      isValidConfirmPassword.value = true;
+    } else {
+      if(isValidConfirmPassword.value) isValidConfirmPassword.value = false;
+    }
+  }
+
+  void checkExistUser() async {
+    await API.to.checkExistUser(loginIdController.text).then((res) {
+      ApiResponse<void>? response = res.body;
+      if(response != null) {
+        if(response.success) {
+          availableLoginId.value = true;
+          Utils.showToast('사용 가능한 아이디입니다.');
+        } else {
+          availableLoginId.value = false;
+          Exception("checkExistUser error:: ${response.code} ${response.message}");
+          Utils.showToast(response.message);
+        }
+      } else {
+        print("checkExistUser error:: ${res.statusCode} ${res.statusText}");
+        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+      }
+    });
   }
 
   void signUp() async {
@@ -48,7 +74,19 @@ class SignupX extends GetxController {
       password: passwordController.text,
     );
     await API.to.signUp(userCreate).then((res) {
-      print(res.body);
+      ApiResponse<void>? response = res.body;
+      if(response != null) {
+        if(response.success) {
+          Utils.showToast("회원가입이 완료되었습니다.");
+          Get.close(1);
+        } else {
+          print("signUp error:: ${response.code} ${response.message}");
+          Utils.showToast(response.message);
+        }
+      } else {
+        print("signUp error:: ${res.statusCode} ${res.statusText}");
+        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+      }
     });
   }
 }
