@@ -5,10 +5,12 @@ part 'user.g.dart';
 @JsonSerializable()
 class User {
   final int? idx;
+  final String? loginId;
   final String? nickname;
   
   User({
     this.idx,
+    this.loginId,
     this.nickname,
   });
 
