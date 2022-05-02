@@ -21,7 +21,7 @@ class ButtonRound extends StatelessWidget {
       onTap: onTap,
       highlightColor: Colors.transparent,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
+        padding: EdgeInsets.all(15),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
