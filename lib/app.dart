@@ -221,20 +221,20 @@ class App extends GetxController {
   Future<bool> _getUser() async {
     return await API.to.getUser().then((res) async {
       ApiResponse<mapto.User>? response = res.body;
-        if(response != null) {
-          if(response.success) {
-            user.value = response.data!;
-            return true;
-          } else {
-            print("_getUser error:: ${response.code} ${response.message}");
-            Utils.showToast(response.message);
-            return false;
-          }
+      if(response != null) {
+        if(response.success) {
+          user.value = response.data!;
+          return true;
         } else {
-          print("_getUser error:: ${res.statusCode} ${res.statusText}");
-          Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+          print("_getUser error:: ${response.code} ${response.message}");
+          Utils.showToast(response.message);
           return false;
         }
+      } else {
+        print("_getUser error:: ${res.statusCode} ${res.statusText}");
+        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+        return false;
+      }
     });
   }
 
