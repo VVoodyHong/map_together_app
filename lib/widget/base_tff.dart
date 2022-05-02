@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:map_together/utils/constants.dart';
 
 class BaseTextFormField extends StatelessWidget {
@@ -9,6 +10,10 @@ class BaseTextFormField extends StatelessWidget {
   final bool? enabled;
   final bool? multiline;
   final VoidCallback? onPressedIcon;
+  final ValueChanged<String>? onChanged;
+  final bool? obscureText;
+  final bool? allowWhiteSpace;
+  final int? maxLength;
 
   BaseTextFormField({
     this.hintText,
@@ -17,7 +22,11 @@ class BaseTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.enabled,
     this.multiline,
-    this.onPressedIcon
+    this.onPressedIcon,
+    this.onChanged,
+    this.obscureText,
+    this.allowWhiteSpace,
+    this.maxLength
   });
 
   @override
@@ -38,8 +47,12 @@ class BaseTextFormField extends StatelessWidget {
             enabled: enabled,
             controller: controller,
             textAlign: TextAlign.start,
+            obscureText: obscureText ?? false,
+            onChanged: onChanged,
             maxLines: multiline == true ? null : 1,
+            maxLength: maxLength,
             keyboardType: multiline == true ? TextInputType.multiline: TextInputType.text,
+            inputFormatters: allowWhiteSpace ?? true ? null : [FilteringTextInputFormatter.deny(RegExp("[ ]"))],
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
