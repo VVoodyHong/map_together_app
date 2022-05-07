@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class MtColor {
   static const signature = Color(0xFF2DB9F3);
+  static const transparent = Colors.transparent;
   static const black = Colors.black;
   static const paleBlack = Colors.black54;
   static const white = Colors.white;
