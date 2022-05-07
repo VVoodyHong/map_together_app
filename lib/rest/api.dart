@@ -35,6 +35,7 @@ class API extends GetConnect {
       "X-NCP-APIGW-API-KEY-ID": SdkKeys.naverClientId,
       "X-NCP-APIGW-API-KEY": SdkKeys.naverClientSecret
     };
+    httpClient.defaultDecoder = null;
     return await httpClient.get('https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=$lon,$lat&sourcecrs=epsg:4326&orders=addr&output=json', headers: headers);
   }
 
