@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/model/api_response.dart';
 import 'package:map_together/model/request/user_create.dart';
+import 'package:map_together/model/type/exist_type.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 
@@ -18,6 +19,7 @@ class SignupX extends GetxController {
   TextEditingController confirmPasswordController = TextEditingController();
 
   void onChangeLoginId(String loginId) {
+    availableLoginId.value = false;
     RegExp regExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     if(regExp.hasMatch(loginId)) {
       isValidLoginId.value = true;
@@ -49,7 +51,7 @@ class SignupX extends GetxController {
   }
 
   void checkExistUser() async {
-    await API.to.checkExistUser(loginIdController.text).then((res) {
+    await API.to.checkExistUser(loginIdController.text, ExistType.LOGINID).then((res) {
       ApiResponse<void>? response = res.body;
       if(response != null) {
         if(response.success) {
@@ -70,7 +72,6 @@ class SignupX extends GetxController {
   void signUp() async {
     UserCreate userCreate = UserCreate(
       loginId: loginIdController.text,
-      nickname: loginIdController.text,
       password: passwordController.text,
     );
     await API.to.signUp(userCreate).then((res) {
