@@ -72,6 +72,9 @@ dependencies:
   # text auto size
   auto_size_text: ^3.0.0
 
+  # animated text
+  animated_text_kit: ^4.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
