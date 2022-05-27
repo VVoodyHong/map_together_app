@@ -6,11 +6,13 @@ part 'user.g.dart';
 class User {
   final int? idx;
   final String? loginId;
+  final String? name;
   final String? nickname;
   
   User({
     this.idx,
     this.loginId,
+    this.name,
     this.nickname,
   });
 
