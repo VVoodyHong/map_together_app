@@ -6,6 +6,8 @@ import 'package:map_together/model/jwt_authentication_response.dart';
 import 'package:map_together/model/kakao_account.dart';
 import 'package:map_together/model/request/login.dart';
 import 'package:map_together/model/request/user_create.dart';
+import 'package:map_together/model/request/user_update.dart';
+import 'package:map_together/model/type/exist_type.dart';
 import 'package:map_together/model/user.dart';
 import 'package:map_together/rest/api_keys.dart';
 
@@ -104,10 +106,20 @@ class API extends GetConnect {
     );
   }
 
-  Future<Response<ApiResponse<void>>> checkExistUser(String loginId) async {
+  Future<Response<ApiResponse<User>>> updateUser(int idx, UserUpdate req) async {
+    Map<String, String> headers = {'authorization': 'Bearer $token'};
+    httpClient.defaultDecoder = (map) => ApiResponse<User>.fromJson(map);
+    return await httpClient.patch(
+      SCHEME + APP_SERVER_URL + PATH_USER + '/$idx',
+      headers: headers,
+      body: req.toJson()
+    );
+  }
+
+  Future<Response<ApiResponse<void>>> checkExistUser(String value, ExistType type) async {
     httpClient.defaultDecoder = (map) => ApiResponse<void>.fromJson(map);
     return await httpClient.get(
-      SCHEME + APP_SERVER_URL + PATH_USER_EXIST +'?loginId=$loginId'
+      SCHEME + APP_SERVER_URL + PATH_USER_EXIST + '?value=$value&type=${type.getValue()}'
     );
   }
 }
