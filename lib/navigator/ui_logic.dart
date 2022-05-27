@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
+import 'package:map_together/module/auth/controller/enter_info_controller.dart';
 import 'package:map_together/module/auth/controller/login_controller.dart';
 import 'package:map_together/module/auth/controller/signup_controller.dart';
+import 'package:map_together/module/auth/view/enter_info_first_screen.dart';
+import 'package:map_together/module/auth/view/enter_info_second_screen.dart';
+import 'package:map_together/module/auth/view/enter_info_third_screen.dart';
 import 'package:map_together/module/auth/view/login_screen.dart';
 import 'package:map_together/module/auth/view/signup_screen.dart';
 import 'package:map_together/module/auth/view/splash_screen.dart';
@@ -72,6 +76,21 @@ class UiLogic {
       name: UiState.LOGIN.toString(),
       page: () { return LoginScreen(); },
       binding: BindingsBuilder(() { Get.put(LoginX());})
+    ),
+    GetPage(
+      name: UiState.ENTER_INFO_FIRST.toString(),
+      page: () { return EnterInfoFirstScreen(); },
+      binding: BindingsBuilder(() { Get.put(EnterInfoX());})
+    ),
+    GetPage(
+      name: UiState.ENTER_INFO_SECOND.toString(),
+      page: () { return EnterInfoSecondScreen(); },
+      binding: BindingsBuilder(() { Get.put(EnterInfoX());})
+    ),
+    GetPage(
+      name: UiState.ENTER_INFO_THIRD.toString(),
+      page: () { return EnterInfoThirdScreen(); },
+      binding: BindingsBuilder(() { Get.put(EnterInfoX());})
     ),
     GetPage(
       name: UiState.SIGNUP.toString(),
