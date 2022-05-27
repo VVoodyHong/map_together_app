@@ -240,7 +240,13 @@ class App extends GetxController {
 
   void moveToMain() async {
     bool success = await _getUser();
-    if(success) UiLogic.changeUiState(UiState.MYMAP_HOME);
+    if(success) {
+      if(user.value.nickname!.isEmpty) { // first login
+        UiLogic.changeUiState(UiState.ENTER_INFO_FIRST);
+      } else {
+        UiLogic.changeUiState(UiState.MYMAP_HOME);
+      }
+    }
   }
 
   Future<bool> requestLogin() async {
