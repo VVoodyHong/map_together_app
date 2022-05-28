@@ -19,10 +19,10 @@ class EnterInfoX extends GetxController {
 
   TextEditingController nicknameController = TextEditingController();
 
-  void onChangeNickname(String loginId) {
+  void onChangeNickname(String nickname) {
     availableNickname.value = false;
     RegExp regExp = RegExp(r'^[0-9a-zA-Z\s+._]{6,}$');
-    if(regExp.hasMatch(loginId)) {
+    if(regExp.hasMatch(nickname)) {
       isValidNickname.value = true;
     } else {
       if(isValidNickname.value) isValidNickname.value = false;
