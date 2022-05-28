@@ -11,7 +11,7 @@ class EnterInfoThirdScreen extends GetView<EnterInfoX> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        title: '프로필 사진 등록 (2/4)',
+        title: '완료 (2/2)',
         leading: BaseButton.iconButton(
           iconData: Icons.arrow_back,
           onPressed: () => Get.close(1)
@@ -23,13 +23,22 @@ class EnterInfoThirdScreen extends GetView<EnterInfoX> {
 
   Widget _body() {
     return SafeArea(
-      child: Center(
-        child: ButtonRound(
-            label: '다음',
-            onTap: controller.updateUser,
-            buttonColor: MtColor.paleGrey,
-            textColor: MtColor.grey
-          ).marginAll(15),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          LinearProgressIndicator(
+            value: 1.0,
+            backgroundColor: MtColor.paleGrey,
+            valueColor: AlwaysStoppedAnimation<Color>(MtColor.signature),
+            minHeight: 5,
+          ),
+          ButtonRound(
+              label: '완료',
+              onTap: controller.updateUser,
+              buttonColor: MtColor.signature,
+              textColor: MtColor.white
+            ).marginAll(15),
+        ],
       ),
     );
   }
