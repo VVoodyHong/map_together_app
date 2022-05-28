@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
+import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/base_list_tile.dart';
 import 'package:map_together/widget/base_tff.dart';
 import 'package:map_together/widget/bottom_sheet_modal.dart';
+import 'package:map_together/widget/button_round.dart';
 import 'package:map_together/widget/image_round.dart';
 
 class ProfileScreen extends GetView<ProfileX> {
@@ -14,47 +16,32 @@ class ProfileScreen extends GetView<ProfileX> {
   Widget build(BuildContext context) {
     return Obx(() => GestureDetector(
       onTap: ()=> FocusScope.of(context).unfocus(),
-      child: WillPopScope(
-        onWillPop: () async {
-          if(controller.editMode.value) {
-            controller.editMode.value = false;
-            return false;
-          } else {
-            return true;
-          }
-        },
-        child: Scaffold(
-          appBar: BaseAppBar(
-            title: controller.editMode.value ? '프로필 수정' : '프로필 정보',
-            leading: BaseButton.iconButton(
-              iconData: controller.editMode.value ? Icons.close : Icons.arrow_back,
-              onPressed: controller.editMode.value ? controller.changeEditMode : () => Get.close(1)
-            ),
-            actions: [
-              BaseButton.iconButton(
-                iconData: controller.editMode.value ? Icons.check : Icons.edit,
-                onPressed: controller.editMode.value ? () => print('등록') : controller.changeEditMode
-              )
-            ]
-          ).init(),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _image(context).marginSymmetric(vertical: 30),
-                  _inputs()
-                ],
-              )
+      child: Scaffold(
+        appBar: BaseAppBar(
+          title: '프로필 편집',
+          leading: BaseButton.iconButton(
+            iconData: Icons.arrow_back,
+            onPressed: () => Get.close(1)
+          ),
+
+        ).init(),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _image(context).marginSymmetric(vertical: 30),
+                _inputs()
+              ],
             )
           )
-        ),
+        )
       ),
     ));
   }
 
   Widget _image(BuildContext context) {
     return ImageRound(
-      editMode: controller.editMode.value,
+      editMode: true,
       onTap: () => BottomSheetModal.show(
         context: context,
         listTiles: _listTiles()
@@ -65,21 +52,67 @@ class ProfileScreen extends GetView<ProfileX> {
   Widget _inputs() {
     return Column(
       children: [
-        BaseTextFormField(
-          controller: controller.nickNameController,
-          label: '닉네임',
-          enabled: controller.editMode.value,
+        Row(
+          children: [
+            Flexible(
+              child: BaseTextFormField(
+                controller: controller.nicknameController,
+                label: '닉네임',
+                maxLength: 16,
+                enabled: true,
+                allowWhiteSpace: false,
+                onChanged: (value) => controller.onChangeNickname(value),
+              ),
+            ),
+            ButtonRound(
+              label: '중복확인',
+              onTap: controller.isValidNickname.value ? controller.checkExistUser : () {},
+              buttonColor: controller.isValidNickname.value ? MtColor.signature : MtColor.paleGrey,
+              textColor: controller.isValidNickname.value ? MtColor.white : MtColor.grey
+            )
+          ],
         ).marginOnly(left: 15, right: 15, top: 10),
         BaseTextFormField(
           controller: controller.nameController,
           label: '이름',
-          enabled: controller.editMode.value,
+          maxLength: 16,
+          allowWhiteSpace: false,
+          onChanged: (value) => controller.onChangeName(value),
+          enabled: true,
         ).marginOnly(left: 15, right: 15, top: 10),
         BaseTextFormField(
           controller: controller.introduceController,
           label: '소개',
-          enabled: controller.editMode.value,
-        ).marginOnly(left: 15, right: 15, top: 10),
+          maxLength: 250,
+          maxLines: 5,
+          multiline: true,
+          onChanged: (value) => controller.onChangeIntroduce(value),
+          enabled: true,
+        ).marginOnly(left: 15, right: 15, top: 10, bottom: 30),
+        ButtonRound(
+          label: '완료',
+          onTap: controller.isChangedNickname.value ?
+            controller.availableNickname.value ?
+              controller.updateUser :
+              () {}
+            : controller.isChangedOption.value ?
+              controller.updateUser :
+              () {},
+          buttonColor: controller.isChangedNickname.value ?
+            controller.availableNickname.value ? 
+              MtColor.signature :
+              MtColor.paleGrey
+            : controller.isChangedOption.value ?
+              MtColor.signature :
+              MtColor.paleGrey,
+          textColor: controller.isChangedNickname.value ?
+            controller.availableNickname.value ? 
+              MtColor.white :
+              MtColor.grey
+            : controller.isChangedOption.value ?
+              MtColor.white :
+              MtColor.grey
+        ).marginAll(15),
       ],
     );
   }
