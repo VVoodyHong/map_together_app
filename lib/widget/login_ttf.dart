@@ -24,8 +24,10 @@ class LoginTextFormField extends StatelessWidget {
           TextFormField(
             controller: controller,
             textAlign: TextAlign.start,
+            maxLength: 64,
             obscureText: obscureText ?? false,
             decoration: InputDecoration(
+              counterText: '',
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: MtColor.paleGrey
