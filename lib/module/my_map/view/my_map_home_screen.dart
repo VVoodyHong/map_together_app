@@ -10,6 +10,7 @@ import 'package:map_together/widget/bottom_nav.dart';
 import 'package:map_together/widget/bottom_sheet_modal.dart';
 import 'package:map_together/widget/button_profile.dart';
 import 'package:map_together/widget/base_app_bar.dart';
+import 'package:map_together/widget/image_round.dart';
 
 class MyMapHomeScreen extends GetView<MyMapHomeX> {
 
@@ -17,7 +18,7 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
       appBar: BaseAppBar(
-        title: 'w8kjeong',
+        title: App.to.user.value.nickname ?? '',
         titleWeight: FontWeight.bold,
         centerTitle: false,
         actions: [
@@ -69,19 +70,11 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
           margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
           child: Row(
             children: [
-              ClipOval(
-                child: SizedBox(
-                  height: 110,
-                  width: 110,
-                  child: Image.asset(
-                    Asset.profile,
-                    fit: BoxFit.cover
-                  ),
-                )
+              ImageRound(
+                imagePath: Asset.profile,
               ),
               Expanded(
                 child: Container(
-                  height: 110,
                   margin: EdgeInsets.only(left: 20),
                   child: Column(
                     children: [
@@ -89,7 +82,7 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
                         alignment: Alignment.topLeft,
                         margin: EdgeInsets.only(bottom: 5 ),
                         child: Text(
-                          '홍정욱',
+                          App.to.user.value.name ?? '',
                           style: TextStyle(
                             fontSize: FontSize.large,
                             fontWeight: FontWeight.w500
@@ -100,12 +93,11 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
                         alignment: Alignment.topLeft,
                         margin: EdgeInsets.only(bottom: 10),
                         child: Text(
-                          '반갑습니다😄\n나만의 여행일지✈\nhju4287@naver.com',
+                          App.to.user.value.introduce ?? '',
                           style: TextStyle(
                             height: 1.3
                           ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 4,
+                          maxLines: 5,
                         ),
                       ),
                     ],
@@ -167,7 +159,6 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
       BaseListTile(
         title: '나의 맵 설정',
         onTap: () => Get.close(1),
-        // icon: Icons.edit_location_alt,
         icon: Icons.map_outlined,
       )
     ];
