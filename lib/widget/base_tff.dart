@@ -9,11 +9,12 @@ class BaseTextFormField extends StatelessWidget {
   final Icon? suffixIcon;
   final bool? enabled;
   final bool? multiline;
+  final int? maxLines;
   final VoidCallback? onPressedIcon;
   final ValueChanged<String>? onChanged;
   final bool? obscureText;
   final bool? allowWhiteSpace;
-  final int? maxLength;
+  final int maxLength;
 
   BaseTextFormField({
     this.hintText,
@@ -22,11 +23,12 @@ class BaseTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.enabled,
     this.multiline,
+    this.maxLines,
     this.onPressedIcon,
     this.onChanged,
     this.obscureText,
     this.allowWhiteSpace,
-    this.maxLength
+    required this.maxLength
   });
 
   @override
@@ -49,11 +51,12 @@ class BaseTextFormField extends StatelessWidget {
             textAlign: TextAlign.start,
             obscureText: obscureText ?? false,
             onChanged: onChanged,
-            maxLines: multiline == true ? null : 1,
+            maxLines: multiline == true ? maxLines : 1,
             maxLength: maxLength,
             keyboardType: multiline == true ? TextInputType.multiline: TextInputType.text,
             inputFormatters: allowWhiteSpace ?? true ? null : [FilteringTextInputFormatter.deny(RegExp("[ ]"))],
             decoration: InputDecoration(
+              counterText: '',
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: MtColor.paleGrey
