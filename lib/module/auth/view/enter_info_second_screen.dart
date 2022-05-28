@@ -14,7 +14,7 @@ class EnterInfoSecondScreen extends GetView<EnterInfoX> {
       onTap: ()=> FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: BaseAppBar(
-          title: '닉네임 입력 (1/4)',
+          title: '닉네임 입력 (1/2)',
         ).init(),
         body: WillPopScope(
           onWillPop: App.to.exitApp,
@@ -30,7 +30,7 @@ class EnterInfoSecondScreen extends GetView<EnterInfoX> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           LinearProgressIndicator(
-            value: 0.25,
+            value: 0.5,
             backgroundColor: MtColor.paleGrey,
             valueColor: AlwaysStoppedAnimation<Color>(MtColor.signature),
             minHeight: 5,
@@ -41,6 +41,7 @@ class EnterInfoSecondScreen extends GetView<EnterInfoX> {
                 child: BaseTextFormField(
                   controller: controller.nicknameController,
                   hintText: '닉네임은 6자 이상이어야 합니다.',
+                  maxLength: 16,
                   allowWhiteSpace: false,
                   onChanged: (value) => controller.onChangeNickname(value),
                 ),

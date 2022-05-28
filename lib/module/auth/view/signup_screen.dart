@@ -37,6 +37,7 @@ class SignupScreen extends GetView<SignupX> {
                   child: BaseTextFormField(
                     controller: controller.loginIdController,
                     label: '아이디',
+                    maxLength: 64,
                     allowWhiteSpace: false,
                     onChanged: (value) => controller.onChangeLoginId(value),
                   ),
@@ -54,7 +55,7 @@ class SignupScreen extends GetView<SignupX> {
               label: '비밀번호',
               obscureText: true,
               allowWhiteSpace: false,
-              maxLength: 15,
+              maxLength: 64,
               onChanged: (value) => controller.onChangePassword(value),
             ).marginSymmetric(horizontal: 15),
             BaseTextFormField(
@@ -62,7 +63,7 @@ class SignupScreen extends GetView<SignupX> {
               label: '비밀번호 확인',
               obscureText: true,
               allowWhiteSpace: false,
-              maxLength: 15,
+              maxLength: 64,
               onChanged: (value) => controller.onChangeConfirmPassword(value),
             ).marginSymmetric(horizontal: 15),
             _confirmText(

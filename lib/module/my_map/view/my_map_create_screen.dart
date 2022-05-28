@@ -64,16 +64,19 @@ class MyMapCreateScreen extends GetView<MyMapCreateX> {
           children: [
             BaseTextFormField(
               controller: controller.nameController,
-              hintText: '장소명을 입력해주세요.'
+              hintText: '장소명을 입력해주세요.',
+              maxLength: 64,
             ).marginSymmetric(horizontal: 15),
             BaseTextFormField(
               controller: controller.addressController,
               hintText: '위치를 선택해 주소를 입력해주세요.',
+              maxLength: 64,
               enabled: false
             ).marginSymmetric(horizontal: 15),
             BaseTextFormField(
               controller: controller.descriptionController,
               hintText: '장소에 대한 설명을 입력해주세요.',
+              maxLength: 1800,
               multiline: true
             ).marginSymmetric(horizontal: 15)
           ],
