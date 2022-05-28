@@ -19,16 +19,16 @@ class ImageRound extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: editMode! ? onTap : null,
-      child: ClipOval(
-        child: Container(
-          height: imageSize ?? 120,
-          width: imageSize ?? 120,
-          decoration: BoxDecoration(
-            color: MtColor.paleBlack
-          ),
-          child: Stack(
-            children: [
-              Positioned(
+      child: SizedBox(
+        height: imageSize ?? 110,
+        width: imageSize ?? 110,
+        child: Stack(
+          children: [
+            ClipOval(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: MtColor.paleBlack
+                ),
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -37,27 +37,28 @@ class ImageRound extends StatelessWidget {
                       image: _imageProvider()
                     )
                   ),
+                )
+              ),
+            ),
+            editMode == true ? Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                alignment: Alignment.center,
+                height: 35,
+                width: 35,
+                decoration: BoxDecoration(
+                  color: MtColor.paleGrey,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Icon(
+                  Icons.camera_alt_outlined,
+                  color: MtColor.grey,
+                  size: 25
                 ),
               ),
-              editMode! ? Positioned(
-                bottom: 0,
-                right: 0,
-                left: 0,
-                height: 24,
-                child: Container(
-                  color: MtColor.grey,
-                  alignment: Alignment.center,
-                  child: Text(
-                    '변경',
-                    style: TextStyle(
-                      color: MtColor.black,
-                      fontWeight: FontWeight.w500,
-                    )
-                  )
-                ),
-              ) : Container(),
-            ],
-          )
+            ) : Container(),
+          ],
         ),
       )
     );
