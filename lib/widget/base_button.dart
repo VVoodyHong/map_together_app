@@ -5,12 +5,13 @@ class BaseButton {
   
   static IconButton iconButton({
     required IconData iconData,
-    required Function() onPressed
+    required Function() onPressed,
+    Color? color
   }) {
     return IconButton(
       icon: Icon(
         iconData,
-        color: MtColor.black,
+        color: color ?? MtColor.black,
       ),
       splashRadius: 24,
       onPressed: onPressed,
