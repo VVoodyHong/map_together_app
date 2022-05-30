@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
@@ -5,20 +7,31 @@ import 'package:map_together/model/api_response.dart';
 import 'package:map_together/model/request/user_update.dart';
 import 'package:map_together/model/type/exist_type.dart';
 import 'package:map_together/model/user.dart';
+import 'package:map_together/module/common/photo_uploader.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 
 class ProfileX extends GetxController {
   static ProfileX get to => Get.find();
 
+  Rx<PhotoType> photoType = PhotoType.NONE.obs;
+
   RxBool isValidNickname = false.obs;
   RxBool availableNickname = false.obs;
   RxBool isChangedNickname = false.obs;
   RxBool isChangedOption = false.obs;
 
+  RxBool isLoading = false.obs;
+
   TextEditingController nicknameController = TextEditingController(text: App.to.user.value.nickname);
   TextEditingController nameController = TextEditingController(text: App.to.user.value.name);
   TextEditingController introduceController = TextEditingController(text: App.to.user.value.introduce);
+
+  @override
+  void onInit() {
+    super.onInit();
+    PhotoUploader.to.init();
+  }
 
   void onChangeNickname(String nickName) {
     availableNickname.value = false;
@@ -52,7 +65,17 @@ class ProfileX extends GetxController {
     isChangedOption.value = true;
   }
 
+  void showDialog(BuildContext context) {
+    PhotoUploader.to.showDialog(context).then((photoType) => {
+      if(photoType != null) {
+        this.photoType.value = photoType,
+        isChangedOption.value = true
+      }
+    });
+  }
+
   void checkExistUser() async {
+    isLoading.value = true;
     await API.to.checkExistUser(nicknameController.text, ExistType.NICKNAME).then((res) {
       ApiResponse<void>? response = res.body;
       if(response != null) {
@@ -69,15 +92,20 @@ class ProfileX extends GetxController {
         Utils.showToast("서버 통신 중 오류가 발생했습니다.");
       }
     });
+    isLoading.value = false;
   }
 
    void updateUser() async {
+    String? profileImg = photoType.value == PhotoType.DEFAULT ? "default" : null;
     UserUpdate userUpdate = UserUpdate(
       nickname: nicknameController.text,
       name: nameController.text,
+      profileImg: profileImg,
       introduce: introduceController.text
     );
-    await API.to.updateUser(App.to.user.value.idx!, userUpdate).then((res) {
+    File? file = photoType.value == PhotoType.DEFAULT || photoType.value == PhotoType.NONE ? null : File(PhotoUploader.to.uploadPath.value);
+    isLoading.value = true;
+    await API.to.updateUser(userUpdate, file).then((res) {
       ApiResponse<User>? response = res.body;
       if(response != null) {
         if(response.success) {
@@ -93,5 +121,6 @@ class ProfileX extends GetxController {
         Utils.showToast("서버 통신 중 오류가 발생했습니다.");
       }
     });
+    isLoading.value = false;
   }
 }
