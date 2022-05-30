@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:map_together/auth/secrets.dart';
@@ -10,6 +12,7 @@ import 'package:map_together/model/request/user_update.dart';
 import 'package:map_together/model/type/exist_type.dart';
 import 'package:map_together/model/user.dart';
 import 'package:map_together/rest/api_keys.dart';
+import 'package:path/path.dart';
 
 class API extends GetConnect {
   static API get to => Get.find();
@@ -106,13 +109,18 @@ class API extends GetConnect {
     );
   }
 
-  Future<Response<ApiResponse<User>>> updateUser(int idx, UserUpdate req) async {
+  Future<Response<ApiResponse<User>>> updateUser(UserUpdate req, File? file) async {
+    Map<String, dynamic> json = req.toJson();
+    if(file != null) {
+      json['file'] = MultipartFile(file, filename: basename(file.path));
+    }
+    FormData formData = FormData(json);
     Map<String, String> headers = {'authorization': 'Bearer $token'};
     httpClient.defaultDecoder = (map) => ApiResponse<User>.fromJson(map);
-    return await httpClient.patch(
-      SCHEME + APP_SERVER_URL + PATH_USER + '/$idx',
+    return await httpClient.post(
+      SCHEME + APP_SERVER_URL + PATH_USER,
       headers: headers,
-      body: req.toJson()
+      body: formData
     );
   }
 
