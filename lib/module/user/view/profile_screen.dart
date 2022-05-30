@@ -1,12 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:map_together/app.dart';
+import 'package:map_together/module/common/photo_uploader.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 import 'package:map_together/widget/base_button.dart';
-import 'package:map_together/widget/base_list_tile.dart';
 import 'package:map_together/widget/base_tff.dart';
-import 'package:map_together/widget/bottom_sheet_modal.dart';
 import 'package:map_together/widget/button_round.dart';
 import 'package:map_together/widget/image_round.dart';
 
@@ -26,13 +28,18 @@ class ProfileScreen extends GetView<ProfileX> {
 
         ).init(),
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _image(context).marginSymmetric(vertical: 30),
-                _inputs()
-              ],
-            )
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _image(context).marginSymmetric(vertical: 30),
+                    _inputs()
+                  ],
+                )
+              ),
+              controller.isLoading.value ? CircularProgressIndicator() : Container()
+            ],
           )
         )
       ),
@@ -40,13 +47,26 @@ class ProfileScreen extends GetView<ProfileX> {
   }
 
   Widget _image(BuildContext context) {
-    return ImageRound(
-      editMode: true,
-      onTap: () => BottomSheetModal.show(
-        context: context,
-        listTiles: _listTiles()
-      )
-    );
+    switch(controller.photoType.value) {
+      case PhotoType.CAMERA:
+      case PhotoType.GALLERY:
+        return ImageRound(
+          file: File(PhotoUploader.to.uploadPath.value),
+          editMode: true,
+          onTap: () => controller.showDialog(context)
+        );
+      case PhotoType.DEFAULT:
+        return ImageRound(
+          editMode: true,
+          onTap: () => controller.showDialog(context)
+        );
+      case PhotoType.NONE:
+        return ImageRound(
+          imagePath: App.to.user.value.profileImg,
+          editMode: true,
+          onTap: () => controller.showDialog(context)
+        );
+    }
   }
 
   Widget _inputs() {
@@ -115,22 +135,5 @@ class ProfileScreen extends GetView<ProfileX> {
         ).marginAll(15),
       ],
     );
-  }
-
-  List<BaseListTile> _listTiles() {
-    return [
-      BaseListTile(
-        title: '앨범에서 사진 선택',
-        onTap: () => Get.close(1),
-      ),
-      BaseListTile(
-        title: '카메라 촬영',
-        onTap: () => Get.close(1),
-      ),
-      BaseListTile(
-        title: '기본 이미지로 변경',
-        onTap: () => Get.close(1),
-      )
-    ];
   }
 }
