@@ -18,5 +18,5 @@ class FontSize {
 }
 
 class Asset {
-  static const profile = 'lib/assets/images/profile.jpg';
+  static const defaultProfile = 'lib/assets/images/default_profile.png';
 }
