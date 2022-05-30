@@ -52,7 +52,7 @@ class EnterInfoX extends GetxController {
     UserUpdate userUpdate = UserUpdate(
       nickname: nicknameController.text
     );
-    await API.to.updateUser(App.to.user.value.idx!, userUpdate).then((res) {
+    await API.to.updateUser(userUpdate, null).then((res) {
       ApiResponse<User>? response = res.body;
       if(response != null) {
         if(response.success) {
