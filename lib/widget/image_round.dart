@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:map_together/utils/constants.dart';
 
@@ -6,12 +8,14 @@ class ImageRound extends StatelessWidget {
   final String? imagePath;
   final double? imageSize;
   final bool? editMode;
+  final File? file;
   final GestureTapCallback? onTap;
 
   ImageRound({
     this.imagePath,
     this.imageSize,
     this.editMode = false,
+    this.file,
     this.onTap
   });
 
@@ -27,7 +31,7 @@ class ImageRound extends StatelessWidget {
             ClipOval(
               child: Container(
                 decoration: BoxDecoration(
-                  color: MtColor.paleBlack
+                  color: MtColor.paleGrey.withOpacity(0.5)
                 ),
                 child: Container(
                   alignment: Alignment.center,
@@ -65,6 +69,14 @@ class ImageRound extends StatelessWidget {
   }
 
   ImageProvider _imageProvider(){
-      return AssetImage(Asset.profile);
+      if(file != null) {
+        return FileImage(file!);
+      } else {
+        if(imagePath != null) {
+          return NetworkImage(imagePath!);
+        } else {
+          return AssetImage(Asset.defaultProfile);   
+        }
+      }
   }
 }
