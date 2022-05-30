@@ -71,37 +71,37 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
           child: Row(
             children: [
               ImageRound(
-                imagePath: Asset.profile,
+                imagePath: App.to.user.value.profileImg
               ),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: 20),
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(bottom: 5 ),
-                        child: Text(
-                          App.to.user.value.name ?? '',
-                          style: TextStyle(
-                            fontSize: FontSize.large,
-                            fontWeight: FontWeight.w500
-                          ),
+              Container(
+                height: 115,
+                margin: EdgeInsets.only(left: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(bottom: 5),
+                      child: Text(
+                        App.to.user.value.name ?? '',
+                        style: TextStyle(
+                          fontSize: FontSize.large,
+                          fontWeight: FontWeight.w500
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(bottom: 10),
-                        child: Text(
-                          App.to.user.value.introduce ?? '',
-                          style: TextStyle(
-                            height: 1.3
-                          ),
-                          maxLines: 5,
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        App.to.user.value.introduce ?? '',
+                        style: TextStyle(
+                          height: 1.1
                         ),
+                        maxLines: 5,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               )
             ],
