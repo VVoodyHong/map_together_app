@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/navigator/ui_state.dart';
@@ -13,6 +14,24 @@ class Utils {
       backgroundColor: MtColor.paleBlack,
       textColor: MtColor.white,
       fontSize: FontSize.medium
+    );
+  }
+
+  static Visibility showLoading({
+    required bool isLoading
+  }) {
+    return Visibility(
+      visible: isLoading,
+      child: Container(
+        alignment: Alignment.center,
+        color: MtColor.transparent,
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: CircularProgressIndicator(
+            color: MtColor.signature
+          ),
+        ),
+      )
     );
   }
 
