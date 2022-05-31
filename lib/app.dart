@@ -168,71 +168,55 @@ class App extends GetxController {
     }
   }
 
-  Future<bool> _getNewAccessToken(DBJwt dbJwt) async {
-    return await API.to.getNewAccessToken(dbJwt.refreshToken).then((res) async {
-      ApiResponse<JwtAuthenticationResponse>? response = res.body;
-      if(response != null) {
-        // When the refresh token has not expired
-        if(response.code != 653) {
-          if(response.success) {
-            dbJwt.accessToken = response.data?.accessToken ?? '';
-            _setToken(dbJwt);
-            return true;
-          } else {
-            print("_getNewAccessToken error:: ${response.code} ${response.message}");
-            Utils.showToast(response.message);
-            return false;
-          }
-        // When the refresh token has expired
-        } else {
-          prefs.setString('jwt', "");
-          UiLogic.changeUiState(UiState.LOGIN);
-          return false;
-        }
-      } else {
-        print("_getNewAccessToken error:: ${res.statusCode} ${res.statusText}");
-        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
-        return false;
-      }
-    });
-  }
-
-  Future<bool> _refreshJwt() async {
-    return await API.to.refreshJwt().then((res) async {
-      ApiResponse<JwtAuthenticationResponse>? response = res.body;
-      if(response != null) {
+  Future<bool> _getNewAccessToken(DBJwt dbJwt) {
+    return API.to.getNewAccessToken(dbJwt.refreshToken).then((response) {
+      // When the refresh token has not expired
+      if(response.code != 653) {
         if(response.success) {
-          DBJwt dbJwt = DBJwt.fromJson(response.data!.toJson());
+          dbJwt.accessToken = response.data?.accessToken ?? '';
           _setToken(dbJwt);
           return true;
         } else {
-          print("refreshJwt error:: ${response.code} ${response.message}");
+          print("_getNewAccessToken error:: ${response.code} ${response.message}");
           Utils.showToast(response.message);
           return false;
         }
+      // When the refresh token has expired
+      } else if(response.code == 653) {
+        prefs.setString('jwt', "");
+        UiLogic.changeUiState(UiState.LOGIN);
+        return false;
       } else {
-        print("refreshJwt error:: ${res.statusCode} ${res.statusText}");
+        print("_getNewAccessToken error:: ${response.code} ${response.message}");
         Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+        UiLogic.changeUiState(UiState.LOGIN);
         return false;
       }
     });
   }
 
-  Future<bool> _getUser() async {
-    return await API.to.getUser().then((res) async {
-      ApiResponse<mapto.User>? response = res.body;
-      if(response != null) {
-        if(response.success) {
-          user.value = response.data!;
-          return true;
-        } else {
-          print("_getUser error:: ${response.code} ${response.message}");
-          Utils.showToast(response.message);
-          return false;
-        }
+  Future<bool> _refreshJwt() {
+    return API.to.refreshJwt().then((response) {
+      if(response.success) {
+        DBJwt dbJwt = DBJwt.fromJson(response.data!.toJson());
+        _setToken(dbJwt);
+        return true;
       } else {
-        print("_getUser error:: ${res.statusCode} ${res.statusText}");
-        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+        print("refreshJwt error:: ${response.code} ${response.message}");
+        Utils.showToast(response.message);
+        return false;
+      }
+    });
+  }
+
+  Future<bool> _getUser() {
+    return API.to.getUser().then((response) {
+      if(response.success) {
+        user.value = response.data!;
+        return true;
+      } else {
+        print("_getUser error:: ${response.code} ${response.message}");
+        Utils.showToast(response.message);
         return false;
       }
     });
@@ -249,22 +233,15 @@ class App extends GetxController {
     }
   }
 
-  Future<bool> requestLogin() async {
-    return await API.to.signIn(loginData).then((res) async {
-      ApiResponse<JwtAuthenticationResponse>? response = res.body;
-      if(response != null) {
-        if(response.success) {
-          DBJwt dbJwt = DBJwt.fromJson(response.data!.toJson());
-          _setToken(dbJwt);
-          return true;
-        } else {
-          print("_signIn error:: ${response.code} ${response.message}");
-          Utils.showToast(response.message);
-          return false;
-        }
+  Future<bool> requestLogin() {
+    return API.to.signIn(loginData).then((response) {
+      if(response.success) {
+        DBJwt dbJwt = DBJwt.fromJson(response.data!.toJson());
+        _setToken(dbJwt);
+        return true;
       } else {
-        print("_signIn error:: ${res.statusCode} ${res.statusText}");
-        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+        print("_signIn error:: ${response.code} ${response.message}");
+        Utils.showToast(response.message);
         return false;
       }
     });

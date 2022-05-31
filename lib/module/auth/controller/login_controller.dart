@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -55,12 +56,13 @@ class LoginX extends GetxController {
   }
 
   Future<void> _getKakaoAccount(String? token) async {
-    Response<KakaoAccount> res = await API.to.getKakaoAccount(token);
-    if(res.hasError) {
-      print("_getKakaoAccount error:: ${res.statusCode} ${res.statusText}");
+    dio.Response<dynamic> response = await API.to.getKakaoAccount(token);
+    if(response.statusCode != 200) {
+      print("_getKakaoAccount error:: ${response.statusCode} ${response.statusMessage}");
       Utils.showToast("카카오톡 서버 에러가 발생했습니다.");
     } else {
-      App.to.loginData.loginId = res.body?.kakaoAccount?['email'];
+      KakaoAccount data = KakaoAccount.fromJson(response.data);
+      App.to.loginData.loginId = data.kakaoAccount?['email'];
       App.to.loginData.loginType = LoginType.KAKAO;
       bool success = await App.to.requestLogin();
       if(success) App.to.moveToMain();

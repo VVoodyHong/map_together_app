@@ -51,22 +51,15 @@ class SignupX extends GetxController {
   }
 
   void checkExistUser() async {
-    await API.to.checkExistUser(loginIdController.text, ExistType.LOGINID).then((res) {
-      ApiResponse<void>? response = res.body;
-      if(response != null) {
-        if(response.success) {
-          availableLoginId.value = true;
-          Utils.showToast('사용 가능한 아이디입니다.');
-        } else {
-          availableLoginId.value = false;
-          Exception("checkExistUser error:: ${response.code} ${response.message}");
-          Utils.showToast(response.message);
-        }
-      } else {
-        print("checkExistUser error:: ${res.statusCode} ${res.statusText}");
-        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
-      }
-    });
+    ApiResponse<void> response = await API.to.checkExistUser(loginIdController.text, ExistType.LOGINID);
+    if(response.success) {
+      availableLoginId.value = true;
+      Utils.showToast('사용 가능한 아이디입니다.');
+    } else {
+      availableLoginId.value = false;
+      Exception("checkExistUser error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
   }
 
   void signUp() async {
@@ -74,20 +67,13 @@ class SignupX extends GetxController {
       loginId: loginIdController.text,
       password: passwordController.text,
     );
-    await API.to.signUp(userCreate).then((res) {
-      ApiResponse<void>? response = res.body;
-      if(response != null) {
-        if(response.success) {
-          Utils.showToast("회원가입이 완료되었습니다.");
-          Get.close(1);
-        } else {
-          print("signUp error:: ${response.code} ${response.message}");
-          Utils.showToast(response.message);
-        }
-      } else {
-        print("signUp error:: ${res.statusCode} ${res.statusText}");
-        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
-      }
-    });
+    ApiResponse<void> response = await API.to.signUp(userCreate);
+    if(response.success) {
+      Utils.showToast("회원가입이 완료되었습니다.");
+      Get.close(1);
+    } else {
+      print("signUp error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
   }
 }

@@ -76,22 +76,15 @@ class ProfileX extends GetxController {
 
   void checkExistUser() async {
     isLoading.value = true;
-    await API.to.checkExistUser(nicknameController.text, ExistType.NICKNAME).then((res) {
-      ApiResponse<void>? response = res.body;
-      if(response != null) {
-        if(response.success) {
-          availableNickname.value = true;
-          Utils.showToast('사용 가능한 닉네임입니다.');
-        } else {
-          availableNickname.value = false;
-          Exception("checkExistUser error:: ${response.code} ${response.message}");
-          Utils.showToast(response.message);
-        }
-      } else {
-        print("checkExistUser error:: ${res.statusCode} ${res.statusText}");
-        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
-      }
-    });
+    ApiResponse<void> response = await API.to.checkExistUser(nicknameController.text, ExistType.NICKNAME);
+    if(response.success) {
+      availableNickname.value = true;
+      Utils.showToast('사용 가능한 닉네임입니다.');
+    } else {
+      availableNickname.value = false;
+      Exception("checkExistUser error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
     isLoading.value = false;
   }
 
@@ -105,22 +98,15 @@ class ProfileX extends GetxController {
     );
     File? file = photoType.value == PhotoType.DEFAULT || photoType.value == PhotoType.NONE ? null : File(PhotoUploader.to.uploadPath.value);
     isLoading.value = true;
-    await API.to.updateUser(userUpdate, file).then((res) {
-      ApiResponse<User>? response = res.body;
-      if(response != null) {
-        if(response.success) {
-          App.to.user.value = response.data!;
-          Utils.showToast('프로필 수정이 완료되었습니다.');
-          Get.close(1);
-        } else {
-          print("signUp error:: ${response.code} ${response.message}");
-          Utils.showToast(response.message);
-        }
-      } else {
-        print("signUp error:: ${res.statusCode} ${res.statusText}");
-        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
-      }
-    });
+    ApiResponse<User> response = await API.to.updateUser(userUpdate, file);
+    if(response.success) {
+      App.to.user.value = response.data!;
+      Utils.showToast('프로필 수정이 완료되었습니다.');
+      Get.close(1);
+    } else {
+      print("signUp error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
     isLoading.value = false;
   }
 }

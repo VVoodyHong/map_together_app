@@ -101,18 +101,18 @@ class MyMapCreateX extends GetxController {
 
   void searchAddress() async {
     await API.to.reverseGeocoding(position.longitude, position.latitude).then((res) {
-      if(res.body['status']['code'] == 3) {
+      if(res['status']['code'] == 3) {
         Utils.showToast('정상적인 위치가 아니거나 상세주소를 찾을 수 없습니다.');
-      } else if(res.body['status']['code'] == 0) {
+      } else if(res['status']['code'] == 0) {
         String tempAddress = '';
-        for(int i = 1; i < res.body['results'][0]['region'].length; i++) {
-          if(res.body['results'][0]['region']['area$i']['name'] != '') {
-            tempAddress += (res.body['results'][0]['region']['area$i']['name'] + ' ');
+        for(int i = 1; i < res['results'][0]['region'].length; i++) {
+          if(res['results'][0]['region']['area$i']['name'] != '') {
+            tempAddress += (res['results'][0]['region']['area$i']['name'] + ' ');
           }
         }
-        tempAddress += res.body['results'][0]['land']['number1'];
-        if(res.body['results'][0]['land']['number2'] != '') {
-          tempAddress += '-' + res.body['results'][0]['land']['number2'];
+        tempAddress += res['results'][0]['land']['number1'];
+        if(res['results'][0]['land']['number2'] != '') {
+          tempAddress += '-' + res['results'][0]['land']['number2'];
         }
         addressController.text = tempAddress;
       }
