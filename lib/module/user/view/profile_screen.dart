@@ -6,6 +6,7 @@ import 'package:map_together/app.dart';
 import 'package:map_together/module/common/photo_uploader.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
 import 'package:map_together/utils/constants.dart';
+import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/base_tff.dart';
@@ -18,30 +19,30 @@ class ProfileScreen extends GetView<ProfileX> {
   Widget build(BuildContext context) {
     return Obx(() => GestureDetector(
       onTap: ()=> FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        appBar: BaseAppBar(
-          title: '프로필 편집',
-          leading: BaseButton.iconButton(
-            iconData: Icons.arrow_back,
-            onPressed: () => Get.close(1)
-          ),
+      child: Stack(
+        children: [
+          Scaffold(
+            appBar: BaseAppBar(
+              title: '프로필 편집',
+              leading: BaseButton.iconButton(
+                iconData: Icons.arrow_back,
+                onPressed: () => Get.close(1)
+              ),
 
-        ).init(),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              SingleChildScrollView(
+            ).init(),
+            body: SafeArea(
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
                     _image(context).marginSymmetric(vertical: 30),
                     _inputs()
                   ],
                 )
-              ),
-              controller.isLoading.value ? CircularProgressIndicator() : Container()
-            ],
-          )
-        )
+              )
+            )
+          ),
+          Utils.showLoading(isLoading: controller.isLoading.value)
+        ],
       ),
     ));
   }
