@@ -31,7 +31,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
 
-  # 상태 관리 & 라우터 관리 & 종속성 관리
+  # state & router & dependencies
   get: 4.1.4
 
   # kakao login
@@ -77,6 +77,9 @@ dependencies:
 
   # camera & gallery
   image_picker: ^0.8.5+3
+
+  # http client
+  dio: ^4.0.6
 
 dev_dependencies:
   flutter_test:
