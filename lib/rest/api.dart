@@ -1,32 +1,37 @@
 import 'dart:io';
 
-import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/request/request.dart';
+import 'package:dio/dio.dart';
+import 'package:get/get.dart' as getx;
 import 'package:map_together/auth/secrets.dart';
 import 'package:map_together/model/api_response.dart';
 import 'package:map_together/model/jwt_authentication_response.dart';
-import 'package:map_together/model/kakao_account.dart';
 import 'package:map_together/model/request/login.dart';
 import 'package:map_together/model/request/user_create.dart';
 import 'package:map_together/model/request/user_update.dart';
 import 'package:map_together/model/type/exist_type.dart';
 import 'package:map_together/model/user.dart';
 import 'package:map_together/rest/api_keys.dart';
-import 'package:path/path.dart';
+import 'package:map_together/utils/utils.dart';
 
-class API extends GetConnect {
-  static API get to => Get.find();
+class API extends getx.GetxController{
+  static API get to => getx.Get.find();
 
   String token = '';
 
+  late Dio dio;
+
+  BaseOptions options = BaseOptions(
+    baseUrl: SCHEME + APP_SERVER_URL,
+    connectTimeout: 5000,
+    receiveTimeout: 5000,
+    validateStatus: (status) {
+      return true;
+    }
+  );
+
   @override
-  void onInit() {
-    httpClient.defaultContentType = 'application/json';
-    httpClient.timeout = Duration(seconds: 5);
-    httpClient.addResponseModifier((request, response) {
-      print('rest result:: ${request.url} ${response.status.code}');
-    });
-    
+  void onInit() async {
+    dio = Dio(options);
     super.onInit();
   }
 
@@ -35,99 +40,129 @@ class API extends GetConnect {
   */
 
   // https://api.ncloud-docs.com/docs/ai-naver-mapsreversegeocoding-gc
-  Future<Response<dynamic>> reverseGeocoding(lon ,lat) async {
+  Future<dynamic> reverseGeocoding(lon ,lat) async {
     Map<String, String> headers = {
       "X-NCP-APIGW-API-KEY-ID": SdkKeys.naverClientId,
       "X-NCP-APIGW-API-KEY": SdkKeys.naverClientSecret
     };
-    httpClient.defaultDecoder = null;
-    return await httpClient.get('https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=$lon,$lat&sourcecrs=epsg:4326&orders=addr&output=json', headers: headers);
+    Response response = await dio.get(
+      'https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=$lon,$lat&sourcecrs=epsg:4326&orders=addr&output=json', options: Options(
+        headers: headers
+      ),
+    );
+    return response.data;
   }
 
   /*
   kakao login api
   */
 
-  Future<Response<KakaoAccount>> getKakaoAccount(String? kakaoToken) async {
+  Future<Response<dynamic>> getKakaoAccount(String? kakaoToken) async {
     Map<String, String> headers = {'Authorization': 'Bearer $kakaoToken'};
-    httpClient.addAuthenticator((Request request) async {
-      request.headers.addAll(headers);
-      return request;
-    });
-    httpClient.defaultDecoder = (map) => KakaoAccount.fromJson(map);
-    return await httpClient.get(URL_KAKAO_USER_ME);
+    Response response = await dio.get(
+      URL_KAKAO_USER_ME,
+      options: Options(
+        headers: headers,
+      ),
+    );
+    return response;
   }
 
   /*
   auth
   */
 
-  Future<Response<ApiResponse<JwtAuthenticationResponse>>> signIn(Login req) async {
-    httpClient.defaultDecoder = (map) => ApiResponse<JwtAuthenticationResponse>.fromJson(map);
-    return await httpClient.post(
-      SCHEME + APP_SERVER_URL + PATH_LOGIN,
-      body: req.toJson()
-    );
+  Future<ApiResponse<JwtAuthenticationResponse>> signIn(Login req) async {
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_LOGIN,
+      data: req.toJson(),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<JwtAuthenticationResponse>.fromJson(response.data);
   }
 
-  Future<Response<ApiResponse<void>>> signUp(UserCreate req) async {
-    httpClient.defaultDecoder = (map) => ApiResponse<void>.fromJson(map);
-    return await httpClient.post(
-      SCHEME + APP_SERVER_URL + PATH_SIGN_UP,
-      body: req.toJson(),
-    );
+  Future<ApiResponse<void>> signUp(UserCreate req) async {
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_SIGN_UP,
+      data: req.toJson(),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
   }
 
-  Future<Response<ApiResponse<JwtAuthenticationResponse>>> getNewAccessToken(String refreshToken) async {
-    Map<String, String> headers = {'authorization': 'Bearer $refreshToken'};
-    httpClient.defaultDecoder = (map) => ApiResponse<JwtAuthenticationResponse>.fromJson(map);
-    return await httpClient.get(
-      SCHEME + APP_SERVER_URL + PATH_ACCESSTOKEN,
-      headers: headers
-    );
+  Future<ApiResponse<JwtAuthenticationResponse>> getNewAccessToken(String refreshToken) async {
+    Response response =  await dio.get(
+      dio.options.baseUrl + PATH_ACCESSTOKEN,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'}
+      ),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<JwtAuthenticationResponse>.fromJson(response.data);
   }
 
-  Future<Response<ApiResponse<JwtAuthenticationResponse>>> refreshJwt() async {
-    Map<String, String> headers = {'authorization': 'Bearer $token'};
-    httpClient.defaultDecoder = (map) => ApiResponse<JwtAuthenticationResponse>.fromJson(map);
-    return await httpClient.get(
-      SCHEME + APP_SERVER_URL + PATH_REFRESH_JWT,
-      headers: headers
-    );
+  Future<ApiResponse<JwtAuthenticationResponse>> refreshJwt() async {
+    Response response =  await dio.get(
+      dio.options.baseUrl + PATH_REFRESH_JWT,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'}
+      ),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<JwtAuthenticationResponse>.fromJson(response.data);
   }
-  
 
   /*
   user
   */
-  Future<Response<ApiResponse<User>>> getUser() async {
-    Map<String, String> headers = {'authorization': 'Bearer $token'};
-    httpClient.defaultDecoder = (map) => ApiResponse<User>.fromJson(map);
-    return await httpClient.get(
-      SCHEME + APP_SERVER_URL + PATH_USER,
-      headers: headers
-    );
+
+  Future<ApiResponse<User>> getUser() async {
+    Response response = await dio.get(
+      dio.options.baseUrl + PATH_USER,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<User>.fromJson(response.data);
   }
 
-  Future<Response<ApiResponse<User>>> updateUser(UserUpdate req, File? file) async {
+  Future<ApiResponse<User>> updateUser(UserUpdate req, File? file) async {
     Map<String, dynamic> json = req.toJson();
     if(file != null) {
-      json['file'] = MultipartFile(file, filename: basename(file.path));
+      json['file'] = await MultipartFile.fromFile(file.path);
     }
-    FormData formData = FormData(json);
-    Map<String, String> headers = {'authorization': 'Bearer $token'};
-    httpClient.defaultDecoder = (map) => ApiResponse<User>.fromJson(map);
-    return await httpClient.post(
-      SCHEME + APP_SERVER_URL + PATH_USER,
-      headers: headers,
-      body: formData
-    );
+    FormData formData = FormData.fromMap(json);
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_USER,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: formData
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<User>.fromJson(response.data);
   }
 
-  Future<Response<ApiResponse<void>>> checkExistUser(String value, ExistType type) async {
-    httpClient.defaultDecoder = (map) => ApiResponse<void>.fromJson(map);
-    return await httpClient.get(
-      SCHEME + APP_SERVER_URL + PATH_USER_EXIST + '?value=$value&type=${type.getValue()}'
-    );
+  Future<ApiResponse<void>> checkExistUser(String value, ExistType type) async {
+    Response response =  await dio.get(
+      dio.options.baseUrl + PATH_USER_EXIST + '?value=$value&type=${type.getValue()}'
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
   }
 }
