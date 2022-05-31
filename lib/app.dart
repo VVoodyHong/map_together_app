@@ -86,12 +86,11 @@ class App extends GetxController {
     }
 
     // 2. app version check
-    await PackageInfo.fromPlatform().then((appInfo) {
-      loginData.appVersion = appInfo.version;
-      if(_checkAppVersion(appInfo.version, minAppVersion)) {
-        return Utils.showToast("앱 업데이트를 해주세요.");
-      }
-    });
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    loginData.appVersion = packageInfo.version;
+    if(_checkAppVersion(packageInfo.version, minAppVersion)) {
+      return Utils.showToast("앱 업데이트를 해주세요.");
+    }
   }
 
   Future<Map<String, dynamic>> _getDeviceInfo() async {
@@ -168,58 +167,55 @@ class App extends GetxController {
     }
   }
 
-  Future<bool> _getNewAccessToken(DBJwt dbJwt) {
-    return API.to.getNewAccessToken(dbJwt.refreshToken).then((response) {
-      // When the refresh token has not expired
-      if(response.code != 653) {
-        if(response.success) {
-          dbJwt.accessToken = response.data?.accessToken ?? '';
-          _setToken(dbJwt);
-          return true;
-        } else {
-          print("_getNewAccessToken error:: ${response.code} ${response.message}");
-          Utils.showToast(response.message);
-          return false;
-        }
-      // When the refresh token has expired
-      } else if(response.code == 653) {
-        prefs.setString('jwt', "");
-        UiLogic.changeUiState(UiState.LOGIN);
-        return false;
-      } else {
-        print("_getNewAccessToken error:: ${response.code} ${response.message}");
-        Utils.showToast("서버 통신 중 오류가 발생했습니다.");
-        UiLogic.changeUiState(UiState.LOGIN);
-        return false;
-      }
-    });
-  }
-
-  Future<bool> _refreshJwt() {
-    return API.to.refreshJwt().then((response) {
+  Future<bool> _getNewAccessToken(DBJwt dbJwt) async {
+    ApiResponse<JwtAuthenticationResponse> response = await API.to.getNewAccessToken(dbJwt.refreshToken);
+    // When the refresh token has not expired
+    if(response.code != 653) {
       if(response.success) {
-        DBJwt dbJwt = DBJwt.fromJson(response.data!.toJson());
+        dbJwt.accessToken = response.data?.accessToken ?? '';
         _setToken(dbJwt);
         return true;
       } else {
-        print("refreshJwt error:: ${response.code} ${response.message}");
+        print("_getNewAccessToken error:: ${response.code} ${response.message}");
         Utils.showToast(response.message);
         return false;
       }
-    });
+    // When the refresh token has expired
+    } else if(response.code == 653) {
+      prefs.setString('jwt', "");
+      UiLogic.changeUiState(UiState.LOGIN);
+      return false;
+    } else {
+      print("_getNewAccessToken error:: ${response.code} ${response.message}");
+      Utils.showToast("서버 통신 중 오류가 발생했습니다.");
+      UiLogic.changeUiState(UiState.LOGIN);
+      return false;
+    }
   }
 
-  Future<bool> _getUser() {
-    return API.to.getUser().then((response) {
-      if(response.success) {
-        user.value = response.data!;
-        return true;
-      } else {
-        print("_getUser error:: ${response.code} ${response.message}");
-        Utils.showToast(response.message);
-        return false;
-      }
-    });
+  Future<bool> _refreshJwt() async {
+    ApiResponse<JwtAuthenticationResponse> response = await API.to.refreshJwt();
+    if(response.success) {
+      DBJwt dbJwt = DBJwt.fromJson(response.data!.toJson());
+      _setToken(dbJwt);
+      return true;
+    } else {
+      print("refreshJwt error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+      return false;
+    }
+  }
+
+  Future<bool> _getUser() async{
+    ApiResponse<mapto.User> response = await API.to.getUser();
+    if(response.success) {
+      user.value = response.data!;
+      return true;
+    } else {
+      print("_getUser error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+      return false;
+    }
   }
 
   void moveToMain() async {
@@ -233,18 +229,17 @@ class App extends GetxController {
     }
   }
 
-  Future<bool> requestLogin() {
-    return API.to.signIn(loginData).then((response) {
-      if(response.success) {
-        DBJwt dbJwt = DBJwt.fromJson(response.data!.toJson());
-        _setToken(dbJwt);
-        return true;
-      } else {
-        print("_signIn error:: ${response.code} ${response.message}");
-        Utils.showToast(response.message);
-        return false;
-      }
-    });
+  Future<bool> requestLogin() async {
+    ApiResponse<JwtAuthenticationResponse> response = await API.to.signIn(loginData);
+    if(response.success) {
+      DBJwt dbJwt = DBJwt.fromJson(response.data!.toJson());
+      _setToken(dbJwt);
+      return true;
+    } else {
+      print("_signIn error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+      return false;
+    }
   }
 
   void _setToken(DBJwt dbJwt) {
