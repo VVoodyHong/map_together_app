@@ -14,6 +14,7 @@ class BaseTextFormField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final bool? obscureText;
   final bool? allowWhiteSpace;
+  final VoidCallback? onTap;
   final int maxLength;
 
   BaseTextFormField({
@@ -28,57 +29,66 @@ class BaseTextFormField extends StatelessWidget {
     this.onChanged,
     this.obscureText,
     this.allowWhiteSpace,
+    this.onTap,
     required this.maxLength
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if(label != null) Text(
-            label ?? '',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontWeight: FontWeight.w500
-            )
-          ),
-          TextFormField(
-            enabled: enabled,
-            controller: controller,
-            textAlign: TextAlign.start,
-            obscureText: obscureText ?? false,
-            onChanged: onChanged,
-            maxLines: multiline == true ? maxLines : 1,
-            maxLength: maxLength,
-            keyboardType: multiline == true ? TextInputType.multiline: TextInputType.text,
-            inputFormatters: allowWhiteSpace ?? true ? null : [FilteringTextInputFormatter.deny(RegExp("[ ]"))],
-            decoration: InputDecoration(
-              counterText: '',
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: MtColor.paleGrey
-                )
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: MtColor.signature
-                )
-              ),
-              hintText: hintText,
-              hintStyle: TextStyle(
-                color: MtColor.grey
-              ),
-              suffixIcon: suffixIcon != null ? IconButton(
-                onPressed: onPressedIcon,
-                icon: suffixIcon!
-              ) : null
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if(label != null) Text(
+              label ?? '',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontWeight: FontWeight.w500
+              )
             ),
-            cursorColor: MtColor.signature,
-          ),
-        ],
+            TextFormField(
+              enabled: enabled,
+              controller: controller,
+              textAlign: TextAlign.start,
+              obscureText: obscureText ?? false,
+              onChanged: onChanged,
+              maxLines: multiline == true ? maxLines : 1,
+              maxLength: maxLength,
+              keyboardType: multiline == true ? TextInputType.multiline: TextInputType.text,
+              inputFormatters: allowWhiteSpace ?? true ? null : [FilteringTextInputFormatter.deny(RegExp("[ ]"))],
+              decoration: InputDecoration(
+                counterText: '',
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: MtColor.paleGrey
+                  )
+                ),
+                disabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: MtColor.paleGrey
+                  )
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: MtColor.signature
+                  )
+                ),
+                hintText: hintText,
+                hintStyle: TextStyle(
+                  color: MtColor.grey
+                ),
+                suffixIcon: suffixIcon != null ? IconButton(
+                  onPressed: onPressedIcon,
+                  icon: suffixIcon!,
+                ) : null
+              ),
+              cursorColor: MtColor.signature,
+            ),
+          ],
+        ),
       ),
     );
   }
