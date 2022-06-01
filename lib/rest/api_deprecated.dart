@@ -15,7 +15,7 @@ import 'package:map_together/rest/api_keys.dart';
 import 'package:path/path.dart';
 
 /*
-this API is deprecated, because multipart/form-data post request has issues that are slow upload speed and during uploading, the user interface is freezed (frame drop).
+this API is deprecated, because multipart/form-data post request has issues that are slow upload speed and during uploading the user interface is freezed (frame drop).
 */ 
 
 class API extends GetConnect {
