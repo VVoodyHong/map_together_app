@@ -24,8 +24,8 @@ class PhotoUploader {
       listTiles: [
         BaseListTile(
           title: '카메라 촬영',
-          onTap: () async {
-            await getImageFromCamera().then((value) {
+          onTap: () {
+            getImageFromCamera().then((value) {
               Get.close(1);
               if(value) photoType = PhotoType.CAMERA;
             });
@@ -33,8 +33,8 @@ class PhotoUploader {
         ),
         BaseListTile(
           title: '앨범에서 사진 선택',
-          onTap: ()  async {
-            await getImageFromFile().then((value) {
+          onTap: ()  {
+            getImageFromFile().then((value) {
               Get.close(1);
               if(value) photoType = PhotoType.GALLERY;
             });
@@ -55,17 +55,14 @@ class PhotoUploader {
 
   Future<bool> getImageFromFile() async {
     try {
-      return await ImagePicker.platform
-          .pickImage(source: ImageSource.gallery)
-          .then((value) {
-        if (value != null) {
-          uploadPath.value = value.path;
-          isDefaultImage.value = false;
-          return true;
-        } else {
-          return false;
-        }
-      });
+      PickedFile? pickedFile = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        uploadPath.value = pickedFile.path;
+        isDefaultImage.value = false;
+        return true;
+      } else {
+        return false;
+      }
     } on Exception catch (e) {
       print("getImageFromFile error:: $e");
       return false;
@@ -74,17 +71,14 @@ class PhotoUploader {
 
   Future<bool> getImageFromCamera() async {
     try {
-      return await ImagePicker.platform
-          .pickImage(source: ImageSource.camera)
-          .then((value) {
-        if (value != null) {
-          uploadPath.value = value.path;
-          isDefaultImage.value = false;
-          return true;
-        } else {
-          return false;
-        }
-      });
+      PickedFile? pickedFile = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        uploadPath.value = pickedFile.path;
+        isDefaultImage.value = false;
+        return true;
+      } else {
+        return false;
+      }
     } on Exception catch (e) {
       print("getImageFromCamera error:: $e");
       return false;

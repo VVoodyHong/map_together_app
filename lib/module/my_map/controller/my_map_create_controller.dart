@@ -25,13 +25,14 @@ class MyMapCreateX extends GetxController {
     position = Get.arguments['position'];
     nameController.text = (Get.arguments['caption'] ?? '').replaceAll('\n', ' ');
 
-    searchAddress();
+    await searchAddress();
     markers.add(
       Marker(
         markerId: position.json.toString(),
         position: position,
         height: 30,
         width: 20,
+        icon: await OverlayImage.fromAssetImage(assetName: 'lib/assets/markers/marker.png')
       )
     );
     super.onInit();
@@ -45,77 +46,72 @@ class MyMapCreateX extends GetxController {
   void onMapTap(LatLng _position) async {
     position = _position;
     nameController.text = '';
-    searchAddress();
+    await searchAddress();
     await (await mapController.future).moveCamera(
       CameraUpdate.toCameraPosition(
         CameraPosition(
           target: _position,
         )
       )
-    ).then((value) async {
-      markers.clear();
-      await OverlayImage.fromAssetImage(
-        assetName: 'lib/assets/markers/marker.png'
-      ).then((image) {
-        markers.add(
-          Marker(
-            markerId: _position.json.toString(),
-            position: _position,
-            height: 30,
-            width: 20,
-            icon: image,
-          )
-        );
-      });
-    });
+    );
+    markers.clear();
+    markers.add(
+      Marker(
+        markerId: _position.json.toString(),
+        position: _position,
+        height: 20,
+        width: 20,
+        icon: await OverlayImage.fromAssetImage(
+          assetName: 'lib/assets/markers/marker.png'
+        ),
+      )
+    );
   }
 
   void onSymbolTap(LatLng? _position, String? caption) async {
     position = _position!;
     nameController.text = (caption ?? '').replaceAll('\n', ' ');
-    searchAddress();
+    await searchAddress();
     await (await mapController.future).moveCamera(
       CameraUpdate.toCameraPosition(
         CameraPosition(
           target: _position,
         )
       )
-    ).then((value) {
-      markers.clear();
-      markers.add(
-        Marker(
-          markerId: _position.json.toString(),
-          position: _position,
-          height: 30,
-          width: 20,
-        )
-      );
-    });
+    );
+    markers.clear();
+    markers.add(
+      Marker(
+        markerId: _position.json.toString(),
+        position: _position,
+        height: 30,
+        width: 20,
+      )
+    );
   }
 
-  void onPressCreate() {
+  void createPlace() {
     print('nameController:: ${nameController.text}');
     print('addressController:: ${addressController.text}');
     print('descriptionController:: ${descriptionController.text}');
   }
 
-  void searchAddress() async {
-    await API.to.reverseGeocoding(position.longitude, position.latitude).then((res) {
-      if(res['status']['code'] == 3) {
-        Utils.showToast('정상적인 위치가 아니거나 상세주소를 찾을 수 없습니다.');
-      } else if(res['status']['code'] == 0) {
-        String tempAddress = '';
-        for(int i = 1; i < res['results'][0]['region'].length; i++) {
-          if(res['results'][0]['region']['area$i']['name'] != '') {
-            tempAddress += (res['results'][0]['region']['area$i']['name'] + ' ');
-          }
+  Future<void> searchAddress() async {
+    dynamic res = await API.to.reverseGeocoding(position.longitude, position.latitude);
+    if(res['status']['code'] == 3) {
+      Utils.showToast('정상적인 위치가 아니거나 상세주소를 찾을 수 없습니다.');
+    } else if(res['status']['code'] == 0) {
+      String tempAddress = '';
+      for(int i = 1; i < res['results'][0]['region'].length; i++) {
+        if(res['results'][0]['region']['area$i']['name'] != '') {
+          tempAddress += (res['results'][0]['region']['area$i']['name'] + ' ');
         }
-        tempAddress += res['results'][0]['land']['number1'];
-        if(res['results'][0]['land']['number2'] != '') {
-          tempAddress += '-' + res['results'][0]['land']['number2'];
-        }
-        addressController.text = tempAddress;
       }
-    });
+      tempAddress += res['results'][0]['land']['number1'];
+      if(res['results'][0]['land']['number2'] != '') {
+        tempAddress += '-' + res['results'][0]['land']['number2'];
+      }
+      addressController.text = tempAddress;
+    }
   }
 }
