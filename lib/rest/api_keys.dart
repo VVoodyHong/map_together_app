@@ -1,5 +1,8 @@
 const String SCHEME = 'http://';
+// local
 const String APP_SERVER_URL = 'localhost:8080/api/v1/app/';
+// prod
+// const String APP_SERVER_URL = '43.200.21.111:8080/api/v1/app/';
 
 // Server Api Path
 const String PATH_LOGIN = 'auth';
