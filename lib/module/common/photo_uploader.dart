@@ -19,7 +19,7 @@ class PhotoUploader {
 
   Future<PhotoType?> showDialog(BuildContext context) async {
     PhotoType? photoType;
-    await BottomSheetModal.show(
+    await BottomSheetModal.showList(
       context: context,
       listTiles: [
         BaseListTile(

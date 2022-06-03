@@ -24,7 +24,7 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
         actions: [
           BaseButton.iconButton(
             iconData: Icons.menu,
-            onPressed: () => BottomSheetModal.show(
+            onPressed: () => BottomSheetModal.showList(
               context: context,
               listTiles: _listTiles()
             )
