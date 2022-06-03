@@ -74,7 +74,7 @@ class MyMapCreateScreen extends GetView<MyMapCreateX> {
               hintText: '카테고리 선택',
               maxLength: 64,
               enabled: false,
-              onTap: () {print("select category");},
+              onTap: controller.moveToCategory,
               suffixIcon: Icon(
                 Icons.arrow_drop_down,
                 color: MtColor.black,

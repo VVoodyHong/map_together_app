@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:map_together/app.dart';
-import 'package:map_together/model/kakao_account.dart';
+import 'package:map_together/model/auth/kakao_account.dart';
 import 'package:map_together/model/type/login_type.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';

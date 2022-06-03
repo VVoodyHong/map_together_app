@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:map_together/model/api_response.dart';
-import 'package:map_together/model/request/user_create.dart';
+import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/type/exist_type.dart';
+import 'package:map_together/model/user/user_create.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 

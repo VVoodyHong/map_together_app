@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:map_together/model/jwt_authentication_response.dart';
-import 'package:map_together/model/user.dart';
+import 'package:map_together/model/auth/jwt_authentication_response.dart';
+import 'package:map_together/model/user/user.dart';
 
 part 'api_response.g.dart';
 

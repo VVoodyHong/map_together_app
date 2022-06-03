@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
-import 'package:map_together/model/api_response.dart';
-import 'package:map_together/model/request/user_update.dart';
+import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/type/exist_type.dart';
-import 'package:map_together/model/user.dart';
+import 'package:map_together/model/user/user.dart';
+import 'package:map_together/model/user/user_update.dart';
 import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
