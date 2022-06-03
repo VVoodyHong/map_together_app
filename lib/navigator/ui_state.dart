@@ -13,6 +13,7 @@ enum UiState {
   //my_map
   MYMAP_HOME,
   MYMAP_CREATE,
+  MYMAP_CATEGORY,
 
   //search
   SEARCH_HOME,
