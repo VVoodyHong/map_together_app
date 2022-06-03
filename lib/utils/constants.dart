@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:map_together/model/type/place_category_type.dart';
 
 class MtColor {
   static const signature = Color(0xFF2DB9F3);
@@ -7,6 +8,7 @@ class MtColor {
   static const paleBlack = Colors.black54;
   static const white = Colors.white;
   static const grey = Colors.grey;
+  static const red = Colors.red;
   static const paleGrey = Color(0xFFEEEEEE);
   static const kakao = Color(0xffffe812);
 }
@@ -19,4 +21,53 @@ class FontSize {
 
 class Asset {
   static const defaultProfile = 'lib/assets/images/default_profile.png';
+
+  // markers
+
+  static const markers = [
+    PlaceCategoryType.AIRPLANE,
+    PlaceCategoryType.BEER,
+    PlaceCategoryType.COFFEE,
+    PlaceCategoryType.DESSERT,
+    PlaceCategoryType.HEART,
+    PlaceCategoryType.MARKER,
+    PlaceCategoryType.RICE,
+    PlaceCategoryType.SPORTS,
+    PlaceCategoryType.STAR,
+  ];
+
+  static const airplane = 'lib/assets/markers/airplane.png';
+  static const beer = 'lib/assets/markers/beer.png';
+  static const coffee = 'lib/assets/markers/coffee.png';
+  static const dessert = 'lib/assets/markers/dessert.png';
+  static const heart = 'lib/assets/markers/heart.png';
+  static const marker = 'lib/assets/markers/marker.png';
+  static const rice = 'lib/assets/markers/rice.png';
+  static const sports = 'lib/assets/markers/sports.png';
+  static const star = 'lib/assets/markers/star.png';
+
+  String getMarker(String name) {
+    switch (name) {
+      case 'AIRPLANE':
+        return airplane;
+      case 'BEER':
+        return beer;
+      case 'COFFEE':
+        return coffee;
+      case 'DESSERT':
+        return dessert;
+      case 'HEART':
+        return heart;
+      case 'MARKER':
+        return marker;
+      case 'RICE':
+        return rice;
+      case 'SPORTS':
+        return sports;
+      case 'STAR':
+        return star;
+      default:
+        return '';
+    }
+  }
 }
