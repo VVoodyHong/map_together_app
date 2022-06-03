@@ -10,7 +10,7 @@ UserUpdate _$UserUpdateFromJson(Map<String, dynamic> json) => UserUpdate(
       nickname: json['nickname'] as String?,
       name: json['name'] as String?,
       profileImg: json['profileImg'] as String?,
-      introduce: json['introduce'] as String?
+      introduce: json['introduce'] as String?,
     );
 
 Map<String, dynamic> _$UserUpdateToJson(UserUpdate instance) =>
@@ -18,5 +18,5 @@ Map<String, dynamic> _$UserUpdateToJson(UserUpdate instance) =>
       'nickname': instance.nickname,
       'name': instance.name,
       'profileImg': instance.profileImg,
-      'introduce': instance.introduce
+      'introduce': instance.introduce,
     };
