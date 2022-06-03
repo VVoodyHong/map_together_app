@@ -1,4 +1,4 @@
-import 'package:map_together/model/request/login.dart';
+import 'package:map_together/model/auth/login.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
