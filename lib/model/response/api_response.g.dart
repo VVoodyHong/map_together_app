@@ -11,7 +11,7 @@ ApiResponse<T> _$ApiResponseFromJson<T>(Map<String, dynamic> json) =>
       success: json['success'] as bool,
       message: json['message'] as String,
       code: json['code'] as int,
-      data: ApiResponse._fromGenericJson<T>(json['data'] as Map<String, dynamic>),
+      data: ApiResponse._fromGenericJson(json['data'] as Map<String, dynamic>?),
     );
 
 Map<String, dynamic> _$ApiResponseToJson<T>(ApiResponse<T> instance) =>

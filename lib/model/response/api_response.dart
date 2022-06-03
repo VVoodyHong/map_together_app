@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:map_together/model/auth/jwt_authentication_response.dart';
+import 'package:map_together/model/place_category/place_categories.dart';
+import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/user/user.dart';
 
 part 'api_response.g.dart';
@@ -30,7 +32,12 @@ class ApiResponse<T> {
       return JwtAuthenticationResponse.fromJson(json) as T;
     } else if(T == User) {
       return User.fromJson(json) as T;
-    } else {
+    } else if(T == PlaceCategory) {
+      return PlaceCategory.fromJson(json) as T;
+    } else if(T == PlaceCategories) {
+      return PlaceCategories.fromJson(json) as T;
+    }
+    else {
       return null;
     }
   }
