@@ -3,13 +3,16 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 import 'package:map_together/auth/secrets.dart';
-import 'package:map_together/model/api_response.dart';
-import 'package:map_together/model/jwt_authentication_response.dart';
-import 'package:map_together/model/request/login.dart';
-import 'package:map_together/model/request/user_create.dart';
-import 'package:map_together/model/request/user_update.dart';
+import 'package:map_together/model/auth/jwt_authentication_response.dart';
+import 'package:map_together/model/auth/login.dart';
+import 'package:map_together/model/place_category/place_categories.dart';
+import 'package:map_together/model/place_category/place_category.dart';
+import 'package:map_together/model/place_category/place_category_create.dart';
+import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/type/exist_type.dart';
-import 'package:map_together/model/user.dart';
+import 'package:map_together/model/user/user.dart';
+import 'package:map_together/model/user/user_create.dart';
+import 'package:map_together/model/user/user_update.dart';
 import 'package:map_together/rest/api_keys.dart';
 import 'package:map_together/utils/utils.dart';
 
@@ -22,8 +25,8 @@ class API extends getx.GetxController{
 
   BaseOptions options = BaseOptions(
     baseUrl: SCHEME + APP_SERVER_URL,
-    connectTimeout: 5000,
-    receiveTimeout: 5000,
+    connectTimeout: 10000,
+    receiveTimeout: 10000,
     validateStatus: (status) {
       return true;
     }
@@ -164,5 +167,38 @@ class API extends getx.GetxController{
       throw Exception("server error :: $error");
     });
     return ApiResponse<void>.fromJson(response.data);
+  }
+
+  /*
+  place category
+  */
+  
+  Future<ApiResponse<PlaceCategory>> createPlaceCategory(PlaceCategoryCreate req) async {
+    print("@@");
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_CATEGORY,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: req
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    print(response);
+    return ApiResponse<PlaceCategory>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<PlaceCategories>> getPlaceCategories() async {
+    Response response = await dio.get(
+      dio.options.baseUrl + PATH_CATEGORIES,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<PlaceCategories>.fromJson(response.data);
   }
 }

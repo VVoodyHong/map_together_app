@@ -11,6 +11,8 @@ const String PATH_REFRESH_JWT = 'auth/refreshJwt';
 const String PATH_USER = 'user';
 const String PATH_USER_EXIST = 'user/exist';
 const String PATH_SIGN_UP = 'user/signUp';
+const String PATH_CATEGORY = 'place_category';
+const String PATH_CATEGORIES = 'place_categories';
 
 // Kakao Api
 const String URL_KAKAO_USER_ME = 'https://kapi.kakao.com/v2/user/me';
