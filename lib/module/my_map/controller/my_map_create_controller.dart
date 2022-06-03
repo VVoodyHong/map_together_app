@@ -31,7 +31,7 @@ class MyMapCreateX extends GetxController {
       Marker(
         markerId: position.json.toString(),
         position: position,
-        height: 30,
+        height: 20,
         width: 20,
         icon: await OverlayImage.fromAssetImage(assetName: 'lib/assets/markers/marker.png')
       )
