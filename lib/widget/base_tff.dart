@@ -15,6 +15,7 @@ class BaseTextFormField extends StatelessWidget {
   final bool? obscureText;
   final bool? allowWhiteSpace;
   final VoidCallback? onTap;
+  final bool? hideBorder;
   final int maxLength;
 
   BaseTextFormField({
@@ -30,6 +31,7 @@ class BaseTextFormField extends StatelessWidget {
     this.obscureText,
     this.allowWhiteSpace,
     this.onTap,
+    this.hideBorder,
     required this.maxLength
   });
 
@@ -63,12 +65,12 @@ class BaseTextFormField extends StatelessWidget {
                 counterText: '',
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: MtColor.paleGrey
+                    color: hideBorder ?? false ? MtColor.transparent : MtColor.paleGrey
                   )
                 ),
                 disabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: MtColor.paleGrey
+                    color: hideBorder ?? false ? MtColor.transparent : MtColor.paleGrey
                   )
                 ),
                 focusedBorder: UnderlineInputBorder(
