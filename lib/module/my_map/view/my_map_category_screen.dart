@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/model/type/place_category_type.dart';
@@ -172,7 +173,7 @@ class MyMapCategoryScreen extends GetView<MyMapCategoryX> {
           ),
           ButtonRound(
               label: '완료',
-              onTap: () {},
+              onTap: controller.setCategory,
               buttonColor: controller.selectedCategory.value == -1 ? MtColor.paleGrey : null,
               textColor: controller.selectedCategory.value == -1 ? MtColor.grey : null,
             ).marginAll(15),
@@ -200,14 +201,16 @@ class MyMapCategoryScreen extends GetView<MyMapCategoryX> {
                 )
               )
             ),
-            Text(
-              controller.list[index].name,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500
-              )
+            Expanded(
+              child: Text(
+                controller.list[index].name,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            Spacer(),
             index == controller.selectedCategory.value ? Icon(
               Icons.check,
               color: MtColor.signature
