@@ -11,17 +11,19 @@ class PhotoUploader {
 
   RxString uploadPath = ''.obs;
   RxBool isDefaultImage = false.obs;
+  RxList<String> uploadPathList = <String>[].obs;
 
   void init() {
     uploadPath.value ='';
     isDefaultImage.value = false;
+    uploadPathList.clear();
   }
 
-  Future<PhotoType?> showDialog(BuildContext context) async {
+  Future<PhotoType?> showDialog(BuildContext context, {bool? multiImage}) async {
     PhotoType? photoType;
     await BottomSheetModal.showList(
       context: context,
-      listTiles: [
+      listTiles: !(multiImage ?? false) ? [
         BaseListTile(
           title: '카메라 촬영',
           onTap: () {
@@ -34,7 +36,7 @@ class PhotoUploader {
         BaseListTile(
           title: '앨범에서 사진 선택',
           onTap: ()  {
-            getImageFromFile().then((value) {
+            getImageFromFile(multiImage ?? false).then((value) {
               Get.close(1);
               if(value) photoType = PhotoType.GALLERY;
             });
@@ -48,20 +50,49 @@ class PhotoUploader {
             photoType = PhotoType.DEFAULT;
           }
         )
+      ] : [
+        BaseListTile(
+          title: '카메라 촬영',
+          onTap: () {
+            getImageFromCamera().then((value) {
+              Get.close(1);
+              if(value) photoType = PhotoType.CAMERA;
+            });
+          }
+        ),
+        BaseListTile(
+          title: '앨범에서 사진 선택',
+          onTap: ()  {
+            getImageFromFile(multiImage ?? false).then((value) {
+              Get.close(1);
+              if(value) photoType = PhotoType.GALLERY;
+            });
+          },
+        ),
       ]
     );
     return photoType;
   }
 
-  Future<bool> getImageFromFile() async {
+  Future<bool> getImageFromFile(bool multiImage) async {
     try {
-      PickedFile? pickedFile = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        uploadPath.value = pickedFile.path;
-        isDefaultImage.value = false;
-        return true;
+      if(multiImage) {
+        List<PickedFile>? pickedFile = await ImagePicker.platform.pickMultiImage();
+        if(pickedFile != null) {
+          uploadPathList.addAll(pickedFile.map((e) => e.path));
+          return true;
+        } else {
+          return false;
+        }
       } else {
-        return false;
+        PickedFile? pickedFile = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+        if (pickedFile != null) {
+          uploadPath.value = pickedFile.path;
+          isDefaultImage.value = false;
+          return true;
+        } else {
+          return false;
+        } 
       }
     } on Exception catch (e) {
       print("getImageFromFile error:: $e");
