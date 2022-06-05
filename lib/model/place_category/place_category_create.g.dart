@@ -29,4 +29,5 @@ const _$PlaceCategoryTypeEnumMap = {
   PlaceCategoryType.RICE: 'RICE',
   PlaceCategoryType.SPORTS: 'SPORTS',
   PlaceCategoryType.STAR: 'STAR',
+  PlaceCategoryType.NONE: 'NONE',
 };
