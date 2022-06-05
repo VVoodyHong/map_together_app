@@ -5,6 +5,8 @@ import 'package:get/get.dart' as getx;
 import 'package:map_together/auth/secrets.dart';
 import 'package:map_together/model/auth/jwt_authentication_response.dart';
 import 'package:map_together/model/auth/login.dart';
+import 'package:map_together/model/place/place.dart';
+import 'package:map_together/model/place/place_create.dart';
 import 'package:map_together/model/place_category/place_categories.dart';
 import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/place_category/place_category_create.dart';
@@ -170,13 +172,31 @@ class API extends getx.GetxController{
   }
 
   /*
-  place category
+  place
   */
+
+  Future<ApiResponse<Place>> createPlace(PlaceCreate req, List<File>? files) async {
+    Map<String, dynamic> json = req.toJson();
+    if(files != null) {
+      json['files'] = files.map((file) => MultipartFile.fromFileSync(file.path)).toList();
+    }
+    FormData formData = FormData.fromMap(json);
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_PLACE,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: formData
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<Place>.fromJson(response.data);
+  }
   
   Future<ApiResponse<PlaceCategory>> createPlaceCategory(PlaceCategoryCreate req) async {
-    print("@@");
     Response response = await dio.post(
-      dio.options.baseUrl + PATH_CATEGORY,
+      dio.options.baseUrl + PATH_PLACE_CATEGORY,
       options: Options(
         headers: {'authorization': 'Bearer $token'},
       ),
@@ -191,7 +211,7 @@ class API extends getx.GetxController{
 
   Future<ApiResponse<PlaceCategories>> getPlaceCategories() async {
     Response response = await dio.get(
-      dio.options.baseUrl + PATH_CATEGORIES,
+      dio.options.baseUrl + PATH_PLACE_CATEGORIES,
       options: Options(
         headers: {'authorization': 'Bearer $token'},
       ),
