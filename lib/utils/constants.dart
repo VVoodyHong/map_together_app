@@ -19,6 +19,17 @@ class FontSize {
   static const large = 20.0;
 }
 
+class ZoomLevel {
+  static const min = 5.70;
+  static const max = 19.00;  
+}
+
+class DefaultPosition {
+  static const lat = 35.94841985643522;
+  static const lng = 127.68575755041469;
+  static const zoom = 5.70;
+}
+
 class Asset {
   static const defaultProfile = 'lib/assets/images/default_profile.png';
 
