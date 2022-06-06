@@ -8,6 +8,7 @@ import 'package:map_together/model/user/user_update.dart';
 import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
+import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
 
 class EnterInfoX extends GetxController {
@@ -43,7 +44,10 @@ class EnterInfoX extends GetxController {
 
   void updateUser() async {
     UserUpdate userUpdate = UserUpdate(
-      nickname: nicknameController.text
+      nickname: nicknameController.text,
+      lat: DefaultPosition.lat,
+      lng: DefaultPosition.lng,
+      zoom: DefaultPosition.zoom
     );
     ApiResponse<User> response = await API.to.updateUser(userUpdate, null);
     if(response.success) {
