@@ -8,12 +8,18 @@ class UserUpdate {
   final String? name;
   final String? profileImg;
   final String? introduce;
+  final double? lat;
+  final double? lng;
+  final double? zoom;
   
   UserUpdate({
     this.nickname,
     this.name,
     this.profileImg,
     this.introduce,
+    this.lat,
+    this.lng,
+    this.zoom
   });
 
   factory UserUpdate.fromJson(Map<String, dynamic> json) => _$UserUpdateFromJson(json);
