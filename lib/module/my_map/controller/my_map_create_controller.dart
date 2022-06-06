@@ -86,7 +86,7 @@ class MyMapCreateX extends GetxController {
     markers.add(marker.value);
   }
 
-  Future<void> setMarker() async{
+  Future<void> setMarker() async {
     marker.value = Marker(
       markerId: position.value.json.toString(),
       position: position.value,
@@ -190,7 +190,9 @@ class MyMapCreateX extends GetxController {
   }
 
   void moveToCategory() {
-    Utils.moveTo(UiState.MYMAP_CATEGORY);
+    Utils.moveTo(UiState.MYMAP_CATEGORY, arg: {
+      'setCategory': setCategory
+    });
   }
 
   void setCategory(int idx, PlaceCategoryType type, String name) async {

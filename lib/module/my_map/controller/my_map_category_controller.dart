@@ -5,7 +5,6 @@ import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/place_category/place_category_create.dart';
 import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/type/place_category_type.dart';
-import 'package:map_together/module/my_map/controller/my_map_create_controller.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 
@@ -16,11 +15,14 @@ class MyMapCategoryX extends GetxController {
   RxInt selectedCategory = (-1).obs;
   Rx<PlaceCategoryType> selectedMarker = PlaceCategoryType.NONE.obs;
   TextEditingController nameController = TextEditingController();
+  Function? _setCategory;
 
   @override
   void onInit() {
     super.onInit();
     getPlaceCategories();
+    _setCategory = Get.arguments['setCategory'];
+    print(_setCategory);
   }
 
   Future<void> getPlaceCategories() async {
@@ -71,7 +73,10 @@ class MyMapCategoryX extends GetxController {
   }
 
   void setCategory() {
-    MyMapCreateX.to.setCategory(list[selectedCategory.value].idx, list[selectedCategory.value].type, list[selectedCategory.value].name);
-    Get.close(1);
+    // MyMapCreateX.to.setCategory(list[selectedCategory.value].idx, list[selectedCategory.value].type, list[selectedCategory.value].name);
+    if(_setCategory != null) {
+      _setCategory!(list[selectedCategory.value].idx, list[selectedCategory.value].type, list[selectedCategory.value].name);
+      Get.close(1);
+    }
   }
 }
