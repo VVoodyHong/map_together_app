@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
@@ -140,11 +142,18 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
   Widget _myMap() {
     return Expanded(
       child: NaverMap(
-        initialCameraPosition: controller.position.value,
+        initialCameraPosition: CameraPosition(
+          target: LatLng(
+            controller.position.value.latitude,
+            controller.position.value.longitude,
+          ),
+          zoom: controller.zoom.value
+        ),
         locationButtonEnable: true,
         onMapCreated: controller.onMapCreated,
         onMapTap: controller.onMapTap,
-        onSymbolTap: controller.onSymbolTap
+        onSymbolTap: controller.onSymbolTap,
+        markers: controller.markers.value
       ),
     );
   }
@@ -158,7 +167,7 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
       ),
       BaseListTile(
         title: '나의 맵 설정',
-        onTap: () => Get.close(1),
+        onTap: controller.moveToSetting,
         icon: Icons.map_outlined,
       )
     ];
