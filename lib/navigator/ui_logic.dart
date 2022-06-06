@@ -9,7 +9,9 @@ import 'package:map_together/module/auth/view/login_screen.dart';
 import 'package:map_together/module/auth/view/signup_screen.dart';
 import 'package:map_together/module/auth/view/splash_screen.dart';
 import 'package:map_together/module/my_map/controller/my_map_category_controller.dart';
+import 'package:map_together/module/my_map/controller/my_map_setting_controller.dart';
 import 'package:map_together/module/my_map/view/my_map_category_screen.dart';
+import 'package:map_together/module/my_map/view/my_map_setting_screen.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
 import 'package:map_together/module/user/view/profile_screen.dart';
 import 'package:map_together/module/my_map/controller/my_map_create_controller.dart';
@@ -114,6 +116,11 @@ class UiLogic {
       name: UiState.MYMAP_CATEGORY.toString(),
       page: () { return MyMapCategoryScreen(); },
       binding: BindingsBuilder(() { Get.put(MyMapCategoryX());})
+    ),
+    GetPage(
+      name: UiState.MYMAP_SETTING.toString(),
+      page: () { return MyMapSettingScreen(); },
+      binding: BindingsBuilder(() { Get.put(MyMapSettingX());})
     ),
     GetPage(
       name: UiState.PROFILE.toString(),
