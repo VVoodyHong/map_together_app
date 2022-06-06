@@ -211,6 +211,11 @@ class App extends GetxController {
     if(response.success) {
       user.value = response.data!;
       return true;
+    } else if (response.code == 604) {
+      prefs.setString('jwt', "");
+      print("_getUser error:: ${response.code} ${response.message}");
+      UiLogic.changeUiState(UiState.LOGIN);
+      return false;
     } else {
       print("_getUser error:: ${response.code} ${response.message}");
       Utils.showToast(response.message);
