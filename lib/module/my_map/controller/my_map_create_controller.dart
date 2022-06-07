@@ -15,6 +15,7 @@ import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 
 class MyMapCreateX extends GetxController {
 
@@ -24,13 +25,12 @@ class MyMapCreateX extends GetxController {
   Rx<LatLng> position = (null as LatLng).obs;
   Rx<Marker> marker = (null as Marker).obs;
   RxList<Marker> markers = <Marker>[].obs;
-
   Rx<PhotoType> photoType = PhotoType.NONE.obs;
   RxList<File> imageList = <File>[].obs;
-
   RxBool isNameEmpty = true.obs;
   RxBool isAddressEmpty = true.obs;
   RxInt categoryIdx = (-1).obs;
+  RxDouble favorite = (0.0).obs;
   Function? addMarker;
 
   Rx<PlaceCategoryType> categoryType = PlaceCategoryType.MARKER.obs;
@@ -38,6 +38,7 @@ class MyMapCreateX extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextfieldTagsController tagsController = TextfieldTagsController();
 
   @override
   void onInit() async {
@@ -122,7 +123,12 @@ class MyMapCreateX extends GetxController {
     isAddressEmpty.value = text.isEmpty;
   }
 
+  void onChangeFavorite(double value) {
+    favorite.value = value;
+  }
+
   void showDialog(BuildContext context) async {
+    FocusScope.of(context).unfocus();
     PhotoType? photoType = await PhotoUploader.to.showDialog(context, multiImage: true);
     if(photoType != null) {
       this.photoType.value = photoType;
@@ -155,6 +161,8 @@ class MyMapCreateX extends GetxController {
       name: nameController.text,
       address: addressController.text,
       desc: descriptionController.text,
+      favorite: favorite.value,
+      tags: tagsController.getTags ?? <String>[],
       lat: position.value.latitude,
       lng: position.value.longitude
     );
@@ -196,7 +204,8 @@ class MyMapCreateX extends GetxController {
 
   void moveToCategory() {
     Utils.moveTo(UiState.MYMAP_CATEGORY, arg: {
-      'setCategory': setCategory
+      'setCategory': setCategory,
+      'placeCategoryList': Get.arguments['placeCategoryList'],
     });
   }
 
