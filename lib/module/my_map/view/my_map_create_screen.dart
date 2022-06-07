@@ -11,6 +11,8 @@ import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/base_tff.dart';
 import 'package:map_together/widget/button_round.dart';
 import 'package:map_together/widget/image_uploader.dart';
+import 'package:map_together/widget/rating_bar.dart';
+import 'package:map_together/widget/tag_field.dart';
 
 class MyMapCreateScreen extends GetView<MyMapCreateX> {
 
@@ -30,7 +32,8 @@ class MyMapCreateScreen extends GetView<MyMapCreateX> {
           child: Column(
             children: [
               _naverMap(),
-              _body(context)
+              _body(context),
+              _bottomButton()
             ]
           )
         )
@@ -75,7 +78,10 @@ class MyMapCreateScreen extends GetView<MyMapCreateX> {
               enabled: false
             ).marginSymmetric(horizontal: 15),
             GestureDetector(
-              onTap: controller.moveToCategory,
+              onTap: () {
+                FocusScope.of(context).unfocus();
+                controller.moveToCategory();
+              },
               child: Container(
                 color: MtColor.white,
                 child: Row(
@@ -111,24 +117,41 @@ class MyMapCreateScreen extends GetView<MyMapCreateX> {
               maxLength: 1800,
               multiline: true,
             ).marginSymmetric(horizontal: 15),
+            TagField(
+              tagsController: controller.tagsController
+            ).marginAll(15),
             ImageUploader(
               onCreate: () {controller.showDialog(context);},
               onDelete: (index) {controller.deleteImage(index);},
               images: controller.imageList.value
             ).marginAll(15),
-            ButtonRound(
-              label: '등록',
-              onTap: controller.createPlace,
-              buttonColor: !controller.isNameEmpty.value && !controller.isAddressEmpty.value && controller.categoryIdx.value != -1 ?
-               MtColor.signature :
-               MtColor.paleGrey,
-              textColor: !controller.isNameEmpty.value && !controller.isAddressEmpty.value && controller.categoryIdx.value != -1 ?
-               MtColor.white :
-               MtColor.grey,
-            ).marginOnly(left: 15, right: 15, top: 30, bottom: 15),
+            RatingBar(
+              initialRating: controller.favorite.value,
+              onRatingUpdate: (double value) {
+                FocusScope.of(context).unfocus();
+                controller.onChangeFavorite(value);
+              },
+              icon: Icon(
+                Icons.favorite,
+                color: MtColor.signature,
+              )
+            ),
           ],
         ),
       )
     );
+  }
+
+  Widget _bottomButton() {
+    return ButtonRound(
+      label: '등록',
+      onTap: controller.createPlace,
+      buttonColor: !controller.isNameEmpty.value && !controller.isAddressEmpty.value && controller.categoryIdx.value != -1 ?
+        MtColor.signature :
+        MtColor.paleGrey,
+      textColor: !controller.isNameEmpty.value && !controller.isAddressEmpty.value && controller.categoryIdx.value != -1 ?
+        MtColor.white :
+        MtColor.grey,
+    ).marginOnly(left: 15, right: 15, top: 15, bottom: 15);
   }
 }
