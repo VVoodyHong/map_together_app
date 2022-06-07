@@ -4,7 +4,7 @@ import 'package:map_together/utils/constants.dart';
 class ButtonProfile extends StatelessWidget {
 
   final String title;
-  final String number;
+  final int number;
 
   ButtonProfile({
     required this.title,
@@ -31,9 +31,10 @@ class ButtonProfile extends StatelessWidget {
               ),
               SizedBox( height: 10 ),
               Text(
-                number,
+                number.toString(),
                 style: TextStyle(
-                  fontSize: FontSize.medium
+                  fontSize: FontSize.medium,
+                  fontWeight: FontWeight.w500
                 ),
               ),
             ],
