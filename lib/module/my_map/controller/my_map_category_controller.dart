@@ -20,21 +20,9 @@ class MyMapCategoryX extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getPlaceCategories();
+    list.value = Get.arguments['placeCategoryList'];
     _setCategory = Get.arguments['setCategory'];
     print(_setCategory);
-  }
-
-  Future<void> getPlaceCategories() async {
-    ApiResponse<PlaceCategories> response = await API.to.getPlaceCategories();
-    if(response.success) {
-      list.addAll(response.data?.list ?? []);
-      nameController.clear();
-      selectedMarker.value = PlaceCategoryType.NONE;
-    } else {
-      print("getCategories error:: ${response.code} ${response.message}");
-      Utils.showToast(response.message);
-    }
   }
 
   void createPlaceCategory() async {
