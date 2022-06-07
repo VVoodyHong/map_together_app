@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart' as ratingBar;
+import 'package:flutter_rating_bar/flutter_rating_bar.dart' as rating_bar;
 import 'package:map_together/utils/constants.dart';
 
 class RatingBar extends StatelessWidget {
@@ -16,7 +16,7 @@ class RatingBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ratingBar.RatingBar.builder(
+    return rating_bar.RatingBar.builder(
       allowHalfRating: true,
       itemSize: 50,
       initialRating: initialRating,

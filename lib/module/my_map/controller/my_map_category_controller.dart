@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:map_together/model/place_category/place_categories.dart';
 import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/place_category/place_category_create.dart';
 import 'package:map_together/model/response/api_response.dart';
