@@ -8,6 +8,8 @@ class PlaceCreate {
   String name;
   String address;
   String? desc;
+  List<String> tags;
+  double favorite;
   double lat;
   double lng;
   
@@ -16,6 +18,8 @@ class PlaceCreate {
     required this.name,
     required this.address,
     this.desc,
+    required this.tags,
+    required this.favorite,
     required this.lat,
     required this.lng
   });

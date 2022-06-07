@@ -11,6 +11,8 @@ PlaceCreate _$PlaceCreateFromJson(Map<String, dynamic> json) => PlaceCreate(
       name: json['name'] as String,
       address: json['address'] as String,
       desc: json['desc'] as String?,
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      favorite: (json['favorite'] as num).toDouble(),
       lat: (json['lat'] as num).toDouble(),
       lng: (json['lng'] as num).toDouble(),
     );
@@ -21,6 +23,8 @@ Map<String, dynamic> _$PlaceCreateToJson(PlaceCreate instance) =>
       'name': instance.name,
       'address': instance.address,
       'desc': instance.desc,
+      'tags': instance.tags,
+      'favorite': instance.favorite,
       'lat': instance.lat,
       'lng': instance.lng,
     };
