@@ -78,6 +78,12 @@ dependencies:
   # camera & gallery
   image_picker: ^0.8.5+3
 
+  # heart rating bar
+  flutter_rating_bar: ^4.0.1
+
+  # tags
+  textfield_tags: ^2.0.0+1
+
   # http client
   dio: ^4.0.6
 
