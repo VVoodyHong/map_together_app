@@ -66,6 +66,7 @@ class ProfileX extends GetxController {
   }
 
   void showDialog(BuildContext context) {
+    FocusScope.of(context).unfocus();
     PhotoUploader.to.showDialog(context).then((photoType) => {
       if(photoType != null) {
         this.photoType.value = photoType,
