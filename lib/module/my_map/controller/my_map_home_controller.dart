@@ -68,6 +68,7 @@ class MyMapHomeX extends GetxController {
         UiState.MYMAP_CREATE,
         arg: {
           'position': _position,
+          'addMarker': addMarker
         }
       );
       createMode.value = !createMode.value;
@@ -89,6 +90,7 @@ class MyMapHomeX extends GetxController {
         arg: {
           'position': _position,
           'caption': caption,
+          'addMarker': addMarker
         }
       );
       createMode.value = !createMode.value;
@@ -101,6 +103,10 @@ class MyMapHomeX extends GetxController {
         )
       );
     }
+  }
+
+  Future<void> addMarker(Place place) async {
+    markers.add(await createMarker(place));
   }
 
   void changeCreateMode() {

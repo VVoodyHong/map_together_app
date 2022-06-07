@@ -31,6 +31,7 @@ class MyMapCreateX extends GetxController {
   RxBool isNameEmpty = true.obs;
   RxBool isAddressEmpty = true.obs;
   RxInt categoryIdx = (-1).obs;
+  Function? addMarker;
 
   Rx<PlaceCategoryType> categoryType = PlaceCategoryType.MARKER.obs;
   TextEditingController categoryController = TextEditingController();
@@ -42,6 +43,7 @@ class MyMapCreateX extends GetxController {
   void onInit() async {
     PhotoUploader.to.init();
     position.value = Get.arguments['position'];
+    addMarker = Get.arguments['addMarker'];
     nameController.value = TextEditingValue(text: Get.arguments['caption'] ?? ''.replaceAll('\n', ' '));
     checkName(isEmpty: nameController.value.text.isEmpty);
     bool isEmptyAddress = await searchAddress();
@@ -158,8 +160,11 @@ class MyMapCreateX extends GetxController {
     );
     ApiResponse<Place> response = await API.to.createPlace(placeCreate, imageList.value);
     if(response.success) {
-      Utils.showToast("내 장소가 추가되었습니다.");
-      Get.close(1);
+      if(addMarker != null) {
+        await addMarker!(response.data);
+        Utils.showToast("내 장소가 추가되었습니다.");
+        Get.close(1);
+      }
     } else {
       print("createPlace error:: ${response.code} ${response.message}");
       Utils.showToast(response.message);
