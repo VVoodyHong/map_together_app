@@ -160,7 +160,7 @@ class MyMapCreateX extends GetxController {
       categoryIdx: categoryIdx.value,
       name: nameController.text,
       address: addressController.text,
-      desc: descriptionController.text,
+      description: descriptionController.text,
       favorite: favorite.value,
       tags: tagsController.getTags ?? <String>[],
       lat: position.value.latitude,
