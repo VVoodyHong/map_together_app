@@ -7,20 +7,27 @@ class RatingBar extends StatelessWidget {
   final double initialRating;
   final Function onRatingUpdate;
   final Icon icon;
+  final bool? ignoreGestures;
+  final double? itemSize;
+  final double? horizonItemPadding;
 
   RatingBar({
     required this.initialRating,
     required this.onRatingUpdate,
-    required this.icon
+    required this.icon,
+    this.ignoreGestures,
+    this.itemSize,
+    this.horizonItemPadding
   });
 
   @override
   Widget build(BuildContext context) {
     return rating_bar.RatingBar.builder(
       allowHalfRating: true,
-      itemSize: 50,
+      ignoreGestures: ignoreGestures ?? false,
+      itemSize: itemSize ?? 50,
       initialRating: initialRating,
-      itemPadding: EdgeInsets.symmetric(horizontal: 5),
+      itemPadding: EdgeInsets.symmetric(horizontal: horizonItemPadding ??5),
       unratedColor: MtColor.paleGrey,
       glow: false,
       itemBuilder: (BuildContext context, int index) {
