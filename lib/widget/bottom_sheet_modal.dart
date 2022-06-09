@@ -15,12 +15,9 @@ class BottomSheetModal {
         )
       ),
       builder: (context) {
-        return Container(
-          height: (60 * listTiles.length).toDouble(),
-          color: Colors.transparent,
-          child: Column(
-            children: listTiles
-          )
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: listTiles
         );
       }
     );
