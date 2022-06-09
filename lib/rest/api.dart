@@ -209,9 +209,9 @@ class API extends getx.GetxController{
     return ApiResponse<PlaceCategory>.fromJson(response.data);
   }
 
-  Future<ApiResponse<PlaceCategories>> getPlaceCategories() async {
+  Future<ApiResponse<PlaceCategories>> getPlaceCategory() async {
     Response response = await dio.get(
-      dio.options.baseUrl + PATH_PLACE_CATEGORIES,
+      dio.options.baseUrl + PATH_PLACE_CATEGORY,
       options: Options(
         headers: {'authorization': 'Bearer $token'},
       ),
@@ -220,5 +220,19 @@ class API extends getx.GetxController{
       throw Exception("server error :: $error");
     });
     return ApiResponse<PlaceCategories>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<void>> deletePlaceCategory(PlaceCategories req) async {
+    Response response = await dio.delete(
+      dio.options.baseUrl + PATH_PLACE_CATEGORY,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: req
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
   }
 }
