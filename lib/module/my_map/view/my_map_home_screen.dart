@@ -7,6 +7,7 @@ import 'package:map_together/app.dart';
 import 'package:map_together/model/type/place_category_type.dart';
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
 import 'package:map_together/utils/constants.dart';
+import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/base_list_tile.dart';
 import 'package:map_together/widget/bottom_nav.dart';
@@ -182,6 +183,7 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
 
   void showCategoryModal(BuildContext context) {
     Get.close(1);
+    controller.placeCategoryList.isNotEmpty ?
     showDialog(
       context: context,
       builder: (context) {
@@ -233,7 +235,8 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
       }
     ).then((_) => {
       controller.tempSelectedPlaceCategory.value = controller.selectedPlaceCategory.value
-    });
+    })
+    : Utils.showToast('카테고리가 존재하지 않습니다.');
   }
 
   Widget _imageTextField(int index) {
