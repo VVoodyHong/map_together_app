@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
@@ -14,6 +15,9 @@ import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
+import 'package:map_together/widget/bottom_sheet_modal.dart';
+import 'package:map_together/widget/button_round.dart';
+import 'package:map_together/widget/rating_bar.dart';
 
 class MyMapHomeX extends GetxController {
   static MyMapHomeX get to => Get.find();
@@ -40,7 +44,7 @@ class MyMapHomeX extends GetxController {
     for (Place place in placeList) {
       markers.add(await createMarker(place));
     }
-    await getPlaceCategories();
+    await getPlaceCategory();
     super.onInit();
   }
 
@@ -50,7 +54,7 @@ class MyMapHomeX extends GetxController {
       place.lng,
     );
     return Marker(
-      markerId: _position.json.toString(),
+      markerId: place.idx.toString(),
       position: _position,
       height: 20,
       width: 20,
@@ -72,6 +76,11 @@ class MyMapHomeX extends GetxController {
   }
 
   void onMarkerTap(Marker? marker, Map<String, int?> size) async {
+    if(createMode.value) {
+      Utils.showToast('이미 추가된 장소입니다.');
+      createMode.value = !createMode.value;
+      return;
+    }
     await (await mapController.future).moveCamera(
       CameraUpdate.toCameraPosition(
         CameraPosition(
@@ -79,6 +88,58 @@ class MyMapHomeX extends GetxController {
           zoom: zoom.value
         )
       )
+    );
+    Place place = placeList.value.where((element) => element.idx == int.parse(marker.markerId)).first;
+    BottomSheetModal.showWidget(
+      context: Get.context!,
+      widget: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            place.category.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 14,
+              color: MtColor.grey
+            ),
+          ).marginOnly(bottom: 10),
+          Text(
+            place.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600
+            ),
+          ).marginOnly(bottom: 10),
+          Text(
+            place.address,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 16,
+              color: MtColor.paleBlack,
+              fontWeight: FontWeight.w600
+            ),
+          ).marginOnly(bottom: 10),
+          RatingBar(
+            initialRating: place.favorite,
+            onRatingUpdate: () {},
+            icon: Icon(
+              Icons.favorite,
+              color: MtColor.signature,
+            ),
+            itemSize: 30,
+            horizonItemPadding: 0
+          ).marginOnly(bottom: 10),
+          ButtonRound(
+            label: '게시물로 이동',
+            onTap: () {}
+          )
+        ],
+      ).paddingAll(15)
     );
   }
 
@@ -147,12 +208,12 @@ class MyMapHomeX extends GetxController {
     );
   }
 
-  Future<void> getPlaceCategories() async {
-    ApiResponse<PlaceCategories> response = await API.to.getPlaceCategories();
+  Future<void> getPlaceCategory() async {
+    ApiResponse<PlaceCategories> response = await API.to.getPlaceCategory();
     if(response.success) {
       placeCategoryList.addAll(response.data?.list ?? []);
     } else {
-      print("getCategories error:: ${response.code} ${response.message}");
+      print("getPlaceCategory error:: ${response.code} ${response.message}");
       Utils.showToast(response.message);
     }
   }
