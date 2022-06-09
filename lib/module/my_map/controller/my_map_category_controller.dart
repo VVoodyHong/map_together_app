@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:map_together/model/place_category/place_categories.dart';
 import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/place_category/place_category_create.dart';
 import 'package:map_together/model/response/api_response.dart';
@@ -15,6 +16,8 @@ class MyMapCategoryX extends GetxController {
   Rx<PlaceCategoryType> selectedMarker = PlaceCategoryType.NONE.obs;
   TextEditingController nameController = TextEditingController();
   Function? _setCategory;
+  RxBool deleteMode = false.obs;
+  RxList<int> deleteList = <int>[].obs;
 
   @override
   void onInit() {
@@ -46,7 +49,34 @@ class MyMapCategoryX extends GetxController {
         Get.close(1);
       }
     } else {
-      print("getCategories error:: ${response.code} ${response.message}");
+      print("createPlaceCategory error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
+  }
+
+  void deletePlaceCategory() async {
+    List<PlaceCategory> _list = [];
+    for(int i = 0; i < deleteList.length; i++) {
+      _list.add(
+        PlaceCategory(
+          idx: list[deleteList[i]].idx,
+          name: list[deleteList[i]].name,
+          type: list[deleteList[i]].type,
+        )
+      );
+    }
+    PlaceCategories deletePlaceCategories = PlaceCategories(list: _list);
+    ApiResponse<void> response = await API.to.deletePlaceCategory(deletePlaceCategories);
+    if(response.success) {
+      deleteList.sort((b, a) => a.compareTo(b));
+      print(deleteList);
+      for(int idx in deleteList) { list.removeAt(idx); }
+      deleteList.clear();
+      changeDeleteMode();
+      selectedCategory.value = -1;
+      Utils.showToast('삭제가 완료되었습니다.');
+    } else {
+      print("deletePlaceCategory error:: ${response.code} ${response.message}");
       Utils.showToast(response.message);
     }
   }
@@ -60,10 +90,21 @@ class MyMapCategoryX extends GetxController {
   }
 
   void setCategory() {
-    // MyMapCreateX.to.setCategory(list[selectedCategory.value].idx, list[selectedCategory.value].type, list[selectedCategory.value].name);
     if(_setCategory != null) {
       _setCategory!(list[selectedCategory.value].idx, list[selectedCategory.value].type, list[selectedCategory.value].name);
       Get.close(1);
+    }
+  }
+
+  void changeDeleteMode() {
+    deleteMode.value = !deleteMode.value;
+  }
+
+  void setDeleteList(int index) {
+    if(!deleteList.contains(index)) {
+      deleteList.add(index);
+    } else {
+      deleteList.remove(index);
     }
   }
 }

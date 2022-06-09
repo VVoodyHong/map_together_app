@@ -15,15 +15,19 @@ class MyMapCategoryScreen extends GetView<MyMapCategoryX> {
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
       appBar: BaseAppBar(
-        title: '카테고리 선택',
+        title: controller.deleteMode.value ? '카테고리 삭제' : '카테고리 선택',
         leading: BaseButton.iconButton(
           iconData: Icons.arrow_back,
           onPressed: () => Get.close(1)
         ),
         actions: [
-          BaseButton.iconButton(
+          controller.deleteMode.value ? Container() : BaseButton.iconButton(
             iconData: Icons.add,
             onPressed: () {_showModal(context);}
+          ),
+          BaseButton.iconButton(
+            iconData: controller.deleteMode.value ? Icons.close : Icons.delete,
+            onPressed: controller.changeDeleteMode
           ),
         ]
       ).init(),
@@ -170,12 +174,17 @@ class MyMapCategoryScreen extends GetView<MyMapCategoryX> {
               }
             ),
           ),
-          ButtonRound(
-              label: '완료',
-              onTap: controller.setCategory,
-              buttonColor: controller.selectedCategory.value == -1 ? MtColor.paleGrey : null,
-              textColor: controller.selectedCategory.value == -1 ? MtColor.grey : null,
-            ).marginAll(15),
+          controller.deleteMode.value ? ButtonRound(
+            label: '삭제',
+            onTap: controller.deletePlaceCategory,
+            buttonColor: controller.deleteList.isEmpty ? MtColor.paleGrey : null,
+            textColor: controller.deleteList.isEmpty ? MtColor.grey : null,
+          ).marginAll(15) : ButtonRound(
+            label: '완료',
+            onTap: controller.selectedCategory.value != -1 ? controller.setCategory : () {},
+            buttonColor: controller.selectedCategory.value == -1 ? MtColor.paleGrey : null,
+            textColor: controller.selectedCategory.value == -1 ? MtColor.grey : null,
+          ).marginAll(15),
         ],
       )
     );
@@ -183,10 +192,16 @@ class MyMapCategoryScreen extends GetView<MyMapCategoryX> {
 
   Widget _imageTextField(int index) {
     return Obx(() =>InkWell(
-      onTap: () {controller.setSelectedCategory(index);},
+      onTap: () {controller.deleteMode.value ? controller.setDeleteList(index) : controller.setSelectedCategory(index);},
       child: Container(
         padding: EdgeInsets.all(15),
-        color: index == controller.selectedCategory.value ? MtColor.paleGrey.withOpacity(0.3) : null,
+        color: controller.deleteMode.value ?
+          controller.deleteList.contains(index) ?
+          MtColor.paleGrey.withOpacity(0.3) :
+            null :
+          controller.selectedCategory.value == index ?
+          MtColor.paleGrey.withOpacity(0.3) :
+            null,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -210,10 +225,19 @@ class MyMapCategoryScreen extends GetView<MyMapCategoryX> {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            index == controller.selectedCategory.value ? Icon(
-              Icons.check,
-              color: MtColor.signature
-            ) : Container()
+            controller.deleteMode.value ?
+              controller.deleteList.contains(index) ?
+                Icon(
+                  Icons.check,
+                  color: MtColor.signature
+                ) :
+                Container() :
+              index == controller.selectedCategory.value ?
+              Icon(
+                Icons.check,
+                color: MtColor.signature
+              ) :
+              Container()
           ],
         ),
       ),
