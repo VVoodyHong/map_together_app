@@ -7,7 +7,7 @@ class PlaceCreate {
   int categoryIdx;
   String name;
   String address;
-  String? desc;
+  String? description;
   List<String> tags;
   double favorite;
   double lat;
@@ -17,7 +17,7 @@ class PlaceCreate {
     required this.categoryIdx,
     required this.name,
     required this.address,
-    this.desc,
+    this.description,
     required this.tags,
     required this.favorite,
     required this.lat,

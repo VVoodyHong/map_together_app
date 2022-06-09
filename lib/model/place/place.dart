@@ -10,7 +10,8 @@ class Place {
   PlaceCategory category;
   String name;
   String address;
-  String? desc;
+  String? description;
+  double favorite;
   double lat;
   double lng;
   
@@ -20,7 +21,8 @@ class Place {
     required this.category,
     required this.name,
     required this.address,
-    this.desc,
+    this.description,
+    required this.favorite,
     required this.lat,
     required this.lng
   });

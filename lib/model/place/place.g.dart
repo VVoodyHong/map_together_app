@@ -12,7 +12,8 @@ Place _$PlaceFromJson(Map<String, dynamic> json) => Place(
           PlaceCategory.fromJson(json['category'] as Map<String, dynamic>),
       name: json['name'] as String,
       address: json['address'] as String,
-      desc: json['desc'] as String?,
+      description: json['description'] as String?,
+      favorite: (json['favorite'] as num).toDouble(),
       lat: (json['lat'] as num).toDouble(),
       lng: (json['lng'] as num).toDouble(),
     );
@@ -22,7 +23,8 @@ Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
       'category': instance.category,
       'name': instance.name,
       'address': instance.address,
-      'desc': instance.desc,
+      'description': instance.description,
+      'favorite': instance.lat,
       'lat': instance.lat,
       'lng': instance.lng,
     };
