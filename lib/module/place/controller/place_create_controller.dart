@@ -6,8 +6,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place/place_create.dart';
+import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/type/place_category_type.dart';
 import 'package:map_together/common/photo_uploader.dart';
@@ -27,6 +29,7 @@ class PlaceCreateX extends GetxController {
   RxList<Marker> markers = <Marker>[].obs;
   Rx<PhotoType> photoType = PhotoType.NONE.obs;
   RxList<File> imageList = <File>[].obs;
+  RxList<PlaceCategory> placeCategoryList = <PlaceCategory>[].obs;
   RxBool isNameEmpty = true.obs;
   RxBool isAddressEmpty = true.obs;
   RxInt categoryIdx = (-1).obs;
@@ -45,6 +48,7 @@ class PlaceCreateX extends GetxController {
     PhotoUploader.to.init();
     position.value = Get.arguments['position'];
     addMarker = Get.arguments['addMarker'];
+    placeCategoryList = Get.arguments['placeCategoryList'];
     nameController.value = TextEditingValue(text: Get.arguments['caption'] ?? ''.replaceAll('\n', ' '));
     checkName(isEmpty: nameController.value.text.isEmpty);
     bool isEmptyAddress = await searchAddress();
@@ -205,7 +209,7 @@ class PlaceCreateX extends GetxController {
   void moveToCategory() {
     Utils.moveTo(UiState.PLACE_CATEGORY, arg: {
       'setCategory': setCategory,
-      'placeCategoryList': Get.arguments['placeCategoryList'],
+      'placeCategoryList': placeCategoryList,
     });
   }
 
