@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:map_together/model/auth/jwt_authentication_response.dart';
+import 'package:map_together/model/file/file.dart';
+import 'package:map_together/model/file/files.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place_category/place_categories.dart';
 import 'package:map_together/model/place_category/place_category.dart';
@@ -39,8 +41,11 @@ class ApiResponse<T> {
       return PlaceCategory.fromJson(json) as T;
     } else if(T == PlaceCategories) {
       return PlaceCategories.fromJson(json) as T;
-    }
-    else {
+    } else if(T == File) {
+      return File.fromJson(json) as T;
+    } else if(T == Files) {
+      return Files.fromJson(json) as T;
+    } else {
       return null;
     }
   }
