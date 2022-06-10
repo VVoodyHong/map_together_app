@@ -34,6 +34,9 @@ dependencies:
   # state & router & dependencies
   get: 4.1.4
 
+  # http client
+  dio: ^4.0.6
+
   # kakao login
   kakao_flutter_sdk: ^0.7.0
   
@@ -84,8 +87,11 @@ dependencies:
   # tags
   textfield_tags: ^2.0.0+1
 
-  # http client
-  dio: ^4.0.6
+  # image swiper
+  carousel_slider: ^4.1.1
+
+  # image cropper
+  image_cropper: ^2.0.3
 
 dev_dependencies:
   flutter_test:
