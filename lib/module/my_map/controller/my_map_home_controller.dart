@@ -136,7 +136,14 @@ class MyMapHomeX extends GetxController {
           ).marginOnly(bottom: 10),
           ButtonRound(
             label: '게시물로 이동',
-            onTap: () {}
+            onTap: () {
+              Utils.moveTo(
+                UiState.PLACE,
+                arg: {
+                  'a':'a'
+                }
+              );
+            }
           )
         ],
       ).paddingAll(15)
@@ -146,7 +153,7 @@ class MyMapHomeX extends GetxController {
   void onMapTap(LatLng _position) async {
     if(createMode.value) {
       Utils.moveTo(
-        UiState.MYMAP_CREATE,
+        UiState.PLACE_CREATE,
         arg: {
           'position': _position,
           'addMarker': addMarker,
@@ -169,7 +176,7 @@ class MyMapHomeX extends GetxController {
   void onSymbolTap(LatLng? _position, String? caption) async {
     if(createMode.value) {
       Utils.moveTo(
-        UiState.MYMAP_CREATE,
+        UiState.PLACE_CREATE,
         arg: {
           'position': _position,
           'caption': caption,

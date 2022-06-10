@@ -12,8 +12,6 @@ enum UiState {
 
   //my_map
   MYMAP_HOME,
-  MYMAP_CREATE,
-  MYMAP_CATEGORY,
   MYMAP_SETTING,
 
   //search
@@ -22,5 +20,10 @@ enum UiState {
   SEARCH_PLACE,
 
   //profile
-  PROFILE
+  PROFILE,
+
+  //place
+  PLACE,
+  PLACE_CREATE,
+  PLACE_CATEGORY,
 }

@@ -17,9 +17,9 @@ import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 
-class MyMapCreateX extends GetxController {
+class PlaceCreateX extends GetxController {
 
-  static MyMapCreateX get to => Get.find();
+  static PlaceCreateX get to => Get.find();
 
   Completer<NaverMapController> mapController = Completer();
   Rx<LatLng> position = (null as LatLng).obs;
@@ -203,7 +203,7 @@ class MyMapCreateX extends GetxController {
   }
 
   void moveToCategory() {
-    Utils.moveTo(UiState.MYMAP_CATEGORY, arg: {
+    Utils.moveTo(UiState.PLACE_CATEGORY, arg: {
       'setCategory': setCategory,
       'placeCategoryList': Get.arguments['placeCategoryList'],
     });

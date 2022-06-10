@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/model/type/place_category_type.dart';
-import 'package:map_together/module/my_map/controller/my_map_category_controller.dart';
+import 'package:map_together/module/place/controller/place_category_controller.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 import 'package:map_together/widget/base_button.dart';
@@ -9,7 +9,7 @@ import 'package:map_together/widget/base_tff.dart';
 import 'package:map_together/widget/bottom_sheet_modal.dart';
 import 'package:map_together/widget/button_round.dart';
 
-class MyMapCategoryScreen extends GetView<MyMapCategoryX> {
+class PlaceCategoryScreen extends GetView<PlaceCategoryX> {
 
   @override
   Widget build(BuildContext context) {

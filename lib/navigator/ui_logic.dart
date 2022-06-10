@@ -8,15 +8,17 @@ import 'package:map_together/module/auth/view/enter_info_third_screen.dart';
 import 'package:map_together/module/auth/view/login_screen.dart';
 import 'package:map_together/module/auth/view/signup_screen.dart';
 import 'package:map_together/module/auth/view/splash_screen.dart';
-import 'package:map_together/module/my_map/controller/my_map_category_controller.dart';
+import 'package:map_together/module/place/controller/place_category_controller.dart';
 import 'package:map_together/module/my_map/controller/my_map_setting_controller.dart';
-import 'package:map_together/module/my_map/view/my_map_category_screen.dart';
+import 'package:map_together/module/place/view/place_category_screen.dart';
 import 'package:map_together/module/my_map/view/my_map_setting_screen.dart';
+import 'package:map_together/module/place/controller/place_controller.dart';
+import 'package:map_together/module/place/view/place_screen.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
 import 'package:map_together/module/user/view/profile_screen.dart';
-import 'package:map_together/module/my_map/controller/my_map_create_controller.dart';
+import 'package:map_together/module/place/controller/place_create_controller.dart';
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
-import 'package:map_together/module/my_map/view/my_map_create_screen.dart';
+import 'package:map_together/module/place/view/place_create_screen.dart';
 import 'package:map_together/module/my_map/view/my_map_home_screen.dart';
 import 'package:map_together/module/search/controller/search_home_controller.dart';
 import 'package:map_together/module/search/view/search_home_screen.dart';
@@ -108,14 +110,14 @@ class UiLogic {
       transition: Transition.noTransition
     ),
     GetPage(
-      name: UiState.MYMAP_CREATE.toString(),
-      page: () { return MyMapCreateScreen(); },
-      binding: BindingsBuilder(() { Get.put(MyMapCreateX());})
+      name: UiState.PLACE_CREATE.toString(),
+      page: () { return PlaceCreateScreen(); },
+      binding: BindingsBuilder(() { Get.put(PlaceCreateX());})
     ),
     GetPage(
-      name: UiState.MYMAP_CATEGORY.toString(),
-      page: () { return MyMapCategoryScreen(); },
-      binding: BindingsBuilder(() { Get.put(MyMapCategoryX());})
+      name: UiState.PLACE_CATEGORY.toString(),
+      page: () { return PlaceCategoryScreen(); },
+      binding: BindingsBuilder(() { Get.put(PlaceCategoryX());})
     ),
     GetPage(
       name: UiState.MYMAP_SETTING.toString(),
@@ -131,6 +133,12 @@ class UiLogic {
       name: UiState.SEARCH_HOME.toString(),
       page: () { return SearchHomeScreen(); },
       binding: BindingsBuilder(() { Get.put(SearchHomeX());}),
+      transition: Transition.noTransition
+    ),
+    GetPage(
+      name: UiState.PLACE.toString(),
+      page: () { return PlaceScreen(); },
+      binding: BindingsBuilder(() { Get.put(PlaceX());}),
       transition: Transition.noTransition
     )
   ];

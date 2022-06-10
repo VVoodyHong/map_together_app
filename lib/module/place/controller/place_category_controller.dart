@@ -8,8 +8,8 @@ import 'package:map_together/model/type/place_category_type.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 
-class MyMapCategoryX extends GetxController {
-  static MyMapCategoryX get to => Get.find();
+class PlaceCategoryX extends GetxController {
+  static PlaceCategoryX get to => Get.find();
 
   RxList<PlaceCategory> list = <PlaceCategory>[].obs;
   RxInt selectedCategory = (-1).obs;
