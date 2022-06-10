@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:map_together/widget/base_list_tile.dart';
 import 'package:map_together/widget/bottom_sheet_modal.dart';
@@ -79,7 +80,12 @@ class PhotoUploader {
       if(multiImage) {
         List<PickedFile>? pickedFile = await ImagePicker.platform.pickMultiImage();
         if(pickedFile != null) {
-          uploadPathList.addAll(pickedFile.map((e) => e.path));
+          for (PickedFile file in pickedFile) {
+            CroppedFile? croppedFile = await PhotoUploader.to.resizeImage(file.path);
+            if(croppedFile != null) {
+              uploadPathList.add(croppedFile.path);
+            }
+          }
           return true;
         } else {
           return false;
@@ -87,8 +93,11 @@ class PhotoUploader {
       } else {
         PickedFile? pickedFile = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
         if (pickedFile != null) {
-          uploadPath.value = pickedFile.path;
-          isDefaultImage.value = false;
+          CroppedFile? croppedFile = await PhotoUploader.to.resizeImage(pickedFile.path);
+          if(croppedFile != null) {
+            uploadPath.value = croppedFile.path;
+            isDefaultImage.value = false;
+          }
           return true;
         } else {
           return false;
@@ -104,8 +113,11 @@ class PhotoUploader {
     try {
       PickedFile? pickedFile = await ImagePicker.platform.pickImage(source: ImageSource.camera);
       if (pickedFile != null) {
-        uploadPath.value = pickedFile.path;
-        isDefaultImage.value = false;
+        CroppedFile? croppedFile = await PhotoUploader.to.resizeImage(pickedFile.path);
+        if(croppedFile != null) {
+          uploadPath.value = croppedFile.path;
+          isDefaultImage.value = false;
+        }
         return true;
       } else {
         return false;
@@ -114,6 +126,26 @@ class PhotoUploader {
       print("getImageFromCamera error:: $e");
       return false;
     }
+  }
+
+  Future<CroppedFile?> resizeImage(String sourcePath) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: sourcePath,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: '사진 편집',
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
+          ),
+        IOSUiSettings(
+          title: '',
+        ),
+      ],
+    );
+    return croppedFile;
   }
 
   void changeDefaultImage() {
