@@ -5,6 +5,7 @@ import 'package:get/get.dart' as getx;
 import 'package:map_together/auth/secrets.dart';
 import 'package:map_together/model/auth/jwt_authentication_response.dart';
 import 'package:map_together/model/auth/login.dart';
+import 'package:map_together/model/file/files.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place/place_create.dart';
 import 'package:map_together/model/place_category/place_categories.dart';
@@ -234,5 +235,19 @@ class API extends getx.GetxController{
       throw Exception("server error :: $error");
     });
     return ApiResponse<void>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<Files>> getPlaceImage(int placeIdx) async {
+    Response response = await dio.get(
+      dio.options.baseUrl + PATH_PLACE_IMAGE + '/$placeIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    print(response);
+    return ApiResponse<Files>.fromJson(response.data);
   }
 }

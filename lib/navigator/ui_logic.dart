@@ -139,7 +139,6 @@ class UiLogic {
       name: UiState.PLACE.toString(),
       page: () { return PlaceScreen(); },
       binding: BindingsBuilder(() { Get.put(PlaceX());}),
-      transition: Transition.noTransition
     )
   ];
 }

@@ -12,6 +12,7 @@ const String PATH_USER = 'user';
 const String PATH_USER_EXIST = 'user/exist';
 const String PATH_SIGN_UP = 'user/signUp';
 const String PATH_PLACE = 'place';
+const String PATH_PLACE_IMAGE = 'place/image';
 const String PATH_PLACE_CATEGORY = 'place_category';
 
 // Kakao Api

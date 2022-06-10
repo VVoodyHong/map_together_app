@@ -137,10 +137,11 @@ class MyMapHomeX extends GetxController {
           ButtonRound(
             label: '게시물로 이동',
             onTap: () {
+              Get.close(1);
               Utils.moveTo(
                 UiState.PLACE,
                 arg: {
-                  'a':'a'
+                  'place': place
                 }
               );
             }
