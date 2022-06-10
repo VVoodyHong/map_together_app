@@ -24,7 +24,7 @@ Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
       'name': instance.name,
       'address': instance.address,
       'description': instance.description,
-      'favorite': instance.lat,
+      'favorite': instance.favorite,
       'lat': instance.lat,
       'lng': instance.lng,
     };
