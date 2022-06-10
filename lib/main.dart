@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
 import 'package:map_together/module/auth/view/splash_screen.dart';
-import 'package:map_together/module/common/photo_uploader.dart';
+import 'package:map_together/common/photo_uploader.dart';
 import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/constants.dart';

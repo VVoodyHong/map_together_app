@@ -10,7 +10,7 @@ import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place/place_create.dart';
 import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/type/place_category_type.dart';
-import 'package:map_together/module/common/photo_uploader.dart';
+import 'package:map_together/common/photo_uploader.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/constants.dart';

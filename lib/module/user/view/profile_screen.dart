@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
-import 'package:map_together/module/common/photo_uploader.dart';
+import 'package:map_together/common/photo_uploader.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';

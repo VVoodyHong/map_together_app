@@ -7,7 +7,7 @@ import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/type/exist_type.dart';
 import 'package:map_together/model/user/user.dart';
 import 'package:map_together/model/user/user_update.dart';
-import 'package:map_together/module/common/photo_uploader.dart';
+import 'package:map_together/common/photo_uploader.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 
