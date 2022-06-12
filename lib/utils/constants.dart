@@ -82,3 +82,7 @@ class Asset {
     }
   }
 }
+
+class DefaultPage {
+  static const size = 20;
+}
