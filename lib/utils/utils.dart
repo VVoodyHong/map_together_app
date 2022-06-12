@@ -42,4 +42,20 @@ class Utils {
       arg: arg
     );
   }
+
+  static String trimDate(DateTime date) {
+    DateTime now = DateTime.now();
+    int difference = int.parse(now.difference(date).inSeconds.toString());
+    if(difference < 60) {
+      return '방금 전';
+    } else if(difference < 60 * 60) {
+      return '${difference ~/ 60}분 전';
+    } else if(difference < 60 * 60 * 24) {
+      return '${difference ~/ (60 * 60)}시간 전';
+    } else if(difference < 60 * 60 * 24 * 7) {
+      return '${difference ~/ (60 * 60 * 24)}일 전';
+    } else {
+      return '${date.year}년 ${date.month}월 ${date.day}일';
+    }
+  }
 }
