@@ -16,6 +16,8 @@ Place _$PlaceFromJson(Map<String, dynamic> json) => Place(
       favorite: (json['favorite'] as num).toDouble(),
       lat: (json['lat'] as num).toDouble(),
       lng: (json['lng'] as num).toDouble(),
+      createAt: DateTime.parse(json['createAt'] as String),
+      updateAt: DateTime.parse(json['updateAt'] as String),
     );
 
 Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
@@ -27,4 +29,6 @@ Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
       'favorite': instance.favorite,
       'lat': instance.lat,
       'lng': instance.lng,
+      'createAt': instance.createAt.toIso8601String(),
+      'updateAt': instance.updateAt.toIso8601String(),
     };

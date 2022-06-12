@@ -14,6 +14,8 @@ class Place {
   double favorite;
   double lat;
   double lng;
+  DateTime createAt;
+  DateTime updateAt;
   
   Place({
     required this.idx,
@@ -24,7 +26,9 @@ class Place {
     this.description,
     required this.favorite,
     required this.lat,
-    required this.lng
+    required this.lng,
+    required this.createAt,
+    required this.updateAt,
   });
 
   factory Place.fromJson(Map<String, dynamic> json) => _$PlaceFromJson(json);
