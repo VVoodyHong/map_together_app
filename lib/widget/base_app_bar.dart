@@ -9,6 +9,7 @@ class BaseAppBar {
   final Color? titleColor;
   final double? titleSize;
   final FontWeight? titleWeight;
+  final VoidCallback? onPressedTitle;
 
   BaseAppBar({
     required this.title,
@@ -17,18 +18,22 @@ class BaseAppBar {
     this.actions,
     this.titleColor,
     this.titleSize,
-    this.titleWeight
+    this.titleWeight,
+    this.onPressedTitle
   });
 
   AppBar init() {
     return AppBar(
-      title: Text(
-        title,
-        style: TextStyle(
-          color: titleColor ?? MtColor.black,
-          fontSize: titleSize ?? FontSize.large,
-          fontWeight: titleWeight ?? FontWeight.w500,
-        )
+      title: GestureDetector(
+        onTap: onPressedTitle,
+        child: Text(
+          title,
+          style: TextStyle(
+            color: titleColor ?? MtColor.black,
+            fontSize: titleSize ?? FontSize.large,
+            fontWeight: titleWeight ?? FontWeight.w500,
+          )
+        ),
       ),
       backgroundColor: MtColor.white,
       elevation: 0,
