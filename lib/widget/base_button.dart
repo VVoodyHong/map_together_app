@@ -6,14 +6,19 @@ class BaseButton {
   static IconButton iconButton({
     required IconData iconData,
     required Function() onPressed,
-    Color? color
+    BoxConstraints? boxConstraints,
+    Color? color,
+    double? size,
   }) {
     return IconButton(
       icon: Icon(
         iconData,
         color: color ?? MtColor.black,
+        size: size
       ),
       splashRadius: 24,
+      padding: EdgeInsets.zero,
+      constraints: boxConstraints,
       onPressed: onPressed,
     );
   }
