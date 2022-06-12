@@ -34,6 +34,7 @@ class PlaceCreateX extends GetxController {
   RxInt categoryIdx = (-1).obs;
   RxDouble favorite = (0.0).obs;
   Function? addMarker;
+  RxBool isLoading = false.obs;
 
   Rx<PlaceCategoryType> categoryType = PlaceCategoryType.MARKER.obs;
   TextEditingController categoryController = TextEditingController();
@@ -159,6 +160,7 @@ class PlaceCreateX extends GetxController {
     } else if(categoryIdx.value == -1) {
       Utils.showToast('카테고리를 선택해주세요.');
     }
+    isLoading.value = true;
     PlaceCreate placeCreate = PlaceCreate(
       categoryIdx: categoryIdx.value,
       name: nameController.text,
@@ -180,6 +182,7 @@ class PlaceCreateX extends GetxController {
       print("createPlace error:: ${response.code} ${response.message}");
       Utils.showToast(response.message);
     }
+    isLoading.value = false;
   }
 
   Future<bool> searchAddress() async {

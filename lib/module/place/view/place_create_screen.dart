@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:map_together/model/type/place_category_type.dart';
 import 'package:map_together/module/place/controller/place_create_controller.dart';
 import 'package:map_together/utils/constants.dart';
+import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/base_tff.dart';
@@ -20,23 +21,29 @@ class PlaceCreateScreen extends GetView<PlaceCreateX> {
   Widget build(BuildContext context) {
     return Obx(() => GestureDetector(
       onTap: ()=> FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        appBar: BaseAppBar(
-          title: '장소 추가',
-          leading: BaseButton.iconButton(
-            iconData: Icons.arrow_back,
-            onPressed: () => Get.close(1)
-          )
-        ).init(),
-        body: SafeArea(
-          child: Column(
-            children: [
-              _naverMap(),
-              _body(context),
-              _bottomButton()
-            ]
-          )
-        )
+      child: Stack(
+        children: [
+          Scaffold(
+            appBar: BaseAppBar(
+              title: '장소 추가',
+              leading: BaseButton.iconButton(
+                iconData: Icons.arrow_back,
+                onPressed: () => Get.close(1)
+              )
+            ).init(),
+            body: SafeArea(
+              child: Column(
+                children: [
+                  _naverMap(),
+                  _body(context),
+                  _bottomButton()
+                ]
+              )
+            )
+          ),
+          Utils.showLoading(isLoading: controller.isLoading.value)
+        ],
+        
       )
     ));
   }
