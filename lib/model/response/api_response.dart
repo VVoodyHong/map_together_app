@@ -5,6 +5,12 @@ import 'package:map_together/model/file/files.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place_category/place_categories.dart';
 import 'package:map_together/model/place_category/place_category.dart';
+import 'package:map_together/model/place_like/place_like.dart';
+import 'package:map_together/model/place_reply/place_replies.dart';
+import 'package:map_together/model/place_reply/place_reply.dart';
+import 'package:map_together/model/place_reply/place_reply_simple.dart';
+import 'package:map_together/model/tag/tag.dart';
+import 'package:map_together/model/tag/tags.dart';
 import 'package:map_together/model/user/user.dart';
 
 part 'api_response.g.dart';
@@ -45,7 +51,19 @@ class ApiResponse<T> {
       return File.fromJson(json) as T;
     } else if(T == Files) {
       return Files.fromJson(json) as T;
-    } else {
+    } else if(T == Tag) {
+      return Tag.fromJson(json) as T;
+    } else if(T == Tags) {
+      return Tags.fromJson(json) as T;
+    } else if(T == PlaceReply) {
+      return PlaceReply.fromJson(json) as T;
+    } else if(T == PlaceReplies) {
+      return PlaceReplies.fromJson(json) as T;
+    } else if(T == PlaceReplySimple) {
+      return PlaceReplySimple.fromJson(json) as T;
+    } else if(T == PlaceLike) {
+      return PlaceLike.fromJson(json) as T;
+      }else {
       return null;
     }
   }
