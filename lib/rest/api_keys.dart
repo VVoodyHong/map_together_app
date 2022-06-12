@@ -13,7 +13,10 @@ const String PATH_USER_EXIST = 'user/exist';
 const String PATH_SIGN_UP = 'user/signUp';
 const String PATH_PLACE = 'place';
 const String PATH_PLACE_IMAGE = 'place/image';
+const String PATH_PLACE_TAG = 'place/tag';
+const String PATH_PLACE_LIKE = 'place/like';
 const String PATH_PLACE_CATEGORY = 'place_category';
+const String PATH_PLACE_REPLY = 'place_reply';
 
 // Kakao Api
 const String URL_KAKAO_USER_ME = 'https://kapi.kakao.com/v2/user/me';

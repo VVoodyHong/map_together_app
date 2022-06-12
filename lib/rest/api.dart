@@ -6,12 +6,18 @@ import 'package:map_together/auth/secrets.dart';
 import 'package:map_together/model/auth/jwt_authentication_response.dart';
 import 'package:map_together/model/auth/login.dart';
 import 'package:map_together/model/file/files.dart';
+import 'package:map_together/model/page/page.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place/place_create.dart';
 import 'package:map_together/model/place_category/place_categories.dart';
 import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/place_category/place_category_create.dart';
+import 'package:map_together/model/place_like/place_like.dart';
+import 'package:map_together/model/place_reply/place_replies.dart';
+import 'package:map_together/model/place_reply/place_reply_create.dart';
+import 'package:map_together/model/place_reply/place_reply_simple.dart';
 import 'package:map_together/model/response/api_response.dart';
+import 'package:map_together/model/tag/tags.dart';
 import 'package:map_together/model/type/exist_type.dart';
 import 'package:map_together/model/user/user.dart';
 import 'package:map_together/model/user/user_create.dart';
@@ -206,7 +212,6 @@ class API extends getx.GetxController{
       Utils.showToast('서버 통신 중 오류가 발생했습니다.');
       throw Exception("server error :: $error");
     });
-    print(response);
     return ApiResponse<PlaceCategory>.fromJson(response.data);
   }
 
@@ -247,7 +252,98 @@ class API extends getx.GetxController{
       Utils.showToast('서버 통신 중 오류가 발생했습니다.');
       throw Exception("server error :: $error");
     });
-    print(response);
     return ApiResponse<Files>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<Tags>> getPlaceTag(int placeIdx) async {
+    Response response = await dio.get(
+      dio.options.baseUrl + PATH_PLACE_TAG + '/$placeIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<Tags>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<PlaceReplySimple>> createPlaceReply(PlaceReplyCreate req) async {
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_PLACE_REPLY,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: req
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<PlaceReplySimple>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<PlaceReplies>> getPlaceReply(int placeIdx, RequestPage requestPage) async {
+    Response response = await dio.get(
+      dio.options.baseUrl + PATH_PLACE_REPLY + '/$placeIdx?page=${requestPage.page}&size=${requestPage.size}',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<PlaceReplies>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<void>> deletePlaceReply(int placeReplyIdx) async {
+    Response response = await dio.delete(
+      dio.options.baseUrl + PATH_PLACE_REPLY + '/$placeReplyIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      )
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<void>> createPlaceLike(int placeIdx) async {
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_PLACE_LIKE + '/$placeIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      )
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<PlaceLike>> getPlaceLike(int placeIdx) async {
+    Response response = await dio.get(
+      dio.options.baseUrl + PATH_PLACE_LIKE + '/$placeIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      )
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<PlaceLike>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<void>> deletePlaceLike(int placeIdx) async {
+    Response response = await dio.delete(
+      dio.options.baseUrl + PATH_PLACE_LIKE + '/$placeIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      )
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
   }
 }
