@@ -25,13 +25,13 @@ class PlaceScreen extends GetView<PlaceX> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: BaseAppBar(
-          title: App.to.user.value.nickname ?? '',
+          title: controller.user?.value.nickname ?? '',
           leading: BaseButton.iconButton(
             iconData: Icons.arrow_back,
             onPressed: () => Get.close(1)
           ),
-          onPressedTitle: () {print("@@");},
-          centerTitle: false
+          centerTitle: false,
+          onPressedTitle: controller.onPressedTitle
         ).init(),
         body: Column(
           children: [
@@ -44,7 +44,6 @@ class PlaceScreen extends GetView<PlaceX> {
   }
 
   Widget _body() {
-    if(controller.bodyScrollController.position.pixels == 0) controller.mapHeight.value = 200;
     return SafeArea(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -279,18 +278,24 @@ class PlaceScreen extends GetView<PlaceX> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ImageRound(
-          imagePath: controller.replyList[index].userProfileImg,
-          imageSize: 60
+        GestureDetector(
+          onTap: () {controller.onPressedReply(controller.replyList[index].userIdx);},
+          child: ImageRound(
+            imagePath: controller.replyList[index].userProfileImg,
+            imageSize: 60
+          ),
         ),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                controller.replyList[index].userNickname,
-                style: TextStyle(
-                  fontSize: 16,
+              GestureDetector(
+                onTap: () {controller.onPressedReply(controller.replyList[index].userIdx);},
+                child: Text(
+                  controller.replyList[index].userNickname,
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
                 ),
               ),
               Text(
@@ -308,13 +313,13 @@ class PlaceScreen extends GetView<PlaceX> {
             ],
           ).marginOnly(left: 10),
         ),
-        BaseButton.iconButton(
+        App.to.user.value.idx == controller.replyList[index].userIdx ? BaseButton.iconButton(
           iconData: Icons.more_vert,
           onPressed: () => BottomSheetModal.showList(
             context: context,
             listTiles: _listTiles(context, index)
           )
-        )
+        ) : Container()
       ],
     );
   }
