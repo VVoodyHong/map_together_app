@@ -2,9 +2,10 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
+import 'package:map_together/app.dart';
 import 'package:map_together/model/file/file.dart';
 import 'package:map_together/model/file/files.dart';
-import 'package:map_together/model/page/page.dart';
+import 'package:map_together/model/page/request_page.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place_like/place_like.dart';
 import 'package:map_together/model/place_reply/place_replies.dart';
@@ -14,6 +15,8 @@ import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/tag/tag.dart';
 import 'package:map_together/model/tag/tags.dart';
 import 'package:map_together/model/type/place_category_type.dart';
+import 'package:map_together/model/user/user.dart';
+import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
@@ -22,6 +25,7 @@ class PlaceX extends GetxController {
   static PlaceX get to => Get.find();
   
   Rx<Place> place = (null as Place).obs;
+  Rx<User>? user = (null as User).obs;
   RxList<File> fileList = <File>[].obs;
   RxList<Tag> tagList = <Tag>[].obs;
   RxList<PlaceReplySimple> replyList = <PlaceReplySimple>[].obs;
@@ -41,6 +45,7 @@ class PlaceX extends GetxController {
   @override
   void onInit() async {
     place.value = Get.arguments['place'];
+    user = Get.arguments['user'];
     await getPlaceImage();
     await getPlaceTag();
     await getPlaceReply();
@@ -66,7 +71,7 @@ class PlaceX extends GetxController {
         isLoading.value = true;
         await getPlaceReply();
         isLoading.value = false;
-      };
+      }
     }
   }
 
@@ -135,6 +140,7 @@ class PlaceX extends GetxController {
       replyList.removeAt(index);
       Utils.showToast('삭제가 완료되었습니다');
       Get.close(1);
+      bodyScrollController.animateTo(0, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
     } else {
       print("deletePlaceReply error:: ${response.code} ${response.message}");
       Utils.showToast(response.message);
@@ -199,5 +205,39 @@ class PlaceX extends GetxController {
         icon: await OverlayImage.fromAssetImage(assetName: Asset().getMarker(place.value.category.type.getValue()))
       )
     );
+  }
+
+  void onPressedTitle() {
+    if(user?.value.idx != App.to.user.value.idx) {
+      bool? fromPlace = Get.arguments['fromPlace'];
+      if(fromPlace != null) {
+        if(fromPlace) Get.close(1);
+      } else {
+        Utils.moveTo(
+          UiState.USER_HOME_SCREEN,
+          arg: {
+            'userIdx': user?.value.idx
+          }
+        );
+      }
+    }
+  }
+
+  void onPressedReply(int userIdx) {
+    if(userIdx != App.to.user.value.idx) {
+      if(userIdx != user?.value.idx) {
+        Get.close(2);
+        Future.delayed(Duration(milliseconds: 500), () {
+          Utils.moveTo(
+            UiState.USER_HOME_SCREEN,
+            arg: {
+              'userIdx': userIdx
+            }
+          );
+        });
+      } else {
+        Get.close(1);
+      }
+    }
   }
 }
