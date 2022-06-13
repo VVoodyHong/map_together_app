@@ -141,7 +141,8 @@ class MyMapHomeX extends GetxController {
               Utils.moveTo(
                 UiState.PLACE,
                 arg: {
-                  'place': place
+                  'place': place,
+                  'user': App.to.user
                 }
               );
             }
@@ -217,7 +218,7 @@ class MyMapHomeX extends GetxController {
   }
 
   Future<void> getPlaceCategory() async {
-    ApiResponse<PlaceCategories> response = await API.to.getPlaceCategory();
+    ApiResponse<PlaceCategories> response = await API.to.getPlaceCategory(App.to.user.value.idx!);
     if(response.success) {
       placeCategoryList.addAll(response.data?.list ?? []);
     } else {
@@ -240,7 +241,6 @@ class MyMapHomeX extends GetxController {
 
   Future<void> setSelectedPlaceCategory() async {
     selectedPlaceCategory.value = tempSelectedPlaceCategory.value;
-    // placeCategoryList[selectedPlaceCategory.value].type
     markers.clear();
     if(selectedPlaceCategory.value == -1) {
       for(Place place in placeList) {
