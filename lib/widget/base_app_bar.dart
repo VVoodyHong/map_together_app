@@ -38,6 +38,7 @@ class BaseAppBar {
       backgroundColor: MtColor.white,
       elevation: 0,
       centerTitle: centerTitle ?? true,
+      titleSpacing: leading != null ? 0 : null,
       leading: leading,
       actions: actions,
     );
