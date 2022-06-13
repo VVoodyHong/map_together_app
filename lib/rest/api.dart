@@ -6,7 +6,7 @@ import 'package:map_together/auth/secrets.dart';
 import 'package:map_together/model/auth/jwt_authentication_response.dart';
 import 'package:map_together/model/auth/login.dart';
 import 'package:map_together/model/file/files.dart';
-import 'package:map_together/model/page/page.dart';
+import 'package:map_together/model/page/request_page.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place/place_create.dart';
 import 'package:map_together/model/place_category/place_categories.dart';
@@ -21,7 +21,9 @@ import 'package:map_together/model/tag/tags.dart';
 import 'package:map_together/model/type/exist_type.dart';
 import 'package:map_together/model/user/user.dart';
 import 'package:map_together/model/user/user_create.dart';
+import 'package:map_together/model/user/user_search.dart';
 import 'package:map_together/model/user/user_update.dart';
+import 'package:map_together/model/user/users.dart';
 import 'package:map_together/rest/api_keys.dart';
 import 'package:map_together/utils/utils.dart';
 
@@ -149,6 +151,19 @@ class API extends getx.GetxController{
     return ApiResponse<User>.fromJson(response.data);
   }
 
+  Future<ApiResponse<User>> getOtherUser(int userIdx) async {
+    Response response = await dio.get(
+      dio.options.baseUrl + PATH_USER + '/$userIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<User>.fromJson(response.data);
+  }
+
   Future<ApiResponse<User>> updateUser(UserUpdate req, File? file) async {
     Map<String, dynamic> json = req.toJson();
     if(file != null) {
@@ -178,6 +193,20 @@ class API extends getx.GetxController{
     return ApiResponse<void>.fromJson(response.data);
   }
 
+  Future<ApiResponse<PlaceCategory>> createPlaceCategory(PlaceCategoryCreate req) async {
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_PLACE_CATEGORY,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: req
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<PlaceCategory>.fromJson(response.data);
+  }
+
   /*
   place
   */
@@ -201,23 +230,24 @@ class API extends getx.GetxController{
     return ApiResponse<Place>.fromJson(response.data);
   }
   
-  Future<ApiResponse<PlaceCategory>> createPlaceCategory(PlaceCategoryCreate req) async {
+  Future<ApiResponse<Users>> searchUser(UserSearch req) async {
+    Map<String, dynamic> json = req.toJson();
     Response response = await dio.post(
-      dio.options.baseUrl + PATH_PLACE_CATEGORY,
+      dio.options.baseUrl + PATH_USER_SEARCH,
       options: Options(
         headers: {'authorization': 'Bearer $token'},
       ),
-      data: req
+      data: json
     ).onError((error, stackTrace) {
       Utils.showToast('서버 통신 중 오류가 발생했습니다.');
       throw Exception("server error :: $error");
     });
-    return ApiResponse<PlaceCategory>.fromJson(response.data);
+    return ApiResponse<Users>.fromJson(response.data);
   }
 
-  Future<ApiResponse<PlaceCategories>> getPlaceCategory() async {
+  Future<ApiResponse<PlaceCategories>> getPlaceCategory(int userIdx) async {
     Response response = await dio.get(
-      dio.options.baseUrl + PATH_PLACE_CATEGORY,
+      dio.options.baseUrl + PATH_PLACE_CATEGORY + '/$userIdx',
       options: Options(
         headers: {'authorization': 'Bearer $token'},
       ),
