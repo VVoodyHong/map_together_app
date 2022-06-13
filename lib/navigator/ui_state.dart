@@ -19,8 +19,9 @@ enum UiState {
   SEARCH_USER,
   SEARCH_PLACE,
 
-  //profile
+  //user
   PROFILE,
+  USER_HOME_SCREEN,
 
   //place
   PLACE,

@@ -15,6 +15,7 @@ import 'package:map_together/module/my_map/view/my_map_setting_screen.dart';
 import 'package:map_together/module/place/controller/place_controller.dart';
 import 'package:map_together/module/place/view/place_screen.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
+import 'package:map_together/module/user/controller/user_home_controller.dart';
 import 'package:map_together/module/user/view/profile_screen.dart';
 import 'package:map_together/module/place/controller/place_create_controller.dart';
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
@@ -22,6 +23,7 @@ import 'package:map_together/module/place/view/place_create_screen.dart';
 import 'package:map_together/module/my_map/view/my_map_home_screen.dart';
 import 'package:map_together/module/search/controller/search_home_controller.dart';
 import 'package:map_together/module/search/view/search_home_screen.dart';
+import 'package:map_together/module/user/view/user_home_screen.dart';
 import 'package:map_together/navigator/ui_state.dart';
 
 class UiLogic {
@@ -139,6 +141,11 @@ class UiLogic {
       name: UiState.PLACE.toString(),
       page: () { return PlaceScreen(); },
       binding: BindingsBuilder(() { Get.put(PlaceX());}),
+    ),
+    GetPage(
+      name: UiState.USER_HOME_SCREEN.toString(),
+      page: () { return UserHomeScreen(); },
+      binding: BindingsBuilder(() { Get.put(UserHomeX());}),
     )
   ];
 }
