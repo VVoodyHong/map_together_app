@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:map_together/app.dart';
 import 'package:map_together/module/search/controller/search_home_controller.dart';
+import 'package:map_together/module/search/view/search_user_screen.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/base_app_bar.dart';
@@ -19,8 +21,11 @@ class SearchHomeScreen extends GetView<SearchHomeX> {
           titleWeight: FontWeight.bold,
           centerTitle: false,
         ).init(),
-        body: SafeArea(
-          child: _body().marginSymmetric(horizontal: 20)
+        body: WillPopScope(
+          onWillPop: App.to.exitApp,
+          child: SafeArea(
+            child: _body().marginSymmetric(horizontal: 20)
+          ),
         ),
         bottomNavigationBar: BottomNav(),
       ),
@@ -29,6 +34,7 @@ class SearchHomeScreen extends GetView<SearchHomeX> {
 
   Widget _body() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FinderBox(
           controller: controller.textEditingController,
@@ -99,7 +105,7 @@ class SearchHomeScreen extends GetView<SearchHomeX> {
 
   Widget _list() {
     switch(controller.currentTab.value) {
-      case UiState.SEARCH_USER: return Container();
+      case UiState.SEARCH_USER: return SearchUserScreen();
       case UiState.SEARCH_PLACE: return Container();
       default: return Container();
     }
