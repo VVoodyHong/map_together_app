@@ -12,6 +12,8 @@ import 'package:map_together/model/place_reply/place_reply_simple.dart';
 import 'package:map_together/model/tag/tag.dart';
 import 'package:map_together/model/tag/tags.dart';
 import 'package:map_together/model/user/user.dart';
+import 'package:map_together/model/user/user_simple.dart';
+import 'package:map_together/model/user/users.dart';
 
 part 'api_response.g.dart';
 
@@ -63,7 +65,11 @@ class ApiResponse<T> {
       return PlaceReplySimple.fromJson(json) as T;
     } else if(T == PlaceLike) {
       return PlaceLike.fromJson(json) as T;
-      }else {
+    } else if(T == UserSimple) {
+      return UserSimple.fromJson(json) as T;
+    } else if(T == Users) {
+      return Users.fromJson(json) as T;
+    } else {
       return null;
     }
   }
