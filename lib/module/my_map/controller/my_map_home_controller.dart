@@ -261,15 +261,22 @@ class MyMapHomeX extends GetxController {
     Utils.moveTo(UiState.PROFILE);
   }
 
+  void moveToMapSetting() {
+    Get.close(1);
+    Utils.moveTo(
+      UiState.MAP_SETTING,
+      arg: {
+        'position': position.value,
+        'zoom': zoom.value,
+        'changeView': changeView
+      }
+    );
+  }
+
   void moveToSetting() {
     Get.close(1);
     Utils.moveTo(
-        UiState.MYMAP_SETTING,
-        arg: {
-          'position': position.value,
-          'zoom': zoom.value,
-          'changeView': changeView
-        }
-      );
+      UiState.SETTING,
+    );
   }
 }

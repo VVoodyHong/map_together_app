@@ -177,6 +177,11 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
         title: '카테고리 필터',
         onTap: () {showCategoryModal(context);},
         icon: Icons.filter_alt_outlined,
+      ),
+      BaseListTile(
+        title: '설정',
+        onTap: controller.moveToSetting,
+        icon: Icons.settings_outlined
       )
     ];
   }
