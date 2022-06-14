@@ -9,20 +9,18 @@ class SearchUserScreen extends GetView<SearchHomeX> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Expanded(
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            controller: controller.userScrollController,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _userList()
-            ),
+    return Obx(() => Stack(
+      children: [
+        SingleChildScrollView(
+          controller: controller.userScrollController,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _userList()
           ),
-          Utils.showLoading(isLoading: controller.isLoading.value)
-        ],
-      ),
-    ));
+        ),
+        Utils.showLoading(isLoading: controller.isLoading.value)
+      ],
+    )).marginSymmetric(horizontal: 20);
   }
 
   List<Widget> _userList() {

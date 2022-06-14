@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
 import 'package:map_together/module/search/controller/search_home_controller.dart';
+import 'package:map_together/module/search/view/search_place_screen.dart';
 import 'package:map_together/module/search/view/search_user_screen.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/constants.dart';
@@ -24,7 +25,7 @@ class SearchHomeScreen extends GetView<SearchHomeX> {
         body: WillPopScope(
           onWillPop: App.to.exitApp,
           child: SafeArea(
-            child: _body().marginSymmetric(horizontal: 20)
+            child: _body()
           ),
         ),
         bottomNavigationBar: BottomNav(),
@@ -36,13 +37,6 @@ class SearchHomeScreen extends GetView<SearchHomeX> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FinderBox(
-          controller: controller.textEditingController,
-          onSearch: controller.doSearch,
-          hasValue: controller.hasValue.value,
-          onChanged: controller.onChangeSearch,
-          clear: controller.clearSearch
-        ),
         Row(
           children: [
             _tabItem(
@@ -56,8 +50,16 @@ class SearchHomeScreen extends GetView<SearchHomeX> {
               isSelected: controller.currentTab.value == UiState.SEARCH_PLACE,
             )
           ],
-        ),
-        _list()
+        ).marginSymmetric(horizontal: 20),
+        FinderBox(
+          controller: controller.searchController,
+          hintText: '검색어를 입력해주세요.',
+          onSearch: controller.doSearch,
+          hasValue: controller.hasValue.value,
+          onChanged: controller.onChangeSearch,
+          clear: controller.clearSearch
+        ).marginSymmetric(horizontal: 20, vertical: 10),
+        Expanded(child: _list())
       ],
     );
   }
@@ -72,41 +74,24 @@ class SearchHomeScreen extends GetView<SearchHomeX> {
         onTap: onTap,
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 15),
-          decoration: isSelected
-          ? BoxDecoration(
-              border: Border(
-              bottom: BorderSide(
-                width: 3,
-                color: MtColor.black
-              )
-            )
-          )
-          : BoxDecoration(
-              border: Border(
-              bottom: BorderSide(
-                width: 3,
-                color: MtColor.transparent
-              )
-            )
-          ),
           child: Text(
             label,
             style: TextStyle(
               fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-              color: isSelected ? MtColor.black : MtColor.grey,
+              color: isSelected ? MtColor.black : MtColor.grey.withOpacity(0.5),
               fontSize: 18
             ),
             textAlign: TextAlign.center,
           )
         )
-      ).marginSymmetric(horizontal: 10)
+      )
     );
   }
 
   Widget _list() {
     switch(controller.currentTab.value) {
       case UiState.SEARCH_USER: return SearchUserScreen();
-      case UiState.SEARCH_PLACE: return Container();
+      case UiState.SEARCH_PLACE: return SearchPlaceScreen();
       default: return Container();
     }
   }
