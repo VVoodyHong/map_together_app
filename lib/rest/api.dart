@@ -38,6 +38,7 @@ class API extends getx.GetxController{
     baseUrl: SCHEME + APP_SERVER_URL,
     connectTimeout: 10000,
     receiveTimeout: 10000,
+    sendTimeout: 10000,
     validateStatus: (status) {
       return true;
     }
