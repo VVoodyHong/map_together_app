@@ -12,7 +12,8 @@ enum UiState {
 
   //my_map
   MYMAP_HOME,
-  MYMAP_SETTING,
+  MAP_SETTING,
+  SETTING,
 
   //search
   SEARCH_HOME,

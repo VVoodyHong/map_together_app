@@ -8,10 +8,12 @@ import 'package:map_together/module/auth/view/enter_info_third_screen.dart';
 import 'package:map_together/module/auth/view/login_screen.dart';
 import 'package:map_together/module/auth/view/signup_screen.dart';
 import 'package:map_together/module/auth/view/splash_screen.dart';
+import 'package:map_together/module/my_map/controller/setting_controller.dart';
+import 'package:map_together/module/my_map/view/setting_screen.dart';
 import 'package:map_together/module/place/controller/place_category_controller.dart';
-import 'package:map_together/module/my_map/controller/my_map_setting_controller.dart';
+import 'package:map_together/module/my_map/controller/map_setting_controller.dart';
 import 'package:map_together/module/place/view/place_category_screen.dart';
-import 'package:map_together/module/my_map/view/my_map_setting_screen.dart';
+import 'package:map_together/module/my_map/view/map_setting_screen.dart';
 import 'package:map_together/module/place/controller/place_controller.dart';
 import 'package:map_together/module/place/view/place_screen.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
@@ -47,6 +49,10 @@ class UiLogic {
 
     //Navigator Root 상태 처리
     switch(newState){
+      case UiState.LOGIN:
+        goRoot = true;
+        _rootScreen = newState;
+        break;
       case UiState.MYMAP_HOME:
         goRoot = true;
         _rootScreen = newState;
@@ -122,9 +128,9 @@ class UiLogic {
       binding: BindingsBuilder(() { Get.put(PlaceCategoryX());})
     ),
     GetPage(
-      name: UiState.MYMAP_SETTING.toString(),
-      page: () { return MyMapSettingScreen(); },
-      binding: BindingsBuilder(() { Get.put(MyMapSettingX());})
+      name: UiState.MAP_SETTING.toString(),
+      page: () { return MapSettingScreen(); },
+      binding: BindingsBuilder(() { Get.put(MapSettingX());})
     ),
     GetPage(
       name: UiState.PROFILE.toString(),
@@ -146,6 +152,11 @@ class UiLogic {
       name: UiState.USER_HOME_SCREEN.toString(),
       page: () { return UserHomeScreen(); },
       binding: BindingsBuilder(() { Get.put(UserHomeX());}),
+    ),
+    GetPage(
+      name: UiState.SETTING.toString(),
+      page: () { return SettingScreen(); },
+      binding: BindingsBuilder(() { Get.put(SettingX());}),
     )
   ];
 }
