@@ -37,11 +37,7 @@ class BottomNav extends GetView<NavigatorX> {
           BottomNavigationBarItem(
             label: '검색',
             icon: Icon(Icons.search).marginSymmetric(vertical: 3),
-          ),
-          BottomNavigationBarItem(
-            label: '설정',
-            icon: Icon(Icons.settings).marginSymmetric(vertical: 3),
-          ),
+          )
         ],
       ),
     ));
