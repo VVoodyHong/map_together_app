@@ -51,8 +51,8 @@ class PlaceCreateX extends GetxController {
     placeCategoryList = Get.arguments['placeCategoryList'];
     nameController.value = TextEditingValue(text: Get.arguments['caption'] ?? ''.replaceAll('\n', ' '));
     checkName(isEmpty: nameController.value.text.isEmpty);
-    bool isEmptyAddress = await searchAddress();
-    checkAddress(isEmpty: isEmptyAddress);
+    bool isNotEmptyAddress = await searchAddress();
+    checkAddress(isNotEmpty: isNotEmptyAddress);
     await setMarker();
     markers.add(marker.value);
     super.onInit();
@@ -66,8 +66,8 @@ class PlaceCreateX extends GetxController {
   void onMapTap(LatLng _position) async {
     position.value = _position;
     nameController.value = TextEditingValue(text: '');
-    bool isEmptyAddress = await searchAddress();
-    checkAddress(isEmpty: isEmptyAddress);
+    bool isNotEmptyAddress = await searchAddress();
+    checkAddress(isNotEmpty: isNotEmptyAddress);
     await moveMap(_position);
   }
 
@@ -75,8 +75,8 @@ class PlaceCreateX extends GetxController {
     position.value = _position!;
     nameController.value = TextEditingValue(text: (caption ?? '').replaceAll('\n', ' '));
     checkName(isEmpty: nameController.value.text.isEmpty);
-    bool isEmptyAddress = await searchAddress();
-    checkAddress(isEmpty: isEmptyAddress);
+    bool isNotEmptyAddress = await searchAddress();
+    checkAddress(isNotEmpty: isNotEmptyAddress);
     await moveMap(_position);
   }
 
@@ -111,11 +111,11 @@ class PlaceCreateX extends GetxController {
     }
   }
 
-  void checkAddress({required bool isEmpty}) {
-    if(isEmpty) {
-      isAddressEmpty.value = true;
-    } else {
+  void checkAddress({required bool isNotEmpty}) {
+    if(isNotEmpty) {
       isAddressEmpty.value = false;
+    } else {
+      isAddressEmpty.value = true;
     }
   }
 
@@ -189,7 +189,7 @@ class PlaceCreateX extends GetxController {
     dynamic res = await API.to.reverseGeocoding(position.value.longitude, position.value.latitude);
     if(res['status']['code'] == 3) {
       Utils.showToast('정상적인 위치가 아니거나 상세주소를 찾을 수 없습니다.');
-      return true;
+      return false;
     } else if(res['status']['code'] == 0) {
       String tempAddress = '';
       for(int i = 1; i < res['results'][0]['region'].length; i++) {
@@ -202,9 +202,10 @@ class PlaceCreateX extends GetxController {
         tempAddress += '-' + res['results'][0]['land']['number2'];
       }
       addressController.value = TextEditingValue(text: tempAddress);
-      return false;
-    } else {
       return true;
+    } else {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      return false;
     }
   }
 
