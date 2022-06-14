@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
-import 'package:map_together/module/my_map/controller/my_map_setting_controller.dart';
+import 'package:map_together/module/my_map/controller/map_setting_controller.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/button_round.dart';
 
-class MyMapSettingScreen extends GetView<MyMapSettingX> {
+class MapSettingScreen extends GetView<MapSettingX> {
 
   @override
   Widget build(BuildContext context) {

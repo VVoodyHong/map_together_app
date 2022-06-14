@@ -9,8 +9,8 @@ import 'package:map_together/model/user/user_update.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/utils.dart';
 
-class MyMapSettingX extends GetxController {
-  static MyMapSettingX get to => Get.find();
+class MapSettingX extends GetxController {
+  static MapSettingX get to => Get.find();
 
   Completer<NaverMapController> mapController = Completer();
   Rx<LatLng> position = (null as LatLng).obs;
