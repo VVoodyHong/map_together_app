@@ -25,6 +25,7 @@ class FinderBox extends StatelessWidget{
       textAlign: TextAlign.start,
       cursorColor: MtColor.grey,
       decoration: InputDecoration(
+        hintText: hintText,
         counterText: '',
         border: InputBorder.none,
         enabledBorder: _border(),
