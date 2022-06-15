@@ -8,6 +8,7 @@ import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/base_tff.dart';
 import 'package:map_together/widget/bottom_sheet_modal.dart';
 import 'package:map_together/widget/button_round.dart';
+import 'package:map_together/widget/empty_view.dart';
 
 class PlaceCategoryScreen extends GetView<PlaceCategoryX> {
 
@@ -164,7 +165,7 @@ class PlaceCategoryScreen extends GetView<PlaceCategoryX> {
 
   Widget _body() {
     return SafeArea(
-      child: Column(
+      child: controller.list.isNotEmpty ? Column(
         children: [
           Expanded(
             child: ListView.builder(
@@ -186,7 +187,7 @@ class PlaceCategoryScreen extends GetView<PlaceCategoryX> {
             textColor: controller.selectedCategory.value == -1 ? MtColor.grey : null,
           ).marginAll(15),
         ],
-      )
+      ) : EmptyView(text: '카테고리를 추가해주세요.')
     );
   }
 
