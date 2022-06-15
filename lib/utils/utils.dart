@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/constants.dart';
@@ -56,6 +57,19 @@ class Utils {
       return '${difference ~/ (60 * 60 * 24)}일 전';
     } else {
       return '${date.year}년 ${date.month}월 ${date.day}일';
+    }
+  }
+
+  static String getDistance(double startLat, double startLng, double endLat, double endLng) {
+    double distance = Geolocator.distanceBetween(startLat, startLng, endLat, endLng);
+    if(distance < 1) {
+      return '1m 이내';
+    } else if(distance < 1000){
+      return '${distance.floor()}m';
+    } else if(distance < 10000) {
+      return '${(distance / 1000).floor()}.${distance.toString().substring(1, 2)}km';
+    } else {
+      return '${(distance / 1000).floor()}km';
     }
   }
 }
