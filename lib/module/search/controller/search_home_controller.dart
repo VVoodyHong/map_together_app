@@ -29,6 +29,7 @@ class SearchHomeX extends GetxController {
   RxInt userPage = 1.obs;
   RxBool isLastUser = false.obs;
   RxBool isLoading = false.obs;
+  RxBool isSearched = false.obs;
   RxList<UserSimple> userList = <UserSimple>[].obs;
   ScrollController userScrollController = ScrollController();
 
@@ -60,6 +61,7 @@ class SearchHomeX extends GetxController {
       userList.clear();
       userPage.value = 1;
       isLastUser.value = false;
+      isSearched.value = false;
     }
     currentTab.value = state;
     searchController.clear();
@@ -76,13 +78,23 @@ class SearchHomeX extends GetxController {
   }
 
   void doSearch() async {
+    if(searchController.text.trim().isEmpty) {
+      Utils.showToast('검색어를 입력해주세요');
+      return;
+    }
     if(currentTab.value == UiState.SEARCH_USER) {
       userList.clear();
       userPage.value = 1;
       isLastUser.value = false;
       await searchUser();
     } else {
-
+      Utils.moveTo(
+        UiState.SEARCH_PLACE_LIST,
+        arg: {
+          'keyword': searchController.text,
+          'address': address.value
+        }
+      );
     }
   }
 
@@ -107,10 +119,6 @@ class SearchHomeX extends GetxController {
   }
 
   Future<void> searchUser() async {
-    if(searchController.text.trim().isEmpty) {
-      Utils.showToast('검색어를 입력해주세요');
-      return;
-    }
     UserSearch userSearch = UserSearch(
       keyword: searchController.text,
       requestPage: RequestPage(
@@ -123,6 +131,7 @@ class SearchHomeX extends GetxController {
     if(response.success) {
       userList.addAll(response.data?.list ?? []);
       isLastUser.value = response.data!.last;
+      isSearched.value = true;
     } else {
       print("searchUser error:: ${response.code} ${response.message}");
       Utils.showToast(response.message);
