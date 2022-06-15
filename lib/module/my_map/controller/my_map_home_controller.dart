@@ -142,7 +142,8 @@ class MyMapHomeX extends GetxController {
                 UiState.PLACE,
                 arg: {
                   'place': place,
-                  'user': App.to.user
+                  'userIdx': App.to.user.value.idx,
+                  'userNickname': App.to.user.value.nickname
                 }
               );
             }
