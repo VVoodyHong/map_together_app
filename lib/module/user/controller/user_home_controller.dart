@@ -134,8 +134,8 @@ class UserHomeX extends GetxController {
                 UiState.PLACE,
                 arg: {
                   'place': place,
-                  'user': user,
-                  'fromPlace': true
+                  'userIdx': user?.value.idx,
+                  'userNickname': user?.value.nickname,
                 }
               );
             }
