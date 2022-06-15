@@ -9,6 +9,8 @@ import 'package:map_together/model/file/files.dart';
 import 'package:map_together/model/page/request_page.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place/place_create.dart';
+import 'package:map_together/model/place/place_search.dart';
+import 'package:map_together/model/place/places.dart';
 import 'package:map_together/model/place_category/place_categories.dart';
 import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/place_category/place_category_create.dart';
@@ -208,6 +210,21 @@ class API extends getx.GetxController{
     return ApiResponse<PlaceCategory>.fromJson(response.data);
   }
 
+  Future<ApiResponse<Users>> searchUser(UserSearch req) async {
+    Map<String, dynamic> json = req.toJson();
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_USER_SEARCH,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: json
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<Users>.fromJson(response.data);
+  }
+
   /*
   place
   */
@@ -229,21 +246,6 @@ class API extends getx.GetxController{
       throw Exception("server error :: $error");
     });
     return ApiResponse<Place>.fromJson(response.data);
-  }
-  
-  Future<ApiResponse<Users>> searchUser(UserSearch req) async {
-    Map<String, dynamic> json = req.toJson();
-    Response response = await dio.post(
-      dio.options.baseUrl + PATH_USER_SEARCH,
-      options: Options(
-        headers: {'authorization': 'Bearer $token'},
-      ),
-      data: json
-    ).onError((error, stackTrace) {
-      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
-      throw Exception("server error :: $error");
-    });
-    return ApiResponse<Users>.fromJson(response.data);
   }
 
   Future<ApiResponse<PlaceCategories>> getPlaceCategory(int userIdx) async {
@@ -376,5 +378,20 @@ class API extends getx.GetxController{
       throw Exception("server error :: $error");
     });
     return ApiResponse<void>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<Places>> searcPlace(PlaceSearch req) async {
+    Map<String, dynamic> json = req.toJson();
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_PLACE_SEARCH,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: json
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<Places>.fromJson(response.data);
   }
 }

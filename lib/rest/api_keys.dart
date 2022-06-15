@@ -11,10 +11,11 @@ const String PATH_REFRESH_JWT = 'auth/refreshJwt';
 
 const String PATH_SIGN_UP = 'user/signUp';
 const String PATH_USER = 'user';
-const String PATH_USER_EXIST = 'user/exist';
 const String PATH_USER_SEARCH = 'user/search';
+const String PATH_USER_EXIST = 'user/exist';
 
 const String PATH_PLACE = 'place';
+const String PATH_PLACE_SEARCH = 'place/search';
 const String PATH_PLACE_IMAGE = 'place/image';
 const String PATH_PLACE_TAG = 'place/tag';
 const String PATH_PLACE_LIKE = 'place/like';
