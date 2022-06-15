@@ -15,7 +15,6 @@ import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/tag/tag.dart';
 import 'package:map_together/model/tag/tags.dart';
 import 'package:map_together/model/type/place_category_type.dart';
-import 'package:map_together/model/user/user.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/constants.dart';
@@ -25,7 +24,8 @@ class PlaceX extends GetxController {
   static PlaceX get to => Get.find();
   
   Rx<Place> place = (null as Place).obs;
-  Rx<User>? user = (null as User).obs;
+  RxInt? userIdx = (null as int).obs;
+  RxString? userNickName = (null as String).obs;
   RxList<File> fileList = <File>[].obs;
   RxList<Tag> tagList = <Tag>[].obs;
   RxList<PlaceReplySimple> replyList = <PlaceReplySimple>[].obs;
@@ -45,7 +45,8 @@ class PlaceX extends GetxController {
   @override
   void onInit() async {
     place.value = Get.arguments['place'];
-    user = Get.arguments['user'];
+    userIdx?.value = Get.arguments['userIdx'];
+    userNickName?.value = Get.arguments['userNickname'];
     await getPlaceImage();
     await getPlaceTag();
     await getPlaceReply();
@@ -208,36 +209,24 @@ class PlaceX extends GetxController {
   }
 
   void onPressedTitle() {
-    if(user?.value.idx != App.to.user.value.idx) {
-      bool? fromPlace = Get.arguments['fromPlace'];
-      if(fromPlace != null) {
-        if(fromPlace) Get.close(1);
-      } else {
-        Utils.moveTo(
-          UiState.USER_HOME_SCREEN,
-          arg: {
-            'userIdx': user?.value.idx
-          }
-        );
-      }
+    if(App.to.user.value.idx != userIdx?.value) {
+      Utils.moveTo(
+        UiState.USER_HOME_SCREEN,
+        arg: {
+          'userIdx': userIdx?.value
+        }
+      );
     }
   }
 
-  void onPressedReply(int userIdx) {
-    if(userIdx != App.to.user.value.idx) {
-      if(userIdx != user?.value.idx) {
-        Get.close(2);
-        Future.delayed(Duration(milliseconds: 500), () {
-          Utils.moveTo(
-            UiState.USER_HOME_SCREEN,
-            arg: {
-              'userIdx': userIdx
-            }
-          );
-        });
-      } else {
-        Get.close(1);
-      }
+  void onPressedReply(int _userIdx) async {
+    if(_userIdx != App.to.user.value.idx) {
+      Utils.moveTo(
+        UiState.USER_HOME_SCREEN,
+        arg: {
+          'userIdx': _userIdx
+        }
+      );
     }
   }
 }
