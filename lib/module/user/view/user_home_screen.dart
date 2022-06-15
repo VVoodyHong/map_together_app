@@ -17,6 +17,15 @@ import 'package:map_together/widget/image_round.dart';
 
 class UserHomeScreen extends GetView<UserHomeX> {
 
+  late final String? uniqueTag;
+
+  @override
+  String? get tag => uniqueTag;
+
+  UserHomeScreen(String tag) {
+    uniqueTag = tag;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(

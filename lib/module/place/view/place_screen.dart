@@ -19,13 +19,22 @@ import 'package:map_together/widget/rating_bar.dart';
 
 class PlaceScreen extends GetView<PlaceX> {
 
+  late final String? uniqueTag;
+
+  @override
+  String? get tag => uniqueTag;
+
+  PlaceScreen(String tag) {
+    uniqueTag = tag;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: BaseAppBar(
-          title: controller.user?.value.nickname ?? '',
+          title: controller.userNickName?.value ?? '',
           leading: BaseButton.iconButton(
             iconData: Icons.arrow_back,
             onPressed: () => Get.close(1)
