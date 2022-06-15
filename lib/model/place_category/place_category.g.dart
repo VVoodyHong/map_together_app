@@ -9,9 +9,6 @@ part of 'place_category.dart';
 PlaceCategory _$PlaceCategoryFromJson(Map<String, dynamic> json) =>
     PlaceCategory(
       idx: json['idx'] as int,
-      user: json['user'] == null
-          ? null
-          : User.fromJson(json['user'] as Map<String, dynamic>),
       name: json['name'] as String,
       type: $enumDecode(_$PlaceCategoryTypeEnumMap, json['type']),
     );
@@ -19,7 +16,6 @@ PlaceCategory _$PlaceCategoryFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PlaceCategoryToJson(PlaceCategory instance) =>
     <String, dynamic>{
       'idx': instance.idx,
-      'user': instance.user,
       'name': instance.name,
       'type': _$PlaceCategoryTypeEnumMap[instance.type],
     };
