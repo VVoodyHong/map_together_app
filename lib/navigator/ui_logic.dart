@@ -16,6 +16,8 @@ import 'package:map_together/module/place/view/place_category_screen.dart';
 import 'package:map_together/module/my_map/view/map_setting_screen.dart';
 import 'package:map_together/module/place/controller/place_controller.dart';
 import 'package:map_together/module/place/view/place_screen.dart';
+import 'package:map_together/module/search/controller/search_place_list_controller.dart';
+import 'package:map_together/module/search/view/search_place_list_screen.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
 import 'package:map_together/module/user/controller/user_home_controller.dart';
 import 'package:map_together/module/user/view/profile_screen.dart';
@@ -33,12 +35,14 @@ class UiLogic {
   static UiState _currentScreen = UiState.NONE;
   static UiState _rootScreen = UiState.NONE;
   static var _parameters;
+  static int seq = 0;
 
   static void changeUiState(UiState newState, {
     UiState? prevState,
     bool goRoot = false,
     Map<String, dynamic>? arg
   }) {
+    seq++;
     _uiState = newState;
     _parameters = arg;
   
@@ -70,6 +74,7 @@ class UiLogic {
      * Get.offAllNamed : 모든 screen 삭제하고 이동
      */
     if(goRoot) {
+      
       Get.offAllNamed(_rootScreen.toString(), arguments: _parameters);
     } else {
       prevState == null ?
@@ -144,14 +149,19 @@ class UiLogic {
       transition: Transition.noTransition
     ),
     GetPage(
+      name: UiState.SEARCH_PLACE_LIST.toString(),
+      page: () { return SearchPlaceListScreen(); },
+      binding: BindingsBuilder(() { Get.put(SearchPlaceListX());}),
+    ),
+    GetPage(
       name: UiState.PLACE.toString(),
-      page: () { return PlaceScreen(); },
-      binding: BindingsBuilder(() { Get.put(PlaceX());}),
+      page: () { return PlaceScreen(seq.toString()); },
+      binding: BindingsBuilder(() { Get.put(PlaceX(), tag: seq.toString());}),
     ),
     GetPage(
       name: UiState.USER_HOME_SCREEN.toString(),
-      page: () { return UserHomeScreen(); },
-      binding: BindingsBuilder(() { Get.put(UserHomeX());}),
+      page: () { return UserHomeScreen(seq.toString()); },
+      binding: BindingsBuilder(() { Get.put(UserHomeX(), tag: seq.toString());}),
     ),
     GetPage(
       name: UiState.SETTING.toString(),
