@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:kakao_flutter_sdk/all.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:map_together/auth/secrets.dart';
 import 'package:map_together/model/auth/jwt_authentication_response.dart';
 import 'package:map_together/model/auth/login.dart';
@@ -54,7 +54,10 @@ class App extends GetxController {
   /* ========================================================*/
 
   Future<void> _startProcess() async {
-    KakaoContext.clientId = SdkKeys.kakaoClientId;
+    KakaoSdk.init(
+      nativeAppKey: SdkKeys.kakaoClientId,
+      loggingEnabled: true
+    );
 
     prefs = await SharedPreferences.getInstance();
     
