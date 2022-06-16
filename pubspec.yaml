@@ -38,7 +38,7 @@ dependencies:
   dio: ^4.0.6
 
   # kakao login
-  kakao_flutter_sdk: ^0.7.0
+  kakao_flutter_sdk: ^1.1.1
   
   # naver map
   flutter_naver_map: 0.10.5
