@@ -2,7 +2,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:kakao_flutter_sdk/all.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:map_together/app.dart';
 import 'package:map_together/model/auth/kakao_account.dart';
 import 'package:map_together/model/type/login_type.dart';
@@ -37,17 +37,17 @@ class LoginX extends GetxController {
   Future<void> _loginByKakao() async {
     try {
       String code = await AuthCodeClient.instance.request();
-      AccessTokenResponse? token = await _issueAccessToken(code);
+      OAuthToken? token = await _issueAccessToken(code);
       await _getKakaoAccount(token!.accessToken);
     } on PlatformException catch (e) {
       print("_getKakaoAccount error:: ${e.code} ${e.message}");
     }
   }
 
-  Future<AccessTokenResponse?> _issueAccessToken(String authCode) async {
+  Future<OAuthToken?> _issueAccessToken(String authCode) async {
     try {
-      var token = await AuthApi.instance.issueAccessToken(authCode);
-      await AccessTokenStore.instance.toStore(token);
+      OAuthToken token = await AuthApi.instance.issueAccessToken(authCode: authCode);
+      await TokenManagerProvider.instance.manager.setToken(token);
       return token;
     } catch (e) {
       print("_issueAccessToken error:: $e");
