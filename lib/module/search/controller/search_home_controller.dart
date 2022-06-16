@@ -54,7 +54,6 @@ class SearchHomeX extends GetxController {
 
   void onChangeTab(UiState state) {
     if(state == UiState.SEARCH_PLACE) {
-      Utils.showToast('지역을 선택하면\n해당 범위 내에서 검색합니다.');
       markers.clear();
       address.value = '';
     } else {
