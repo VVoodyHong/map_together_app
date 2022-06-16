@@ -204,13 +204,14 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  height: 300,
+                  height: controller.placeCategoryList.length < 5 ? (60 * controller.placeCategoryList.length).toDouble() : 300,
                   child: ListView.builder(
+                    shrinkWrap: true,
                     itemCount: controller.placeCategoryList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return _imageTextField(index);
                     }
-                  ),
+                  )
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -232,7 +233,7 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
                       ).marginOnly(left: 5, right: 10)
                     )
                   ]
-                )
+                ).marginOnly(top: 15),
               ]
             )
           )
