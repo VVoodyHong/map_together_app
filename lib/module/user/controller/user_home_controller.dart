@@ -73,11 +73,12 @@ class UserHomeX extends GetxController {
   }
 
   void onMarkerTap(Marker? marker, Map<String, int?> size) async {
+    double _zoom = await mapController.future.then((value) => value.getCameraPosition().then((value) => value.zoom));
     await (await mapController.future).moveCamera(
       CameraUpdate.toCameraPosition(
         CameraPosition(
           target: marker!.position!,
-          zoom: zoom.value
+          zoom: _zoom
         )
       )
     );
@@ -146,22 +147,24 @@ class UserHomeX extends GetxController {
   }
 
   void onMapTap(LatLng _position) async {
+    double _zoom = await mapController.future.then((value) => value.getCameraPosition().then((value) => value.zoom));
     await (await mapController.future).moveCamera(
       CameraUpdate.toCameraPosition(
         CameraPosition(
           target: _position,
-          zoom: zoom.value
+          zoom: _zoom
         )
       )
     );
   }
 
   void onSymbolTap(LatLng? _position, String? caption) async {
+    double _zoom = await mapController.future.then((value) => value.getCameraPosition().then((value) => value.zoom));
     await (await mapController.future).moveCamera(
       CameraUpdate.toCameraPosition(
         CameraPosition(
           target: _position!,
-          zoom: zoom.value
+          zoom: _zoom
         )
       )
     );

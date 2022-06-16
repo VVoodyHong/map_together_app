@@ -170,7 +170,7 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
       ),
       BaseListTile(
         title: '나의 맵 설정',
-        onTap: controller.moveToSetting,
+        onTap: controller.moveToMapSetting,
         icon: Icons.map_outlined,
       ),
       BaseListTile(

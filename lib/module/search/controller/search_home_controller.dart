@@ -157,11 +157,12 @@ class SearchHomeX extends GetxController {
   }
 
   Future<void> moveMap(LatLng _position) async {
+    double _zoom = await mapController.future.then((value) => value.getCameraPosition().then((value) => value.zoom));
     await (await mapController.future).moveCamera(
       CameraUpdate.toCameraPosition(
         CameraPosition(
           target: _position,
-          zoom: App.to.user.value.zoom!
+          zoom: _zoom
         )
       )
     );

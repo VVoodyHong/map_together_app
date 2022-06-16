@@ -76,6 +76,7 @@ class MyMapHomeX extends GetxController {
   }
 
   void onMarkerTap(Marker? marker, Map<String, int?> size) async {
+    double _zoom = await mapController.future.then((value) => value.getCameraPosition().then((value) => value.zoom));
     if(createMode.value) {
       Utils.showToast('이미 추가된 장소입니다.');
       createMode.value = !createMode.value;
@@ -85,7 +86,7 @@ class MyMapHomeX extends GetxController {
       CameraUpdate.toCameraPosition(
         CameraPosition(
           target: marker!.position!,
-          zoom: zoom.value
+          zoom: _zoom
         )
       )
     );
@@ -154,6 +155,7 @@ class MyMapHomeX extends GetxController {
   }
 
   void onMapTap(LatLng _position) async {
+    double _zoom = await mapController.future.then((value) => value.getCameraPosition().then((value) => value.zoom));
     if(createMode.value) {
       Utils.moveTo(
         UiState.PLACE_CREATE,
@@ -169,7 +171,7 @@ class MyMapHomeX extends GetxController {
         CameraUpdate.toCameraPosition(
           CameraPosition(
             target: _position,
-            zoom: zoom.value
+            zoom: _zoom
           )
         )
       );
@@ -177,6 +179,7 @@ class MyMapHomeX extends GetxController {
   }
 
   void onSymbolTap(LatLng? _position, String? caption) async {
+    double _zoom = await mapController.future.then((value) => value.getCameraPosition().then((value) => value.zoom));
     if(createMode.value) {
       Utils.moveTo(
         UiState.PLACE_CREATE,
@@ -193,7 +196,7 @@ class MyMapHomeX extends GetxController {
         CameraUpdate.toCameraPosition(
           CameraPosition(
             target: _position!,
-            zoom: zoom.value
+            zoom: _zoom
           )
         )
       );
