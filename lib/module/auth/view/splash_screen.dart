@@ -12,7 +12,7 @@ class SplashScreen extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         child: Text(
-          "MAP TOGETHER",
+          "MAPTOGETHER",
           style: TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.bold,

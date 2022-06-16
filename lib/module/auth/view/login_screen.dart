@@ -29,7 +29,7 @@ class LoginScreen extends GetView<LoginX> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "MAP TOGETHER",
+                "MAPTOGETHER",
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
