@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:map_together/app.dart';
 import 'package:map_together/model/type/place_category_type.dart';
 import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
+import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/base_button.dart';
@@ -125,15 +126,18 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
             children: [
               ButtonProfile(
                 title: '장소',
-                number: controller.placeList.value.length
-              ),
-              ButtonProfile(
-                title: '팔로잉',
-                number: 0
+                number: controller.placeList.value.length,
+                onTap: () {}
               ),
               ButtonProfile(
                 title: '팔로워',
-                number: 0 
+                number: controller.follower.value,
+                onTap: () {controller.moveToFollow(UiState.FOLLOW_FOLLOWER);}
+              ),
+              ButtonProfile(
+                title: '팔로잉',
+                number: controller.following.value,
+                onTap: () {controller.moveToFollow(UiState.FOLLOW_FOLLOWING);}
               ),
             ],
           ),
