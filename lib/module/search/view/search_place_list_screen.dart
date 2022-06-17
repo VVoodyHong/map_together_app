@@ -17,7 +17,7 @@ class SearchPlaceListScreen extends GetView<SearchPlaceListX> {
       children: [
         Scaffold(
           appBar: BaseAppBar(
-            title: '검색 결과',
+            title: '검색  "${controller.keyword.value}"',
             leading: BaseButton.iconButton(
               iconData: Icons.arrow_back,
               onPressed: () => Get.close(1)
