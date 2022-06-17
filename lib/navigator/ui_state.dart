@@ -29,4 +29,9 @@ enum UiState {
   PLACE,
   PLACE_CREATE,
   PLACE_CATEGORY,
+
+  //place
+  FOLLOW_HOME,
+  FOLLOW_FOLLOWING,
+  FOLLOW_FOLLOWER,
 }

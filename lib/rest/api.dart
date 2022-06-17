@@ -6,6 +6,10 @@ import 'package:map_together/auth/secrets.dart';
 import 'package:map_together/model/auth/jwt_authentication_response.dart';
 import 'package:map_together/model/auth/login.dart';
 import 'package:map_together/model/file/files.dart';
+import 'package:map_together/model/follow/follow_count.dart';
+import 'package:map_together/model/follow/follow_search.dart';
+import 'package:map_together/model/follow/follow_state.dart';
+import 'package:map_together/model/follow/follows.dart';
 import 'package:map_together/model/page/request_page.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place/place_create.dart';
@@ -393,5 +397,75 @@ class API extends getx.GetxController{
       throw Exception("server error :: $error");
     });
     return ApiResponse<Places>.fromJson(response.data);
+  }
+
+  /*
+  follow
+  */
+  
+  Future<ApiResponse<void>> createFollow(int userIdx) async {
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_FOLLOW + '/$userIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      )
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<Follows>> searchFollow(FollowSearch req) async {
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_FOLLOW_SEARCH,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: req
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<Follows>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<void>> deleteFollow(int userIdx) async {
+    Response response = await dio.delete(
+      dio.options.baseUrl + PATH_FOLLOW + '/$userIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      )
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<FollowCount>> getFollowCount(int userIdx) async {
+    Response response = await dio.get(
+      dio.options.baseUrl + PATH_FOLLOW_COUNT + '/$userIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      )
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<FollowCount>.fromJson(response.data);
+  }
+
+   Future<ApiResponse<FollowState>> getFollowState(int userIdx) async {
+    Response response = await dio.get(
+      dio.options.baseUrl + PATH_FOLLOW_STATE + '/$userIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      )
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<FollowState>.fromJson(response.data);
   }
 }

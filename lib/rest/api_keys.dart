@@ -22,5 +22,10 @@ const String PATH_PLACE_LIKE = 'place/like';
 const String PATH_PLACE_CATEGORY = 'place_category';
 const String PATH_PLACE_REPLY = 'place_reply';
 
+const String PATH_FOLLOW = 'follow';
+const String PATH_FOLLOW_SEARCH = 'follow/search';
+const String PATH_FOLLOW_COUNT = 'follow/count';
+const String PATH_FOLLOW_STATE = 'follow/state';
+
 // Kakao Api
 const String URL_KAKAO_USER_ME = 'https://kapi.kakao.com/v2/user/me';

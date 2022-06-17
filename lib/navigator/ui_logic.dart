@@ -8,6 +8,8 @@ import 'package:map_together/module/auth/view/enter_info_third_screen.dart';
 import 'package:map_together/module/auth/view/login_screen.dart';
 import 'package:map_together/module/auth/view/signup_screen.dart';
 import 'package:map_together/module/auth/view/splash_screen.dart';
+import 'package:map_together/module/follow/controller/follow_home_controller.dart';
+import 'package:map_together/module/follow/view/follow_home_screen.dart';
 import 'package:map_together/module/my_map/controller/setting_controller.dart';
 import 'package:map_together/module/my_map/view/setting_screen.dart';
 import 'package:map_together/module/place/controller/place_category_controller.dart';
@@ -167,6 +169,11 @@ class UiLogic {
       name: UiState.SETTING.toString(),
       page: () { return SettingScreen(); },
       binding: BindingsBuilder(() { Get.put(SettingX());}),
+    ),
+    GetPage(
+      name: UiState.FOLLOW_HOME.toString(),
+      page: () { return FollowHomeScreen(seq.toString()); },
+      binding: BindingsBuilder(() { Get.put(FollowHomeX(), tag: seq.toString());}),
     )
   ];
 }
