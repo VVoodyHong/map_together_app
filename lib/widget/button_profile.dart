@@ -5,19 +5,19 @@ class ButtonProfile extends StatelessWidget {
 
   final String title;
   final int number;
+  final VoidCallback onTap;
 
   ButtonProfile({
     required this.title,
-    required this.number
+    required this.number,
+    required this.onTap
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
-        onTap: () {
-          print('$title tapped');
-        },
+        onTap: onTap,
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 10),
           child: Column(
