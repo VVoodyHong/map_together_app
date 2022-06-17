@@ -5,6 +5,7 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:map_together/model/type/place_category_type.dart';
 import 'package:map_together/module/user/controller/user_home_controller.dart';
+import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/base_button.dart';
@@ -115,15 +116,18 @@ class UserHomeScreen extends GetView<UserHomeX> {
             children: [
               ButtonProfile(
                 title: '장소',
-                number: controller.placeList.value.length
-              ),
-              ButtonProfile(
-                title: '팔로잉',
-                number: 0
+                number: controller.placeList.value.length,
+                onTap: () {}
               ),
               ButtonProfile(
                 title: '팔로워',
-                number: 0 
+                number: controller.follower.value,
+                onTap: () {controller.moveToFollow(UiState.FOLLOW_FOLLOWER);}
+              ),
+              ButtonProfile(
+                title: '팔로잉',
+                number: controller.following.value,
+                onTap: () {controller.moveToFollow(UiState.FOLLOW_FOLLOWING);}
               ),
             ],
           ),
@@ -153,6 +157,11 @@ class UserHomeScreen extends GetView<UserHomeX> {
 
   List<BaseListTile> _listTiles(BuildContext context) {
     return [
+      BaseListTile(
+        title: controller.followState.value ? '필로우 취소' :'팔로우',
+        onTap: controller.onTapFollow,
+        icon: controller.followState.value ? Icons.person_remove : Icons.person_add
+      ),
       BaseListTile(
         title: '카테고리 필터',
         onTap: () {showCategoryModal(context);},
