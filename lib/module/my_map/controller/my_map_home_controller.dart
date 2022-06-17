@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
+import 'package:map_together/model/follow/follow_count.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place_category/place_categories.dart';
 import 'package:map_together/model/place_category/place_category.dart';
@@ -30,6 +31,8 @@ class MyMapHomeX extends GetxController {
   RxList<PlaceCategory> placeCategoryList = <PlaceCategory>[].obs;
   RxInt selectedPlaceCategory = (-1).obs;
   RxInt tempSelectedPlaceCategory = (-1).obs;
+  RxInt following = 0.obs;
+  RxInt follower = 0.obs;
 
   RxBool createMode = false.obs;
 
@@ -45,6 +48,7 @@ class MyMapHomeX extends GetxController {
       markers.add(await createMarker(place));
     }
     await getPlaceCategory();
+    await getFollowCount();
     super.onInit();
   }
 
@@ -231,6 +235,17 @@ class MyMapHomeX extends GetxController {
     }
   }
 
+  Future<void> getFollowCount() async {
+    ApiResponse<FollowCount> response = await API.to.getFollowCount(App.to.user.value.idx!);
+    if(response.success) {
+      following.value = response.data?.following ?? 0;
+      follower.value = response.data?.follower ?? 0;
+    } else {
+      print("getPlaceCategory error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
+  }
+
   void changeCreateMode() {
     createMode.value = !createMode.value;
   }
@@ -281,6 +296,19 @@ class MyMapHomeX extends GetxController {
     Get.close(1);
     Utils.moveTo(
       UiState.SETTING,
+    );
+  }
+
+  void moveToFollow(UiState state) {
+    Utils.moveTo(
+      UiState.FOLLOW_HOME,
+      arg: {
+        'currentTab': state,
+        'userIdx': App.to.user.value.idx,
+        'userNickname': App.to.user.value.nickname,
+        'followerCount': follower.value,
+        'followingCount': following.value
+      }
     );
   }
 }
