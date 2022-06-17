@@ -5,6 +5,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
+import 'package:map_together/model/follow/follow_count.dart';
+import 'package:map_together/model/follow/follow_state.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place_category/place_categories.dart';
 import 'package:map_together/model/place_category/place_category.dart';
@@ -32,6 +34,9 @@ class UserHomeX extends GetxController {
   RxList<PlaceCategory> placeCategoryList = <PlaceCategory>[].obs;
   RxInt selectedPlaceCategory = (-1).obs;
   RxInt tempSelectedPlaceCategory = (-1).obs;
+  RxInt following = 0.obs;
+  RxInt follower = 0.obs;
+  RxBool followState = false.obs;
 
   RxBool createMode = false.obs;
 
@@ -49,6 +54,8 @@ class UserHomeX extends GetxController {
       markers.add(await createMarker(place));
     }
     await getPlaceCategory();
+    await getFollowCount();
+    await getFollowState();
     super.onInit();
   }
 
@@ -190,6 +197,49 @@ class UserHomeX extends GetxController {
     }
   }
 
+  Future<void> getFollowCount() async {
+    ApiResponse<FollowCount> response = await API.to.getFollowCount(userIdx.value);
+    if(response.success) {
+      following.value = response.data?.following ?? 0;
+      follower.value = response.data?.follower ?? 0;
+    } else {
+      print("getFollowCount error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
+  }
+
+  Future<void> getFollowState() async {
+    ApiResponse<FollowState> response = await API.to.getFollowState(userIdx.value);
+    if(response.success) {
+      followState.value = response.data?.follow ?? false;
+    } else {
+      print("getFollowState error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
+  }
+
+  Future<void> createFollow() async {
+    ApiResponse<void> response = await API.to.createFollow(userIdx.value);
+    if(response.success) {
+      followState.value = true;
+      follower.value++;
+    } else {
+      print("getPlaceCategory error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
+  }
+
+  Future<void> deleteFollow() async {
+    ApiResponse<void> response = await API.to.deleteFollow(userIdx.value);
+    if(response.success) {
+      followState.value = false;
+      follower.value--;
+    } else {
+      print("getPlaceCategory error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
+  }
+
   void setTempSelectedPlaceCategory(int index) {
     if(tempSelectedPlaceCategory.value == index){
       tempSelectedPlaceCategory.value = -1;
@@ -213,5 +263,33 @@ class UserHomeX extends GetxController {
       }
     }
     Get.close(1);
+  }
+
+  Future<void> onTapFollow() async {
+    Get.close(1);
+    if(followState.value) {
+      await deleteFollow();
+    } else {
+      await createFollow();
+    }
+  }
+
+  void moveToFollow(UiState state) {
+    Utils.moveTo(
+      UiState.FOLLOW_HOME,
+      arg: {
+        'currentTab': state,
+        'userIdx': userIdx.value,
+        'userNickname': user!.value.nickname,
+        'followerCount': follower.value,
+        'followingCount': following.value,
+        'setFollowCount': setFollowCount
+      }
+    );
+  }
+
+  void setFollowCount(int _follower, int _following) {
+    follower.value = _follower;
+    following.value = _following;
   }
 }
