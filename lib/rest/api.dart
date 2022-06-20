@@ -384,7 +384,7 @@ class API extends getx.GetxController{
     return ApiResponse<void>.fromJson(response.data);
   }
 
-  Future<ApiResponse<Places>> searcPlace(PlaceSearch req) async {
+  Future<ApiResponse<Places>> searchPlace(PlaceSearch req) async {
     Map<String, dynamic> json = req.toJson();
     Response response = await dio.post(
       dio.options.baseUrl + PATH_PLACE_SEARCH,
@@ -396,6 +396,7 @@ class API extends getx.GetxController{
       Utils.showToast('서버 통신 중 오류가 발생했습니다.');
       throw Exception("server error :: $error");
     });
+    print(response);
     return ApiResponse<Places>.fromJson(response.data);
   }
 

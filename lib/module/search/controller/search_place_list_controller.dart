@@ -6,6 +6,7 @@ import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place/place_search.dart';
 import 'package:map_together/model/place/place_simple.dart';
 import 'package:map_together/model/place/places.dart';
+import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
@@ -55,7 +56,7 @@ class SearchPlaceListX extends GetxController {
       )
     );
     isLoading.value = true;
-    ApiResponse<Places> response = await API.to.searcPlace(placeSearch);
+    ApiResponse<Places> response = await API.to.searchPlace(placeSearch);
     if(response.success) {
       placeList.addAll(response.data?.list ?? []);
       isLast.value = response.data!.last;
@@ -67,11 +68,14 @@ class SearchPlaceListX extends GetxController {
   }
 
   void moveToPlace(int userIdx, String userNickname, PlaceSimple placeSimple) {
-    print(userIdx);
-    print(userNickname);
+    PlaceCategory placeCategory = PlaceCategory(
+      idx: placeSimple.placeCategoryIdx,
+      name: placeSimple.placeCategoryName,
+      type: placeSimple.placeCategoryType
+    );
     Place place = Place(
       idx: placeSimple.idx,
-      category: placeSimple.category,
+      category: placeCategory,
       name: placeSimple.name,
       address: placeSimple.address,
       favorite: placeSimple.favorite,
