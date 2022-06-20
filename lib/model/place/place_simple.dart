@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:map_together/model/place_category/place_category.dart';
+import 'package:map_together/model/type/place_category_type.dart';
 
 part 'place_simple.g.dart';
 
@@ -9,7 +9,9 @@ class PlaceSimple {
   int userIdx;
   String userNickname;
   String? userProfileImg;
-  PlaceCategory category;
+  int placeCategoryIdx;
+  String placeCategoryName;
+  PlaceCategoryType placeCategoryType;
   String? description;
   String name;
   String address;
@@ -25,7 +27,9 @@ class PlaceSimple {
     required this.userIdx,
     required this.userNickname,
     this.userProfileImg,
-    required this.category,
+    required this.placeCategoryIdx,
+    required this.placeCategoryName,
+    required this.placeCategoryType,
     this.description,
     required this.name,
     required this.address,

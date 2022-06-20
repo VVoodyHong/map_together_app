@@ -11,8 +11,10 @@ PlaceSimple _$PlaceSimpleFromJson(Map<String, dynamic> json) => PlaceSimple(
       userIdx: json['userIdx'] as int,
       userNickname: json['userNickname'] as String,
       userProfileImg: json['userProfileImg'] as String?,
-      category:
-          PlaceCategory.fromJson(json['category'] as Map<String, dynamic>),
+      placeCategoryIdx: json['placeCategoryIdx'] as int,
+      placeCategoryName: json['placeCategoryName'] as String,
+      placeCategoryType:
+          $enumDecode(_$PlaceCategoryTypeEnumMap, json['placeCategoryType']),
       description: json['description'] as String?,
       name: json['name'] as String,
       address: json['address'] as String,
@@ -30,7 +32,10 @@ Map<String, dynamic> _$PlaceSimpleToJson(PlaceSimple instance) =>
       'userIdx': instance.userIdx,
       'userNickname': instance.userNickname,
       'userProfileImg': instance.userProfileImg,
-      'category': instance.category,
+      'placeCategoryIdx': instance.placeCategoryIdx,
+      'placeCategoryName': instance.placeCategoryName,
+      'placeCategoryType':
+          _$PlaceCategoryTypeEnumMap[instance.placeCategoryType],
       'description': instance.description,
       'name': instance.name,
       'address': instance.address,
@@ -41,3 +46,16 @@ Map<String, dynamic> _$PlaceSimpleToJson(PlaceSimple instance) =>
       'createAt': instance.createAt.toIso8601String(),
       'updateAt': instance.updateAt.toIso8601String(),
     };
+
+const _$PlaceCategoryTypeEnumMap = {
+  PlaceCategoryType.AIRPLANE: 'AIRPLANE',
+  PlaceCategoryType.BEER: 'BEER',
+  PlaceCategoryType.COFFEE: 'COFFEE',
+  PlaceCategoryType.DESSERT: 'DESSERT',
+  PlaceCategoryType.HEART: 'HEART',
+  PlaceCategoryType.MARKER: 'MARKER',
+  PlaceCategoryType.RICE: 'RICE',
+  PlaceCategoryType.SPORTS: 'SPORTS',
+  PlaceCategoryType.STAR: 'STAR',
+  PlaceCategoryType.NONE: 'NONE',
+};
