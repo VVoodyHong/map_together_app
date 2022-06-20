@@ -24,7 +24,6 @@ class PlaceCategoryX extends GetxController {
     super.onInit();
     list.value = Get.arguments['placeCategoryList'];
     _setCategory = Get.arguments['setCategory'];
-    print(_setCategory);
   }
 
   void createPlaceCategory() async {
@@ -69,7 +68,6 @@ class PlaceCategoryX extends GetxController {
     ApiResponse<void> response = await API.to.deletePlaceCategory(deletePlaceCategories);
     if(response.success) {
       deleteList.sort((b, a) => a.compareTo(b));
-      print(deleteList);
       for(int idx in deleteList) { list.removeAt(idx); }
       deleteList.clear();
       changeDeleteMode();
@@ -91,7 +89,7 @@ class PlaceCategoryX extends GetxController {
 
   void setCategory() {
     if(_setCategory != null) {
-      _setCategory!(list[selectedCategory.value].idx, list[selectedCategory.value].type, list[selectedCategory.value].name);
+      _setCategory!(list[selectedCategory.value].type, list[selectedCategory.value].name);
       Get.close(1);
     }
   }
