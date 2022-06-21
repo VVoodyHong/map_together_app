@@ -22,6 +22,7 @@ class SearchPlaceListScreen extends GetView<SearchPlaceListX> {
               iconData: Icons.arrow_back,
               onPressed: () => Get.close(1)
             ),
+            centerTitle: false,
           ).init(),
           body: SafeArea(
             child: _body()
@@ -132,7 +133,7 @@ class SearchPlaceListScreen extends GetView<SearchPlaceListX> {
             ),
           );
         }
-      ).marginSymmetric(horizontal: 15) : EmptyView(text: '검색 결과가 존재하지 않습니다.')
+      ).marginSymmetric(horizontal: 15) : controller.isLoading.value ? Container() : EmptyView(text: '검색 결과가 존재하지 않습니다.')
     );
   }
 
