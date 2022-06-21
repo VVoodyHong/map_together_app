@@ -2,7 +2,9 @@ import 'package:get/get.dart';
 import 'package:map_together/module/auth/controller/enter_info_controller.dart';
 import 'package:map_together/module/auth/controller/login_controller.dart';
 import 'package:map_together/module/auth/controller/signup_controller.dart';
+import 'package:map_together/module/auth/view/enter_info_fifth_screen.dart';
 import 'package:map_together/module/auth/view/enter_info_first_screen.dart';
+import 'package:map_together/module/auth/view/enter_info_fourth_screen.dart';
 import 'package:map_together/module/auth/view/enter_info_second_screen.dart';
 import 'package:map_together/module/auth/view/enter_info_third_screen.dart';
 import 'package:map_together/module/auth/view/login_screen.dart';
@@ -111,6 +113,16 @@ class UiLogic {
     GetPage(
       name: UiState.ENTER_INFO_THIRD.toString(),
       page: () { return EnterInfoThirdScreen(); },
+      binding: BindingsBuilder(() { Get.put(EnterInfoX());})
+    ),
+    GetPage(
+      name: UiState.ENTER_INFO_FOURTH.toString(),
+      page: () { return EnterInfoFourthScreen(); },
+      binding: BindingsBuilder(() { Get.put(EnterInfoX());})
+    ),
+    GetPage(
+      name: UiState.ENTER_INFO_FIFTH.toString(),
+      page: () { return EnterInfoFifthScreen(); },
       binding: BindingsBuilder(() { Get.put(EnterInfoX());})
     ),
     GetPage(

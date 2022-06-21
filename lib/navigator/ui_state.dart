@@ -9,6 +9,7 @@ enum UiState {
   ENTER_INFO_SECOND,
   ENTER_INFO_THIRD,
   ENTER_INFO_FOURTH,
+  ENTER_INFO_FIFTH,
 
   //my_map
   MYMAP_HOME,
