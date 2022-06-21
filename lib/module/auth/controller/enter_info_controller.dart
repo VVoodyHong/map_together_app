@@ -1,6 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
+import 'package:map_together/common/photo_uploader.dart';
 import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/type/exist_type.dart';
 import 'package:map_together/model/user/user.dart';
@@ -17,8 +22,27 @@ class EnterInfoX extends GetxController {
 
   RxBool isValidNickname = false.obs;
   RxBool availableNickname = false.obs;
+  RxBool isEmptyName = true.obs;
+  RxBool isEmptyIntroduce = true.obs;
 
   TextEditingController nicknameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController introduceController = TextEditingController();
+  Rx<PhotoType> photoType = PhotoType.NONE.obs;
+
+  Completer<NaverMapController> mapController = Completer();
+  Rx<LatLng> position = (null as LatLng).obs;
+  RxDouble zoom = (null as double).obs;
+
+  RxBool isLoading = false.obs;
+
+  @override
+  void onInit() {
+    PhotoUploader.to.init();
+    position.value = LatLng(DefaultPosition.lat, DefaultPosition.lng);
+    zoom.value = DefaultPosition.zoom;
+    super.onInit();
+  }
 
   void onChangeNickname(String nickname) {
     availableNickname.value = false;
@@ -28,6 +52,49 @@ class EnterInfoX extends GetxController {
     } else {
       if(isValidNickname.value) isValidNickname.value = false;
     }
+  }
+
+  void onChangeName(String value) {
+    isEmptyName.value = nameController.text.isEmpty;
+  }
+
+  void onChangeIntroduce(String value) {
+    isEmptyIntroduce.value = introduceController.text.isEmpty;
+  }
+
+  void showDialog(BuildContext context) {
+    FocusScope.of(context).unfocus();
+    PhotoUploader.to.showDialog(context).then((photoType) => {
+      if(photoType != null) {
+        this.photoType.value = photoType,
+      }
+    });
+  }
+
+  void onMapCreated(NaverMapController controller) {
+    if (mapController.isCompleted) mapController = Completer();
+    mapController.complete(controller);
+  }
+
+  void onCameraIdle() {
+    mapController.future.then((value) {
+      value.getCameraPosition().then((value) {
+        position.value = value.target;
+        zoom.value = value.zoom;
+      });
+    });
+  }
+
+  void onChangeZoom(double _zoom) async {
+    zoom.value = _zoom;
+    await (await mapController.future).moveCamera(
+      CameraUpdate.toCameraPosition(
+        CameraPosition(
+          target: position.value,
+          zoom: _zoom
+        )
+      )
+    );
   }
 
   void checkExistUser() async {
@@ -45,11 +112,15 @@ class EnterInfoX extends GetxController {
   void updateUser() async {
     UserUpdate userUpdate = UserUpdate(
       nickname: nicknameController.text,
-      lat: DefaultPosition.lat,
-      lng: DefaultPosition.lng,
-      zoom: DefaultPosition.zoom
+      name: nameController.text,
+      introduce: introduceController.text,
+      lat: position.value.latitude,
+      lng: position.value.longitude,
+      zoom: zoom.value
     );
-    ApiResponse<User> response = await API.to.updateUser(userUpdate, null);
+    File? file = photoType.value == PhotoType.DEFAULT || photoType.value == PhotoType.NONE ? null : File(PhotoUploader.to.uploadPath.value);
+    isLoading.value = true;
+    ApiResponse<User> response = await API.to.updateUser(userUpdate, file);
     if(response.success) {
       App.to.user.value = response.data!;
       UiLogic.changeUiState(UiState.MYMAP_HOME);
@@ -57,6 +128,7 @@ class EnterInfoX extends GetxController {
       print("updateUser error:: ${response.code} ${response.message}");
       Utils.showToast(response.message);
     }
+    isLoading.value = false;
   }
 
   void moveToSecondScreen() {
@@ -65,5 +137,14 @@ class EnterInfoX extends GetxController {
 
   void moveToThirdScreen() {
     Utils.moveTo(UiState.ENTER_INFO_THIRD);
+  }
+
+  void moveToFourthScreen() {
+    Utils.moveTo(UiState.ENTER_INFO_FOURTH);
+  }
+
+  void moveToFifthScreen() {
+    print(photoType.value);
+    Utils.moveTo(UiState.ENTER_INFO_FIFTH);
   }
 }

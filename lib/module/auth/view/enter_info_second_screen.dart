@@ -14,7 +14,7 @@ class EnterInfoSecondScreen extends GetView<EnterInfoX> {
       onTap: ()=> FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: BaseAppBar(
-          title: '닉네임 입력 (1/2)',
+          title: '닉네임 입력 (1/4)',
         ).init(),
         body: WillPopScope(
           onWillPop: App.to.exitApp,
@@ -30,7 +30,7 @@ class EnterInfoSecondScreen extends GetView<EnterInfoX> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           LinearProgressIndicator(
-            value: 0.5,
+            value: 0.25,
             backgroundColor: MtColor.paleGrey,
             valueColor: AlwaysStoppedAnimation<Color>(MtColor.signature),
             minHeight: 5,
