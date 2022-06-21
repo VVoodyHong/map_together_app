@@ -396,7 +396,6 @@ class API extends getx.GetxController{
       Utils.showToast('서버 통신 중 오류가 발생했습니다.');
       throw Exception("server error :: $error");
     });
-    print(response);
     return ApiResponse<Places>.fromJson(response.data);
   }
 
