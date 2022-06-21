@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
-import 'package:map_together/app.dart';
 import 'package:map_together/model/page/request_page.dart';
 import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/type/place_category_type.dart';
