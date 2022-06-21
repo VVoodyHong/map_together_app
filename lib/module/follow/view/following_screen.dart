@@ -8,8 +8,8 @@ import 'package:map_together/widget/image_round.dart';
 
 class FollowingScreen extends StatelessWidget {
 
-  late String uniqueTag;
-  late FollowHomeX controller;
+  late final String uniqueTag;
+  late final FollowHomeX controller;
 
   FollowingScreen(String _tag, FollowHomeX _controller) {
     uniqueTag = _tag;
