@@ -54,7 +54,7 @@ class FollowHomeX extends GetxController {
 
   void listenScrolling() async {
     if(currentTab.value == UiState.FOLLOW_FOLLOWER) {
-      if (followerScrollController.position.atEdge) {
+      if (followerScrollController.hasClients && followerScrollController.position.atEdge) {
         bool isTop = followerScrollController.position.pixels == 0;
         if (!isTop && !isLastFollower.value) {
           followerPage++;
@@ -62,7 +62,7 @@ class FollowHomeX extends GetxController {
         }
       }
     } else {
-      if (followingScrollController.position.atEdge) {
+      if (followingScrollController.hasClients && followingScrollController.position.atEdge) {
         bool isTop = followingScrollController.position.pixels == 0;
         if (!isTop && !isLastFollowing.value) {
           followingPage++;

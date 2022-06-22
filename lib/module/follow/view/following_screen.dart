@@ -19,6 +19,7 @@ class FollowingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => controller.followingList.isNotEmpty ? SingleChildScrollView(
+      key: PageStorageKey<String>('following'),
       controller: controller.followingScrollController,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
