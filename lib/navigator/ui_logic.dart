@@ -14,12 +14,16 @@ import 'package:map_together/module/follow/controller/follow_home_controller.dar
 import 'package:map_together/module/follow/view/follow_home_screen.dart';
 import 'package:map_together/module/my_map/controller/setting_controller.dart';
 import 'package:map_together/module/my_map/view/setting_screen.dart';
+import 'package:map_together/module/news/controller/news_home_controller.dart';
+import 'package:map_together/module/news/view/news_home_screen.dart';
 import 'package:map_together/module/place/controller/place_category_controller.dart';
 import 'package:map_together/module/my_map/controller/map_setting_controller.dart';
 import 'package:map_together/module/place/view/place_category_screen.dart';
 import 'package:map_together/module/my_map/view/map_setting_screen.dart';
 import 'package:map_together/module/place/controller/place_controller.dart';
 import 'package:map_together/module/place/view/place_screen.dart';
+import 'package:map_together/module/root/controller/root_controller.dart';
+import 'package:map_together/module/root/view/root_screen.dart';
 import 'package:map_together/module/search/controller/search_place_list_controller.dart';
 import 'package:map_together/module/search/view/search_place_list_screen.dart';
 import 'package:map_together/module/user/controller/profile_controller.dart';
@@ -57,6 +61,10 @@ class UiLogic {
 
     //Navigator Root 상태 처리
     switch(newState){
+      case UiState.ROOT:
+        goRoot = true;
+        _rootScreen = newState;
+        break;
       case UiState.LOGIN:
         goRoot = true;
         _rootScreen = newState;
@@ -78,7 +86,6 @@ class UiLogic {
      * Get.offAllNamed : 모든 screen 삭제하고 이동
      */
     if(goRoot) {
-      
       Get.offAllNamed(_rootScreen.toString(), arguments: _parameters);
     } else {
       prevState == null ?
@@ -91,6 +98,12 @@ class UiLogic {
   static UiState getRootScreen() { return _rootScreen; }
 
   static final route = [
+    GetPage(
+      name: UiState.ROOT.toString(),
+      page: () { return RootScreen(); },
+      binding: BindingsBuilder(() { Get.put(RootX());}),
+      transition: Transition.fadeIn
+  ),
     GetPage(
       name: UiState.SPLASH.toString(),
       page: () { return SplashScreen(); }
@@ -134,7 +147,7 @@ class UiLogic {
       name: UiState.MYMAP_HOME.toString(),
       page: () { return MyMapHomeScreen(); },
       binding: BindingsBuilder(() { Get.put(MyMapHomeX());}),
-      transition: Transition.noTransition
+      transition: Transition.fadeIn
     ),
     GetPage(
       name: UiState.PLACE_CREATE.toString(),
@@ -160,7 +173,7 @@ class UiLogic {
       name: UiState.SEARCH_HOME.toString(),
       page: () { return SearchHomeScreen(); },
       binding: BindingsBuilder(() { Get.put(SearchHomeX());}),
-      transition: Transition.noTransition
+      transition: Transition.fadeIn
     ),
     GetPage(
       name: UiState.SEARCH_PLACE_LIST.toString(),
@@ -186,6 +199,12 @@ class UiLogic {
       name: UiState.FOLLOW_HOME.toString(),
       page: () { return FollowHomeScreen(seq.toString()); },
       binding: BindingsBuilder(() { Get.put(FollowHomeX(), tag: seq.toString());}),
-    )
+    ),
+    GetPage(
+      name: UiState.NEWS_HOME.toString(),
+      page: () { return NewsHomeScreen(); },
+      binding: BindingsBuilder(() { Get.put(NewsHomeX());}),
+      transition: Transition.fadeIn
+    ),
   ];
 }

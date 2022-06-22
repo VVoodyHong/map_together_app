@@ -1,6 +1,9 @@
 enum UiState {
   NONE,
 
+  //root
+  ROOT,
+
   //login
   SPLASH,
   LOGIN,
@@ -21,6 +24,9 @@ enum UiState {
   SEARCH_USER,
   SEARCH_PLACE,
   SEARCH_PLACE_LIST,
+
+  //news
+  NEWS_HOME,
 
   //user
   PROFILE,
