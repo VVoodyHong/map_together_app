@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/constants.dart';
 
@@ -31,13 +30,17 @@ class BottomNav extends GetView<NavigatorX> {
         onTap: (index) { controller.switchNav(index); },
         items: [
           BottomNavigationBarItem(
-            label: '나의 맵',
-            icon: Icon(Icons.person).marginSymmetric(vertical: 3),
+            label: '소식',
+            icon: Icon(Icons.people).marginSymmetric(vertical: 3),
           ),
           BottomNavigationBarItem(
             label: '검색',
             icon: Icon(Icons.search).marginSymmetric(vertical: 3),
-          )
+          ),
+          BottomNavigationBarItem(
+            label: '나의 맵',
+            icon: Icon(Icons.person).marginSymmetric(vertical: 3),
+          ),
         ],
       ),
     ));
@@ -46,15 +49,16 @@ class BottomNav extends GetView<NavigatorX> {
 
 class NavigatorX extends GetxController{
   static NavigatorX get to => Get.find();
-  var currentIndex = 0.obs;
+  var currentIndex = 2.obs;
   var navList = [
-    UiState.MYMAP_HOME,
+    UiState.NEWS_HOME,
     UiState.SEARCH_HOME,
+    UiState.MYMAP_HOME,
   ];
 
   void switchNav(int index){
     if(currentIndex.value == index) return;
     currentIndex.value = index;
-    UiLogic.changeUiState(navList[index]);
+    // UiLogic.changeUiState(navList[index]);
   }
 }
