@@ -232,7 +232,7 @@ class App extends GetxController {
       if(user.value.nickname!.isEmpty) { // first login
         UiLogic.changeUiState(UiState.ENTER_INFO_FIRST);
       } else {
-        UiLogic.changeUiState(UiState.MYMAP_HOME);
+        UiLogic.changeUiState(UiState.ROOT);
       }
     }
   }

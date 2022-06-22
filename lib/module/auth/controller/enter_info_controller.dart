@@ -123,7 +123,7 @@ class EnterInfoX extends GetxController {
     ApiResponse<User> response = await API.to.updateUser(userUpdate, file);
     if(response.success) {
       App.to.user.value = response.data!;
-      UiLogic.changeUiState(UiState.MYMAP_HOME);
+      UiLogic.changeUiState(UiState.ROOT);
     } else {
       print("updateUser error:: ${response.code} ${response.message}");
       Utils.showToast(response.message);
