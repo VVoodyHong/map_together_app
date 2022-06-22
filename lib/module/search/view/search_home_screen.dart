@@ -7,7 +7,6 @@ import 'package:map_together/module/search/view/search_user_screen.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/base_app_bar.dart';
-import 'package:map_together/widget/bottom_nav.dart';
 import 'package:map_together/widget/finder_box.dart';
 
 class SearchHomeScreen extends GetView<SearchHomeX> {
@@ -27,8 +26,7 @@ class SearchHomeScreen extends GetView<SearchHomeX> {
           child: SafeArea(
             child: _body()
           ),
-        ),
-        bottomNavigationBar: BottomNav(),
+        )
       ),
     ));
   }

@@ -11,7 +11,6 @@ import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/base_list_tile.dart';
-import 'package:map_together/widget/bottom_nav.dart';
 import 'package:map_together/widget/bottom_sheet_modal.dart';
 import 'package:map_together/widget/button_profile.dart';
 import 'package:map_together/widget/base_app_bar.dart';
@@ -49,7 +48,6 @@ class MyMapHomeScreen extends GetView<MyMapHomeX> {
         ),
       ),
       floatingActionButton: _floatingActionButton(),
-      bottomNavigationBar: BottomNav(),
     ));
   }
 
