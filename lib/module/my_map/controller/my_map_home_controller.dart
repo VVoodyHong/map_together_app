@@ -148,7 +148,11 @@ class MyMapHomeX extends GetxController {
                 arg: {
                   'place': place,
                   'userIdx': App.to.user.value.idx,
-                  'userNickname': App.to.user.value.nickname
+                  'userNickname': App.to.user.value.nickname,
+                  'updatePlace': updatePlace,
+                  'deletePlace': deletePlace,
+                  'position': position,
+                  'placeCategoryList': placeCategoryList,
                 }
               );
             }
@@ -310,5 +314,16 @@ class MyMapHomeX extends GetxController {
         'followingCount': following.value
       }
     );
+  }
+
+  void deletePlace(int placeIdx) {
+    placeList.removeWhere((place) => place.idx == placeIdx);
+    markers.removeWhere((marker) => marker.markerId == placeIdx.toString());
+  }
+
+  void updatePlace(Place place) {
+    placeList.removeWhere((_place) => _place.idx == place.idx);
+    markers.removeWhere((marker) => marker.markerId == place.idx.toString());
+    addMarker(place);
   }
 }

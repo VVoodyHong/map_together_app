@@ -35,6 +35,7 @@ enum UiState {
   //place
   PLACE,
   PLACE_CREATE,
+  PLACE_UPDATE,
   PLACE_CATEGORY,
 
   //place

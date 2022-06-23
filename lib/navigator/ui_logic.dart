@@ -18,10 +18,12 @@ import 'package:map_together/module/news/controller/news_home_controller.dart';
 import 'package:map_together/module/news/view/news_home_screen.dart';
 import 'package:map_together/module/place/controller/place_category_controller.dart';
 import 'package:map_together/module/my_map/controller/map_setting_controller.dart';
+import 'package:map_together/module/place/controller/place_update_controller.dart';
 import 'package:map_together/module/place/view/place_category_screen.dart';
 import 'package:map_together/module/my_map/view/map_setting_screen.dart';
 import 'package:map_together/module/place/controller/place_controller.dart';
 import 'package:map_together/module/place/view/place_screen.dart';
+import 'package:map_together/module/place/view/place_update_screen.dart';
 import 'package:map_together/module/root/controller/root_controller.dart';
 import 'package:map_together/module/root/view/root_screen.dart';
 import 'package:map_together/module/search/controller/search_place_list_controller.dart';
@@ -153,6 +155,11 @@ class UiLogic {
       name: UiState.PLACE_CREATE.toString(),
       page: () { return PlaceCreateScreen(); },
       binding: BindingsBuilder(() { Get.put(PlaceCreateX());})
+    ),
+    GetPage(
+      name: UiState.PLACE_UPDATE.toString(),
+      page: () { return PlaceUpdateScreen(); },
+      binding: BindingsBuilder(() { Get.put(PlaceUpdateX());})
     ),
     GetPage(
       name: UiState.PLACE_CATEGORY.toString(),

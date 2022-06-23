@@ -39,6 +39,15 @@ class PlaceScreen extends GetView<PlaceX> {
             iconData: Icons.arrow_back,
             onPressed: () => Get.close(1)
           ),
+          actions: [
+            BaseButton.iconButton(
+            iconData: Icons.more_vert,
+            onPressed: () => BottomSheetModal.showList(
+              context: context,
+              listTiles: _appBarListTiles(context)
+            )
+          )
+          ],
           centerTitle: false,
           onPressedTitle: controller.onPressedTitle
         ).init(),
@@ -76,6 +85,7 @@ class PlaceScreen extends GetView<PlaceX> {
           ),
           zoom: 15,
         ),
+        onMapCreated: controller.onMapCreated,
         markers: controller.markers.value
       )
     );
@@ -326,14 +336,41 @@ class PlaceScreen extends GetView<PlaceX> {
           iconData: Icons.more_vert,
           onPressed: () => BottomSheetModal.showList(
             context: context,
-            listTiles: _listTiles(context, index)
+            listTiles: _replyListTiles(context, index)
           )
         ) : Container()
       ],
     );
   }
 
-  List<BaseListTile> _listTiles(BuildContext context, int index) {
+  List<BaseListTile> _appBarListTiles(BuildContext context) {
+    return App.to.user.value.idx == controller.userIdx?.value ? [
+      BaseListTile(
+        title: '수정',
+        onTap: controller.moveToUpdatePlace,
+        icon: Icons.edit
+      ),
+      BaseListTile(
+        title: '삭제',
+        onTap: () {
+          Get.close(1);
+          Utils.showDialog(
+            message: '정말로 삭제하시겠습니까?',
+            onConfirm: controller.deletePlace
+          );
+        },
+        icon: Icons.delete
+      ),
+    ] : [
+      BaseListTile(
+        title: '신고',
+        onTap: () {},
+        icon: Icons.report
+      )
+    ];
+  }
+
+  List<BaseListTile> _replyListTiles(BuildContext context, int index) {
     return [
       BaseListTile(
         title: '삭제',

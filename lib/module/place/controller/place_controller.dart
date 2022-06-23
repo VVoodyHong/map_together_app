@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -7,6 +9,7 @@ import 'package:map_together/model/file/file.dart';
 import 'package:map_together/model/file/files.dart';
 import 'package:map_together/model/page/request_page.dart';
 import 'package:map_together/model/place/place.dart';
+import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/place_like/place_like.dart';
 import 'package:map_together/model/place_reply/place_replies.dart';
 import 'package:map_together/model/place_reply/place_reply_create.dart';
@@ -22,6 +25,8 @@ import 'package:map_together/utils/utils.dart';
 
 class PlaceX extends GetxController {
   static PlaceX get to => Get.find();
+
+   Completer<NaverMapController> mapController = Completer();
   
   Rx<Place> place = (null as Place).obs;
   RxInt? userIdx = (null as int).obs;
@@ -42,11 +47,19 @@ class PlaceX extends GetxController {
   ScrollController bodyScrollController = ScrollController();
   ScrollController replyScrollController = ScrollController();
 
+  Function(int placeIdx)? _deletePlace;
+  Function(Place place)? updatePlace;
+  RxList<PlaceCategory> placeCategoryList = <PlaceCategory>[].obs;
+
   @override
   void onInit() async {
     place.value = Get.arguments['place'];
     userIdx?.value = Get.arguments['userIdx'];
     userNickName?.value = Get.arguments['userNickname'];
+    // from my map home
+    _deletePlace = Get.arguments['deletePlace'];
+    updatePlace = Get.arguments['updatePlace'];
+    placeCategoryList = Get.arguments['placeCategoryList'];
     await getPlaceImage();
     await getPlaceTag();
     await getPlaceReply();
@@ -55,6 +68,11 @@ class PlaceX extends GetxController {
     bodyScrollController.addListener(listenScrollingBody);
     replyScrollController.addListener(listenScrollingReply);
     super.onInit();
+  }
+
+  void onMapCreated(NaverMapController controller) {
+    if (mapController.isCompleted) mapController = Completer();
+    mapController.complete(controller);
   }
 
   void listenScrollingBody() {
@@ -181,6 +199,20 @@ class PlaceX extends GetxController {
     }
   }
 
+  Future<void> deletePlace() async {
+    ApiResponse<void> response = await API.to.deletePlace(place.value.idx);
+    if(response.success) {
+      Get.close(2);
+      if(_deletePlace != null) {
+        _deletePlace!(place.value.idx);
+      }
+      Utils.showToast('삭제가 완료되었습니다');
+    } else {
+      print("deletePlace error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
+  }
+
   void scrollToBottom() {
     double replyPosition = replyScrollController.position.maxScrollExtent;
     double bodyPosition = bodyScrollController.position.maxScrollExtent;
@@ -228,5 +260,40 @@ class PlaceX extends GetxController {
         }
       );
     }
+  }
+
+  void placeUpdate(Place _place) async {
+    if(updatePlace != null) {
+      updatePlace!(_place);
+      place.value = _place;
+      fileList.clear();
+      await getPlaceImage();
+      tagList.clear();
+      await getPlaceTag();
+      markers.clear();
+      await (await mapController.future).moveCamera(
+        CameraUpdate.toCameraPosition(
+          CameraPosition(
+            target: LatLng(
+              place.value.lat,
+              place.value.lng
+            ),
+            zoom: 15
+          )
+        )
+      );
+      await setMarker();
+    }
+  }
+
+  void moveToUpdatePlace() {
+    Get.close(1);
+    LatLng position = LatLng(place.value.lat, place.value.lng);
+    Utils.moveTo(UiState.PLACE_UPDATE, arg: {
+      'position': position,
+      'placeCategoryList': placeCategoryList,
+      'place': place,
+      'placeUpdate': placeUpdate
+    });
   }
 }

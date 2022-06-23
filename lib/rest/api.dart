@@ -14,6 +14,7 @@ import 'package:map_together/model/page/request_page.dart';
 import 'package:map_together/model/place/place.dart';
 import 'package:map_together/model/place/place_create.dart';
 import 'package:map_together/model/place/place_search.dart';
+import 'package:map_together/model/place/place_update.dart';
 import 'package:map_together/model/place/places.dart';
 import 'package:map_together/model/place_category/place_categories.dart';
 import 'package:map_together/model/place_category/place_category.dart';
@@ -177,7 +178,7 @@ class API extends getx.GetxController{
       json['file'] = await MultipartFile.fromFile(file.path);
     }
     FormData formData = FormData.fromMap(json);
-    Response response = await dio.post(
+    Response response = await dio.put(
       dio.options.baseUrl + PATH_USER,
       options: Options(
         headers: {'authorization': 'Bearer $token'},
@@ -250,6 +251,33 @@ class API extends getx.GetxController{
       throw Exception("server error :: $error");
     });
     return ApiResponse<Place>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<Place>> updatePlace(PlaceUpdate req) async {
+    Response response = await dio.put(
+      dio.options.baseUrl + PATH_PLACE,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: req
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<Place>.fromJson(response.data);
+  }
+  
+  Future<ApiResponse<void>> deletePlace(int placeIdx) async {
+    Response response = await dio.delete(
+      dio.options.baseUrl + PATH_PLACE + '/$placeIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
   }
 
   Future<ApiResponse<PlaceCategories>> getPlaceCategory(int userIdx) async {
