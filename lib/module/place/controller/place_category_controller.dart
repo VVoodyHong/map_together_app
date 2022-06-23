@@ -15,7 +15,7 @@ class PlaceCategoryX extends GetxController {
   RxInt selectedCategory = (-1).obs;
   Rx<PlaceCategoryType> selectedMarker = PlaceCategoryType.NONE.obs;
   TextEditingController nameController = TextEditingController();
-  Function? _setCategory;
+  Function(int idx, PlaceCategoryType type, String name)? _setCategory;
   RxBool deleteMode = false.obs;
   RxList<int> deleteList = <int>[].obs;
 
@@ -89,7 +89,7 @@ class PlaceCategoryX extends GetxController {
 
   void setCategory() {
     if(_setCategory != null) {
-      _setCategory!(list[selectedCategory.value].type, list[selectedCategory.value].name);
+      _setCategory!(list[selectedCategory.value].idx, list[selectedCategory.value].type, list[selectedCategory.value].name);
       Get.close(1);
     }
   }
