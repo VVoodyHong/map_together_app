@@ -4,11 +4,11 @@ part 'tag.g.dart';
 
 @JsonSerializable()
 class Tag {
-  int idx;
+  int? idx;
   String? name;
   
   Tag({
-    required this.idx,
+    this.idx,
     this.name,
   });
 
