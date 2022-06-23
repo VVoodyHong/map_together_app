@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:map_together/navigator/ui_logic.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/utils/constants.dart';
+import 'package:map_together/widget/button_round.dart';
 
 class Utils {
 
@@ -15,6 +17,55 @@ class Utils {
       backgroundColor: MtColor.paleBlack,
       textColor: MtColor.white,
       fontSize: FontSize.medium
+    );
+  }
+
+  static void showDialog({
+    String? title,
+    String? message,
+    VoidCallback? onConfirm,
+  }) {
+    Get.dialog(
+      Dialog(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            title != null ? Text(
+              title,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600
+              )
+            ).marginOnly(bottom: 20) : Container(),
+            message != null ? Text(
+              message,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500
+              )
+            ).marginOnly(bottom: 20) : Container(),
+            Row(
+              children: [
+                Expanded(
+                  child: ButtonRound(
+                    label: '확인',
+                    onTap: onConfirm ?? () {}
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: ButtonRound(
+                    label: '취소',
+                    onTap: () {Get.close(1);},
+                    buttonColor: MtColor.paleGrey,
+                    textColor: MtColor.grey,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ).paddingAll(20)
+      ),
     );
   }
 
