@@ -16,7 +16,7 @@ import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/utils/utils.dart';
-import 'package:textfield_tags/textfield_tags.dart';
+import 'package:map_together/widget/text_field_tags_controller.dart';
 
 class PlaceCreateX extends GetxController {
 
@@ -27,7 +27,7 @@ class PlaceCreateX extends GetxController {
   Rx<Marker> marker = (null as Marker).obs;
   RxList<Marker> markers = <Marker>[].obs;
   Rx<PhotoType> photoType = PhotoType.NONE.obs;
-  RxList<File> imageList = <File>[].obs;
+  RxList<File> fileList = <File>[].obs;
   RxList<PlaceCategory> placeCategoryList = <PlaceCategory>[].obs;
   RxBool isNameEmpty = true.obs;
   RxBool isAddressEmpty = true.obs;
@@ -49,7 +49,7 @@ class PlaceCreateX extends GetxController {
     position.value = Get.arguments['position'];
     addMarker = Get.arguments['addMarker'];
     placeCategoryList = Get.arguments['placeCategoryList'];
-    nameController.value = TextEditingValue(text: Get.arguments['caption'] ?? ''.replaceAll('\n', ' '));
+    nameController.value = TextEditingValue(text: (Get.arguments['caption'] ?? '').replaceAll('\n', ' '));
     checkName(isEmpty: nameController.value.text.isEmpty);
     bool isNotEmptyAddress = await searchAddress();
     checkAddress(isNotEmpty: isNotEmptyAddress);
@@ -66,6 +66,7 @@ class PlaceCreateX extends GetxController {
   void onMapTap(LatLng _position) async {
     position.value = _position;
     nameController.value = TextEditingValue(text: '');
+    checkName(isEmpty: nameController.value.text.isEmpty);
     bool isNotEmptyAddress = await searchAddress();
     checkAddress(isNotEmpty: isNotEmptyAddress);
     await moveMap(_position);
@@ -140,18 +141,18 @@ class PlaceCreateX extends GetxController {
       this.photoType.value = photoType;
       if(photoType == PhotoType.GALLERY) {
         for (String uploadPath in PhotoUploader.to.uploadPathList) {
-          if(imageList.value.length < 10) imageList.add(File(uploadPath));
+          if(fileList.value.length < 10) fileList.add(File(uploadPath));
         }
       } else if(photoType == PhotoType.CAMERA) {
-        if(imageList.value.length < 10) imageList.add(File(PhotoUploader.to.uploadPath.value));
+        if(fileList.value.length < 10) fileList.add(File(PhotoUploader.to.uploadPath.value));
       }
       PhotoUploader.to.uploadPathList.clear();
     }
   }
 
   void deleteImage(int index) {
-    imageList.value.removeAt(index);
-    imageList.refresh();
+    fileList.value.removeAt(index);
+    fileList.refresh();
   }
 
   void createPlace() async {
@@ -173,7 +174,7 @@ class PlaceCreateX extends GetxController {
       lat: position.value.latitude,
       lng: position.value.longitude
     );
-    ApiResponse<Place> response = await API.to.createPlace(placeCreate, imageList.value);
+    ApiResponse<Place> response = await API.to.createPlace(placeCreate, fileList.value);
     if(response.success) {
       if(addMarker != null) {
         await addMarker!(response.data);

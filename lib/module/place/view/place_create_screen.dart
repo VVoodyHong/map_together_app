@@ -130,7 +130,7 @@ class PlaceCreateScreen extends GetView<PlaceCreateX> {
             ImageUploader(
               onCreate: () {controller.showDialog(context);},
               onDelete: (index) {controller.deleteImage(index);},
-              images: controller.imageList.value
+              files: controller.fileList.value
             ).marginAll(15),
             RatingBar(
               initialRating: controller.favorite.value,
