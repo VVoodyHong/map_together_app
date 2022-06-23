@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/utils/constants.dart';
-import 'package:textfield_tags/textfield_tags.dart';
+import 'package:map_together/widget/text_field_tags.dart';
+import 'package:map_together/widget/text_field_tags_controller.dart';
 
 class TagField extends StatelessWidget {
 
   final TextfieldTagsController tagsController;
+  final Function(String)? onTagDelete;
 
   TagField({
-    required this.tagsController
+    required this.tagsController,
+    this.onTagDelete
   });
   
   @override
   Widget build(BuildContext context) {
     return TextFieldTags(
+      validator: (tag) {
+        if((tagsController.getTags ?? []).contains(tag)) {
+          return '이미 존재하는 태그입니다.';
+        }
+      },
       textfieldTagsController: tagsController,
       textSeparators: [' ', ','],
       inputfieldBuilder: (BuildContext context, TextEditingController controller, FocusNode focusNode, String? error, Function(String)? onChanged, Function(String)? onSubmitted) {
@@ -88,6 +96,7 @@ class TagField extends StatelessWidget {
                                 ),
                                 onTap: () {
                                   onDeleteTag(tag);
+                                  if(onTagDelete != null) onTagDelete!(tag);
                                 },
                               )
                             ],
