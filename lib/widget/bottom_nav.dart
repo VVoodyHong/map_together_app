@@ -27,7 +27,7 @@ class BottomNav extends GetView<NavigatorX> {
         unselectedFontSize: 13,
         elevation: 0,
         iconSize: 30,
-        onTap: (index) { controller.switchNav(index); },
+        onTap: (index) { controller.switchNav(index, context); },
         items: [
           BottomNavigationBarItem(
             label: '소식',
@@ -56,7 +56,8 @@ class NavigatorX extends GetxController{
     UiState.MYMAP_HOME,
   ];
 
-  void switchNav(int index){
+  void switchNav(int index, BuildContext context){
+    FocusScope.of(context).unfocus();
     if(currentIndex.value == index) return;
     currentIndex.value = index;
     // UiLogic.changeUiState(navList[index]);
