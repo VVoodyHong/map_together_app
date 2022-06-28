@@ -271,6 +271,7 @@ class PlaceX extends GetxController {
       tagList.clear();
       await getPlaceTag();
       markers.clear();
+      currentImage.value = 1;
       await (await mapController.future).moveCamera(
         CameraUpdate.toCameraPosition(
           CameraPosition(

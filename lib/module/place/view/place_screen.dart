@@ -216,7 +216,7 @@ class PlaceScreen extends GetView<PlaceX> {
               borderRadius: BorderRadius.all(Radius.circular(20))
             ),
             child: Text(
-              '${controller.currentImage} / ${controller.fileList.length}',
+              '${controller.currentImage.value} / ${controller.fileList.length}',
               style: TextStyle(
                 color: Colors.white
               ),
