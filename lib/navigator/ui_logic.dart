@@ -15,7 +15,9 @@ import 'package:map_together/module/follow/view/follow_home_screen.dart';
 import 'package:map_together/module/my_map/controller/setting_controller.dart';
 import 'package:map_together/module/my_map/view/setting_screen.dart';
 import 'package:map_together/module/news/controller/news_home_controller.dart';
+import 'package:map_together/module/news/controller/select_place_controller.dart';
 import 'package:map_together/module/news/view/news_home_screen.dart';
+import 'package:map_together/module/news/view/select_place_screen.dart';
 import 'package:map_together/module/place/controller/place_category_controller.dart';
 import 'package:map_together/module/my_map/controller/map_setting_controller.dart';
 import 'package:map_together/module/place/controller/place_update_controller.dart';
@@ -211,6 +213,12 @@ class UiLogic {
       name: UiState.NEWS_HOME.toString(),
       page: () { return NewsHomeScreen(); },
       binding: BindingsBuilder(() { Get.put(NewsHomeX());}),
+      transition: Transition.fadeIn
+    ),
+    GetPage(
+      name: UiState.SELECT_PLACE.toString(),
+      page: () { return SelectPlaceScreen(); },
+      binding: BindingsBuilder(() { Get.put(SelectPlaceX());}),
       transition: Transition.fadeIn
     ),
   ];

@@ -27,6 +27,7 @@ enum UiState {
 
   //news
   NEWS_HOME,
+  SELECT_PLACE,
 
   //user
   PROFILE,
