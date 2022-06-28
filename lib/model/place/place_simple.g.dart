@@ -22,6 +22,8 @@ PlaceSimple _$PlaceSimpleFromJson(Map<String, dynamic> json) => PlaceSimple(
       lat: (json['lat'] as num).toDouble(),
       lng: (json['lng'] as num).toDouble(),
       representImg: json['representImg'] as String?,
+      likeCount: json['likeCount'] as int?,
+      replyCount: json['replyCount'] as int?,
       createAt: DateTime.parse(json['createAt'] as String),
       updateAt: DateTime.parse(json['updateAt'] as String),
     );
@@ -43,6 +45,8 @@ Map<String, dynamic> _$PlaceSimpleToJson(PlaceSimple instance) =>
       'lat': instance.lat,
       'lng': instance.lng,
       'representImg': instance.representImg,
+      'likeCount': instance.likeCount,
+      'replyCount': instance.replyCount,
       'createAt': instance.createAt.toIso8601String(),
       'updateAt': instance.updateAt.toIso8601String(),
     };

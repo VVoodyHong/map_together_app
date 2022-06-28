@@ -19,6 +19,8 @@ class PlaceSimple {
   double lat;
   double lng;
   String? representImg;
+  int? likeCount;
+  int? replyCount;
   DateTime createAt;
   DateTime updateAt;
   
@@ -37,6 +39,8 @@ class PlaceSimple {
     required this.lat,
     required this.lng,
     this.representImg,
+    this.likeCount,
+    this.replyCount,
     required this.createAt,
     required this.updateAt,
   });
