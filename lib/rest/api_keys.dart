@@ -16,6 +16,7 @@ const String PATH_USER_EXIST = 'user/exist';
 
 const String PATH_PLACE = 'place';
 const String PATH_PLACE_SEARCH = 'place/search';
+const String PATH_PLACE_NEWS = 'place/news';
 const String PATH_PLACE_IMAGE = 'place/image';
 const String PATH_PLACE_TAG = 'place/tag';
 const String PATH_PLACE_LIKE = 'place/like';
