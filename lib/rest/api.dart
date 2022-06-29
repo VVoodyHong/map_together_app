@@ -191,6 +191,19 @@ class API extends getx.GetxController{
     return ApiResponse<User>.fromJson(response.data);
   }
 
+  Future<ApiResponse<void>> deleteUser() async {
+    Response response = await dio.delete(
+      dio.options.baseUrl + PATH_USER,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
+  }
+
   Future<ApiResponse<void>> checkExistUser(String value, ExistType type) async {
     Response response =  await dio.get(
       dio.options.baseUrl + PATH_USER_EXIST + '?value=$value&type=${type.getValue()}'
