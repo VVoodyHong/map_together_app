@@ -215,11 +215,13 @@ class PlaceX extends GetxController {
   }
 
   void updatePlaceViewCnt() async {
-    ApiResponse<void> response = await API.to.updatePlaceViewCnt(place.value.idx);
-    if(response.success) {
-    } else {
-      print("updatePlaceViewCnt error:: ${response.code} ${response.message}");
-      Utils.showToast(response.message);
+    if(App.to.user.value.idx != userIdx?.value) {
+      ApiResponse<void> response = await API.to.updatePlaceViewCnt(place.value.idx);
+      if(response.success) {
+      } else {
+        print("updatePlaceViewCnt error:: ${response.code} ${response.message}");
+        Utils.showToast(response.message);
+      }
     }
   }
 
