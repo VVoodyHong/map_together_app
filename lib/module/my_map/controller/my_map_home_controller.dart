@@ -310,8 +310,8 @@ class MyMapHomeX extends GetxController {
         'currentTab': state,
         'userIdx': App.to.user.value.idx,
         'userNickname': App.to.user.value.nickname,
-        'followerCount': follower.value,
-        'followingCount': following.value
+        'followerCount': follower,
+        'followingCount': following
       }
     );
   }

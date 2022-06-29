@@ -13,6 +13,7 @@ import 'package:map_together/model/place_category/place_category.dart';
 import 'package:map_together/model/response/api_response.dart';
 import 'package:map_together/model/type/place_category_type.dart';
 import 'package:map_together/model/user/user.dart';
+import 'package:map_together/module/my_map/controller/my_map_home_controller.dart';
 import 'package:map_together/navigator/ui_state.dart';
 import 'package:map_together/rest/api.dart';
 import 'package:map_together/utils/constants.dart';
@@ -272,6 +273,7 @@ class UserHomeX extends GetxController {
     } else {
       await createFollow();
     }
+    await MyMapHomeX.to.getFollowCount();
   }
 
   void moveToFollow(UiState state) {
@@ -281,8 +283,8 @@ class UserHomeX extends GetxController {
         'currentTab': state,
         'userIdx': userIdx.value,
         'userNickname': user!.value.nickname,
-        'followerCount': follower.value,
-        'followingCount': following.value,
+        'followerCount': follower,
+        'followingCount': following,
         'setFollowCount': setFollowCount
       }
     );

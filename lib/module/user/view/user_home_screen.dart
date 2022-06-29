@@ -158,7 +158,7 @@ class UserHomeScreen extends GetView<UserHomeX> {
   List<BaseListTile> _listTiles(BuildContext context) {
     return [
       BaseListTile(
-        title: controller.followState.value ? '필로우 취소' :'팔로우',
+        title: controller.followState.value ? '팔로우 취소' :'팔로우',
         onTap: controller.onTapFollow,
         icon: controller.followState.value ? Icons.person_remove : Icons.person_add
       ),

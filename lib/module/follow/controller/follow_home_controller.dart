@@ -44,8 +44,8 @@ class FollowHomeX extends GetxController {
     userIdx!.value = Get.arguments['userIdx'];
     userNickname.value = Get.arguments['userNickname'];
     currentTab.value = Get.arguments['currentTab'];
-    followerCount.value = Get.arguments['followerCount'];
-    followingCount.value = Get.arguments['followingCount'];
+    followerCount = Get.arguments['followerCount'];
+    followingCount = Get.arguments['followingCount'];
     followerScrollController.addListener(listenScrolling);
     followingScrollController.addListener(listenScrolling);
     await searchFollow();
