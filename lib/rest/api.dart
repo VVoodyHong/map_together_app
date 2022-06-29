@@ -412,6 +412,19 @@ class API extends getx.GetxController{
     return ApiResponse<void>.fromJson(response.data);
   }
 
+  Future<ApiResponse<void>> updatePlaceViewCnt(int placeIdx) async {
+    Response response = await dio.put(
+      dio.options.baseUrl + PATH_PLACE_VIEW_CNT + '/$placeIdx',
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      )
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<void>.fromJson(response.data);
+  }
+
   Future<ApiResponse<Places>> newsPlace(PlaceSearch req) async {
     Map<String, dynamic> json = req.toJson();
     Response response = await dio.post(

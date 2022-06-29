@@ -20,6 +20,7 @@ const String PATH_PLACE_NEWS = 'place/news';
 const String PATH_PLACE_IMAGE = 'place/image';
 const String PATH_PLACE_TAG = 'place/tag';
 const String PATH_PLACE_LIKE = 'place/like';
+const String PATH_PLACE_VIEW_CNT = 'place/viewCnt';
 const String PATH_PLACE_CATEGORY = 'place_category';
 const String PATH_PLACE_REPLY = 'place_reply';
 

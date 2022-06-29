@@ -65,6 +65,7 @@ class PlaceX extends GetxController {
     await getPlaceReply();
     await getPlaceLike();
     await setMarker();
+    updatePlaceViewCnt();
     bodyScrollController.addListener(listenScrollingBody);
     replyScrollController.addListener(listenScrollingReply);
     super.onInit();
@@ -209,6 +210,15 @@ class PlaceX extends GetxController {
       Utils.showToast('삭제가 완료되었습니다');
     } else {
       print("deletePlace error:: ${response.code} ${response.message}");
+      Utils.showToast(response.message);
+    }
+  }
+
+  void updatePlaceViewCnt() async {
+    ApiResponse<void> response = await API.to.updatePlaceViewCnt(place.value.idx);
+    if(response.success) {
+    } else {
+      print("updatePlaceViewCnt error:: ${response.code} ${response.message}");
       Utils.showToast(response.message);
     }
   }
