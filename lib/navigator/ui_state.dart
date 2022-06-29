@@ -18,6 +18,7 @@ enum UiState {
   MYMAP_HOME,
   MAP_SETTING,
   SETTING,
+  CHANGE_PASSWORD,
 
   //search
   SEARCH_HOME,
