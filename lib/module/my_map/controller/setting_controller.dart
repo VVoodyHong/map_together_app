@@ -65,4 +65,7 @@ class SettingX extends GetxController {
     );
   }
 
+  void moveToChangePassword() {
+    Utils.moveTo(UiState.CHANGE_PASSWORD);
+  }
 }
