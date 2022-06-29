@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:map_together/model/place/place.dart';
+import 'package:map_together/model/type/login_type.dart';
 
 part 'user.g.dart';
 
@@ -12,6 +13,7 @@ class User {
   final String? profileImg;
   final String? introduce;
   final List<Place>? places;
+  final LoginType? loginType;
   final double? lat;
   final double? lng;
   final double? zoom;
@@ -24,6 +26,7 @@ class User {
     this.profileImg,
     this.introduce,
     this.places,
+    this.loginType,
     this.lat,
     this.lng,
     this.zoom
