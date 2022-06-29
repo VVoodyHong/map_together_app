@@ -26,31 +26,53 @@ class SettingScreen extends GetView<SettingX> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            InkWell(
-              onTap: controller.logout,
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.logout
-                  ).marginOnly(right: 15),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Text(
-                        '로그아웃',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )
+            _tile(
+              title: '문의하기',
+              icon: Icons.contact_support_outlined,
+              onTap: controller.contact
+            ),
+            _tile(
+              title: '로그아웃',
+              icon: Icons.logout,
+              onTap: controller.logout
+            ),
+            _tile(
+              title: '회원탈퇴',
+              icon: Icons.person_off_outlined,
+              onTap: controller.deleteUser
+            ),
           ],
         ).marginSymmetric(horizontal: 15)
       )
+    );
+  }
+
+  Widget _tile({
+    required IconData icon,
+    required String title,
+    required Function() onTap
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Icon(
+            icon
+          ).marginOnly(right: 15),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
