@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -85,6 +86,7 @@ class PlaceScreen extends GetView<PlaceX> {
           ),
           zoom: 15,
         ),
+        locationButtonEnable: true,
         onMapCreated: controller.onMapCreated,
         markers: controller.markers.value
       )
@@ -264,7 +266,7 @@ class PlaceScreen extends GetView<PlaceX> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(file.url)
+                image: CachedNetworkImageProvider(file.url)
               )
             ),
           ),

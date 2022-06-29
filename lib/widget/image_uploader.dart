@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:map_together/model/file/file.dart' as mapto;
 import 'package:map_together/utils/constants.dart';
@@ -188,7 +189,7 @@ class ImageUploader extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage(images![index].url)
+                                image: CachedNetworkImageProvider(images![index].url)
                               )
                             ),
                           ),

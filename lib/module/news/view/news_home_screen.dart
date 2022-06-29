@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/app.dart';
@@ -73,12 +74,18 @@ class NewsHomeScreen extends GetView<NewsHomeX> {
             child: RefreshIndicator(
               color: MtColor.signature,
               onRefresh: () async {await controller.onRefresh();},
-              child: controller.placeList.isNotEmpty ? ListView.builder(
-                controller: controller.scrollController,
-                itemCount: controller.placeList.length,
-                itemBuilder: (context, index) {
-                  return _item(controller.placeList[index]).marginOnly(bottom: 15);
+              child: controller.placeList.isNotEmpty ? NotificationListener<OverscrollIndicatorNotification>(
+                onNotification: (overscroll) {
+                  overscroll.disallowIndicator();
+                  return true;
                 },
+                child: ListView.builder(
+                  controller: controller.scrollController,
+                  itemCount: controller.placeList.length,
+                  itemBuilder: (context, index) {
+                    return _item(controller.placeList[index]).marginOnly(bottom: 15);
+                  },
+                ),
               ) : !controller.isLoading.value ? EmptyView(text: '게시물이 존재하지 않습니다.') : Container(),
             )
           )
@@ -248,7 +255,7 @@ class NewsHomeScreen extends GetView<NewsHomeX> {
 
   ImageProvider _imageProvider(String? imagePath){
     if(imagePath != null) {
-      return NetworkImage(imagePath);
+      return CachedNetworkImageProvider(imagePath);
     } else {
       return AssetImage(Asset.defaultProfile);
     }

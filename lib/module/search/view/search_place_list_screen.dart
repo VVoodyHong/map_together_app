@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:map_together/model/place/place_simple.dart';
@@ -139,7 +140,7 @@ class SearchPlaceListScreen extends GetView<SearchPlaceListX> {
 
   ImageProvider _imageProvider(String? imagePath){
     if(imagePath != null) {
-      return NetworkImage(imagePath);
+      return CachedNetworkImageProvider(imagePath);
     } else {
       return AssetImage(Asset.defaultProfile);   
     }

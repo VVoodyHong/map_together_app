@@ -96,6 +96,9 @@ dependencies:
   # geolocator
   geolocator: ^8.2.1
 
+  # caching image
+  cached_network_image: ^3.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
