@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:map_together/app.dart';
+import 'package:map_together/model/type/login_type.dart';
 import 'package:map_together/module/my_map/controller/setting_controller.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 import 'package:map_together/widget/base_button.dart';
@@ -26,6 +28,12 @@ class SettingScreen extends GetView<SettingX> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            App.to.user.value.loginType != LoginType.KAKAO ?
+            _tile(
+              title: '비밀번호 변경',
+              icon: Icons.lock_outline,
+              onTap: controller.moveToChangePassword
+            ) : Container(),
             _tile(
               title: '문의하기',
               icon: Icons.contact_support_outlined,
