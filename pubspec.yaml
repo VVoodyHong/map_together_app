@@ -99,6 +99,9 @@ dependencies:
   # caching image
   cached_network_image: ^3.2.0
 
+  # url launcher for email
+  url_launcher: ^6.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
