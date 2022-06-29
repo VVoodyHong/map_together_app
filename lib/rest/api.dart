@@ -28,6 +28,7 @@ import 'package:map_together/model/tag/tags.dart';
 import 'package:map_together/model/type/exist_type.dart';
 import 'package:map_together/model/user/user.dart';
 import 'package:map_together/model/user/user_create.dart';
+import 'package:map_together/model/user/user_password.dart';
 import 'package:map_together/model/user/user_search.dart';
 import 'package:map_together/model/user/user_update.dart';
 import 'package:map_together/model/user/users.dart';
@@ -184,6 +185,20 @@ class API extends getx.GetxController{
         headers: {'authorization': 'Bearer $token'},
       ),
       data: formData
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    return ApiResponse<User>.fromJson(response.data);
+  }
+
+  Future<ApiResponse<User>> updatePassword(UserPassword req) async {
+    Response response = await dio.put(
+      dio.options.baseUrl + PATH_USER_PASSWORD,
+      options: Options(
+        headers: {'authorization': 'Bearer $token'},
+      ),
+      data: req
     ).onError((error, stackTrace) {
       Utils.showToast('서버 통신 중 오류가 발생했습니다.');
       throw Exception("server error :: $error");

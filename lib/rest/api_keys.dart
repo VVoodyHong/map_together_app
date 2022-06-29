@@ -11,6 +11,7 @@ const String PATH_REFRESH_JWT = 'auth/refreshJwt';
 
 const String PATH_SIGN_UP = 'user/signUp';
 const String PATH_USER = 'user';
+const String PATH_USER_PASSWORD = 'user/password';
 const String PATH_USER_SEARCH = 'user/search';
 const String PATH_USER_EXIST = 'user/exist';
 
