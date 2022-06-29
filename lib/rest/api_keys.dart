@@ -1,6 +1,9 @@
 const String SCHEME = 'http://';
 // local
+  // device
 const String APP_SERVER_URL = 'localhost:8080/api/v1/app/';
+  // emulator
+  // const String APP_SERVER_URL = '10.0.2.2:8080/api/v1/app/';
 // prod
 // const String APP_SERVER_URL = '43.200.21.111:8080/api/v1/app/';
 
