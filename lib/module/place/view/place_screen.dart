@@ -40,15 +40,15 @@ class PlaceScreen extends GetView<PlaceX> {
             iconData: Icons.arrow_back,
             onPressed: () => Get.close(1)
           ),
-          actions: [
-            BaseButton.iconButton(
-            iconData: Icons.more_vert,
-            onPressed: () => BottomSheetModal.showList(
-              context: context,
-              listTiles: _appBarListTiles(context)
-            )
-          )
-          ],
+          // actions: [
+          //   BaseButton.iconButton(
+          //     iconData: Icons.more_vert,
+          //     onPressed: () => BottomSheetModal.showList(
+          //       context: context,
+          //       listTiles: _appBarListTiles(context)
+          //     )
+          //   )
+          // ],
           centerTitle: false,
           onPressedTitle: controller.onPressedTitle
         ).init(),
