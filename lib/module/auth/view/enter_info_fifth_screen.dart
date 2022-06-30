@@ -7,6 +7,7 @@ import 'package:map_together/utils/utils.dart';
 import 'package:map_together/widget/base_app_bar.dart';
 import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/button_round.dart';
+import 'package:map_together/widget/step_progress_indicator.dart';
 
 class EnterInfoFifthScreen extends GetView<EnterInfoX> {
   @override
@@ -15,7 +16,7 @@ class EnterInfoFifthScreen extends GetView<EnterInfoX> {
       children: [
         Scaffold(
           appBar: BaseAppBar(
-            title: '활동 지역 선택 (4/4)',
+            title: '활동 지역 선택',
             leading: BaseButton.iconButton(
               iconData: Icons.arrow_back,
               onPressed: () => Get.close(1)
@@ -33,12 +34,10 @@ class EnterInfoFifthScreen extends GetView<EnterInfoX> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          LinearProgressIndicator(
-            value: 1,
-            backgroundColor: MtColor.paleGrey,
-            valueColor: AlwaysStoppedAnimation<Color>(MtColor.signature),
-            minHeight: 5,
-          ),
+          StepProgressIndicator(
+            currentLevel: 4,
+            totalLevel: 4
+          ).marginSymmetric(horizontal: 40, vertical: 20),
           Expanded(
             child: Column(
               children: [

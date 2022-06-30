@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:map_together/app.dart';
 import 'package:map_together/module/auth/controller/enter_info_controller.dart';
 import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/base_app_bar.dart';
+import 'package:map_together/widget/base_button.dart';
 import 'package:map_together/widget/base_tff.dart';
 import 'package:map_together/widget/button_round.dart';
+import 'package:map_together/widget/step_progress_indicator.dart';
 
 class EnterInfoSecondScreen extends GetView<EnterInfoX> {
   @override
@@ -14,12 +15,13 @@ class EnterInfoSecondScreen extends GetView<EnterInfoX> {
       onTap: ()=> FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: BaseAppBar(
-          title: '닉네임 입력 (1/4)',
+          title: '닉네임 입력',
+          leading: BaseButton.iconButton(
+            iconData: Icons.arrow_back,
+            onPressed: () => Get.close(1)
+          )
         ).init(),
-        body: WillPopScope(
-          onWillPop: App.to.exitApp,
-          child: _body()
-        )
+        body: _body()
       ),
     ));
   }
@@ -29,12 +31,10 @@ class EnterInfoSecondScreen extends GetView<EnterInfoX> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          LinearProgressIndicator(
-            value: 0.25,
-            backgroundColor: MtColor.paleGrey,
-            valueColor: AlwaysStoppedAnimation<Color>(MtColor.signature),
-            minHeight: 5,
-          ),
+          StepProgressIndicator(
+            currentLevel: 1,
+            totalLevel: 4
+          ).marginSymmetric(horizontal: 40, vertical: 20),
           Row(
             children: [
               Flexible(
