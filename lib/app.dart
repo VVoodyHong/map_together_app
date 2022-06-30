@@ -230,7 +230,7 @@ class App extends GetxController {
     bool success = await _getUser();
     if(success) {
       if(user.value.nickname!.isEmpty) { // first login
-        UiLogic.changeUiState(UiState.ENTER_INFO_FIRST);
+        UiLogic.changeUiState(UiState.PREV_ENTER_INFO);
       } else {
         UiLogic.changeUiState(UiState.ROOT);
       }
