@@ -102,6 +102,9 @@ dependencies:
   # url launcher for email
   url_launcher: ^6.1.4
 
+  # get open source license
+  flutter_oss_licenses: ^2.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
