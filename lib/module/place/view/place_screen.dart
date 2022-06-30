@@ -345,32 +345,32 @@ class PlaceScreen extends GetView<PlaceX> {
     );
   }
 
-  List<BaseListTile> _appBarListTiles(BuildContext context) {
-    return App.to.user.value.idx == controller.userIdx?.value ? [
-      BaseListTile(
-        title: '수정',
-        onTap: controller.moveToUpdatePlace,
-        icon: Icons.edit
-      ),
-      BaseListTile(
-        title: '삭제',
-        onTap: () {
-          Get.close(1);
-          Utils.showDialog(
-            message: '정말로 삭제하시겠습니까?',
-            onConfirm: controller.deletePlace
-          );
-        },
-        icon: Icons.delete
-      ),
-    ] : [
-      BaseListTile(
-        title: '신고',
-        onTap: () {},
-        icon: Icons.report
-      )
-    ];
-  }
+  // List<BaseListTile> _appBarListTiles(BuildContext context) {
+  //   return App.to.user.value.idx == controller.userIdx?.value ? [
+  //     BaseListTile(
+  //       title: '수정',
+  //       onTap: controller.moveToUpdatePlace,
+  //       icon: Icons.edit
+  //     ),
+  //     BaseListTile(
+  //       title: '삭제',
+  //       onTap: () {
+  //         Get.close(1);
+  //         Utils.showDialog(
+  //           message: '정말로 삭제하시겠습니까?',
+  //           onConfirm: controller.deletePlace
+  //         );
+  //       },
+  //       icon: Icons.delete
+  //     ),
+  //   ] : [
+  //     BaseListTile(
+  //       title: '신고',
+  //       onTap: () {},
+  //       icon: Icons.report
+  //     )
+  //   ];
+  // }
 
   List<BaseListTile> _replyListTiles(BuildContext context, int index) {
     return [
