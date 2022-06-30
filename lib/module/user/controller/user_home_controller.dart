@@ -38,12 +38,14 @@ class UserHomeX extends GetxController {
   RxInt following = 0.obs;
   RxInt follower = 0.obs;
   RxBool followState = false.obs;
+  late Function()? updateFollow;
 
   RxBool createMode = false.obs;
 
   @override
   void onInit() async {
     userIdx.value = Get.arguments['userIdx'];
+    updateFollow = Get.arguments['updateFollow'];
     await getOtherUser();
     position?.value = LatLng(
       user?.value.lat ?? DefaultPosition.lat,
@@ -272,6 +274,8 @@ class UserHomeX extends GetxController {
       await deleteFollow();
     } else {
       await createFollow();
+    }if(updateFollow!= null) {
+      updateFollow!();
     }
     await MyMapHomeX.to.getFollowCount();
   }

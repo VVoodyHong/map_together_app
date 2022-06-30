@@ -72,28 +72,34 @@ class FollowHomeX extends GetxController {
     }
   }
 
-  Future<void> searchFollow() async {
+  Future<void> searchFollow({bool? updateFollowing}) async {
     RequestPage requestPage = RequestPage(
-      page: currentTab.value == UiState.FOLLOW_FOLLOWER ? followerPage.value : followingPage.value,
+      page: updateFollowing ?? false ? followingPage.value : currentTab.value == UiState.FOLLOW_FOLLOWER ? followerPage.value : followingPage.value,
       size: DefaultPage.size
     );
     FollowSearch followSearch = FollowSearch(
-      keyword: currentTab.value == UiState.FOLLOW_FOLLOWER ? followerSearchController.text : followingSearchController.text,
+      keyword: updateFollowing ?? false ? followingSearchController.text : currentTab.value == UiState.FOLLOW_FOLLOWER ? followerSearchController.text : followingSearchController.text,
       requestPage: requestPage,
-      followType: currentTab.value == UiState.FOLLOW_FOLLOWER ? FollowType.FOLLOWER : FollowType.FOLLOWING,
+      followType: updateFollowing ?? false ? FollowType.FOLLOWING : currentTab.value == UiState.FOLLOW_FOLLOWER ? FollowType.FOLLOWER : FollowType.FOLLOWING,
       userIdx: userIdx!.value
     );
     isLoading.value = true;
     ApiResponse<Follows> response = await API.to.searchFollow(followSearch);
     if(response.success) {
-      if(currentTab.value == UiState.FOLLOW_FOLLOWER) {
-        followerList.addAll(response.data?.list ?? []);
-        isLastFollower.value = response.data!.last;
-        isSearchedFollower.value = true;
-      } else {
+      if(updateFollowing ?? false) {
         followingList.addAll(response.data?.list ?? []);
         isLastFollowing.value = response.data!.last;
         isSearchedFollowing.value = true;
+      } else {
+        if(currentTab.value == UiState.FOLLOW_FOLLOWER) {
+          followerList.addAll(response.data?.list ?? []);
+          isLastFollower.value = response.data!.last;
+          isSearchedFollower.value = true;
+        } else {
+          followingList.addAll(response.data?.list ?? []);
+          isLastFollowing.value = response.data!.last;
+          isSearchedFollowing.value = true;
+        }
       }
     } else {
       print("searchFollow error:: ${response.code} ${response.message}");
@@ -162,11 +168,19 @@ class FollowHomeX extends GetxController {
     await searchFollow();
   }
 
+  void updateFollow() async {
+      followingList.clear();
+      followingPage.value = 1;
+      isLastFollowing.value = false;
+    await searchFollow(updateFollowing: true);
+  }
+
   void moveToUserHome(int userIdx) {
     Utils.moveTo(
       UiState.USER_HOME_SCREEN,
       arg: {
-        'userIdx': userIdx
+        'userIdx': userIdx,
+        'updateFollow': updateFollow
       }
     );
   }
