@@ -21,6 +21,7 @@ class TagField extends StatelessWidget {
         if((tagsController.getTags ?? []).contains(tag)) {
           return '이미 존재하는 태그입니다.';
         }
+        return null;
       },
       textfieldTagsController: tagsController,
       textSeparators: [' ', ','],
