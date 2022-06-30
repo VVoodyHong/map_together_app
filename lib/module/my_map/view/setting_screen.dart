@@ -40,6 +40,11 @@ class SettingScreen extends GetView<SettingX> {
               onTap: controller.contact
             ),
             _tile(
+              title: '약관 및 정책',
+              icon: Icons.policy_outlined,
+              onTap: controller.moveToTermsAndPolicy
+            ),
+            _tile(
               title: '로그아웃',
               icon: Icons.logout,
               onTap: controller.logout
