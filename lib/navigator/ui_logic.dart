@@ -14,8 +14,10 @@ import 'package:map_together/module/follow/controller/follow_home_controller.dar
 import 'package:map_together/module/follow/view/follow_home_screen.dart';
 import 'package:map_together/module/my_map/controller/change_password_controller.dart';
 import 'package:map_together/module/my_map/controller/setting_controller.dart';
+import 'package:map_together/module/my_map/controller/terms_and_policy_controller.dart';
 import 'package:map_together/module/my_map/view/change_password_screen.dart';
 import 'package:map_together/module/my_map/view/setting_screen.dart';
+import 'package:map_together/module/my_map/view/terms_and_policy/terms_and_policy_screen.dart';
 import 'package:map_together/module/news/controller/news_home_controller.dart';
 import 'package:map_together/module/news/controller/select_place_controller.dart';
 import 'package:map_together/module/news/view/news_home_screen.dart';
@@ -226,6 +228,11 @@ class UiLogic {
       name: UiState.CHANGE_PASSWORD.toString(),
       page: () { return ChangePasswordScreen(); },
       binding: BindingsBuilder(() { Get.put(ChangePasswordX());}),
+    ),
+    GetPage(
+      name: UiState.TERMS_AND_POLICY.toString(),
+      page: () { return TermsAndPolicyScreen(); },
+      binding: BindingsBuilder(() { Get.put(TermsAndPolicyX());}),
     ),
   ];
 }

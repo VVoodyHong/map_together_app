@@ -19,6 +19,7 @@ enum UiState {
   MAP_SETTING,
   SETTING,
   CHANGE_PASSWORD,
+  TERMS_AND_POLICY,
 
   //search
   SEARCH_HOME,
