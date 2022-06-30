@@ -19,6 +19,9 @@ import 'package:map_together/utils/utils.dart';
 class EnterInfoX extends GetxController {
   static EnterInfoX get to => Get.find();
 
+  RxBool isCheckedPrivacyStatement = false.obs;
+  RxBool isCheckedTermsOfService = false.obs;
+  RxBool isCheckedTermsOfLocationService = false.obs;
 
   RxBool isValidNickname = false.obs;
   RxBool availableNickname = false.obs;
@@ -42,6 +45,18 @@ class EnterInfoX extends GetxController {
     position.value = LatLng(DefaultPosition.lat, DefaultPosition.lng);
     zoom.value = DefaultPosition.zoom;
     super.onInit();
+  }
+
+  void onChangePrivacyStatement() {
+    isCheckedPrivacyStatement.value = !isCheckedPrivacyStatement.value;
+  }
+
+  void onChangeTermsOfService() {
+    isCheckedTermsOfService.value = !isCheckedTermsOfService.value;
+  }
+
+  void onChangeTermsOfLocationService() {
+    isCheckedTermsOfLocationService.value = !isCheckedTermsOfLocationService.value;
   }
 
   void onChangeNickname(String nickname) {
