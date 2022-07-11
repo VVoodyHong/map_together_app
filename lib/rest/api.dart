@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 import 'package:map_together/auth/secrets.dart';
+import 'package:map_together/model/auth/auth_email.dart';
 import 'package:map_together/model/auth/jwt_authentication_response.dart';
 import 'package:map_together/model/auth/login.dart';
 import 'package:map_together/model/file/files.dart';
@@ -142,6 +143,18 @@ class API extends getx.GetxController{
     });
     return ApiResponse<JwtAuthenticationResponse>.fromJson(response.data);
   }
+
+  Future<ApiResponse<AuthEmail>> authEmail(AuthEmail req) async {
+    Response response = await dio.post(
+      dio.options.baseUrl + PATH_AUTH_EMAIL,
+      data: req.toJson(),
+    ).onError((error, stackTrace) {
+      Utils.showToast('서버 통신 중 오류가 발생했습니다.');
+      throw Exception("server error :: $error");
+    });
+    print(response);
+    return ApiResponse<AuthEmail>.fromJson(response.data);
+  }  
 
   /*
   user

@@ -11,6 +11,7 @@ const String APP_SERVER_URL = 'localhost:8080/api/v1/app/';
 const String PATH_LOGIN = 'auth';
 const String PATH_ACCESSTOKEN = 'auth/accessToken';
 const String PATH_REFRESH_JWT = 'auth/refreshJwt';
+const String PATH_AUTH_EMAIL = 'auth/email';
 
 const String PATH_SIGN_UP = 'user/signUp';
 const String PATH_USER = 'user';
