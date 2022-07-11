@@ -32,6 +32,8 @@ class DefaultPosition {
 
 class Asset {
   static const defaultProfile = 'lib/assets/images/default_profile.png';
+  static const logoSignature = 'lib/assets/images/logo_signature.png';
+  static const logoWhite = 'lib/assets/images/logo_white.png';
 
   // markers
 

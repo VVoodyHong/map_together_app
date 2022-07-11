@@ -2,7 +2,7 @@
     package="com.mapto.map_together">
    <application
         android:label="맵투게더"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name="com.mapto.map_together.MainActivity"
             android:exported="true"
