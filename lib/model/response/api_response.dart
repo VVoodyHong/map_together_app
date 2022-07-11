@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:map_together/model/auth/auth_email.dart';
 import 'package:map_together/model/auth/jwt_authentication_response.dart';
 import 'package:map_together/model/file/file.dart';
 import 'package:map_together/model/file/files.dart';
@@ -87,6 +88,8 @@ class ApiResponse<T> {
       return FollowSimple.fromJson(json) as T;
     } else if(T == Follows) {
       return Follows.fromJson(json) as T;
+    } else if(T == AuthEmail) {
+      return AuthEmail.fromJson(json) as T;
     } else {
       return null;
     }
