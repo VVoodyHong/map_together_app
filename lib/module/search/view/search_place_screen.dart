@@ -29,7 +29,7 @@ class SearchPlaceScreen extends GetView<SearchHomeX> {
           onMapCreated: controller.onMapCreated,
           onMapTap: controller.onMapTap,
           onSymbolTap: controller.onSymbolTap,
-          markers: controller.markers.value
+          markers: controller.address.value.isNotEmpty ? controller.markers.value : []
         ),
         Container(
           margin: EdgeInsets.all(5),

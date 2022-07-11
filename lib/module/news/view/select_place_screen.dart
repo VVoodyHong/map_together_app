@@ -50,7 +50,7 @@ class SelectPlaceScreen extends GetView<SelectPlaceX> {
                 onMapTap: controller.onMapTap,
                 onSymbolTap: controller.onSymbolTap,
                 onCameraIdle: controller.onCameraIdle,
-                markers: controller.markers.value,
+                markers: controller.address.value.isNotEmpty ? controller.markers.value : [],
                 maxZoom: ZoomLevel.max,
                 minZoom: ZoomLevel.min,
               ),
