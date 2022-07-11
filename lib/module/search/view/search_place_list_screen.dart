@@ -58,16 +58,31 @@ class SearchPlaceListScreen extends GetView<SearchPlaceListX> {
             onTap: () {controller.moveToPlace(place.userIdx, place.userNickname, place);},
             child: Column(
               children: [
-                Container(
+                place.representImg != null ? Container(
                   height: Get.width / 2 - 22.5,
                   width: Get.width / 2,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: _imageProvider(place.representImg)
+                      image: CachedNetworkImageProvider(place.representImg!)
                     )
                   ),
+                ) : Container(
+                  height: Get.width / 2 - 22.5,
+                  width: Get.width / 2,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: MtColor.paleGrey.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    'No Image',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: MtColor.grey.withOpacity(0.5)
+                    )
+                  )
                 ),
                 SizedBox(
                   height: (Get.width / 2 - 22.5) * 0.75,
@@ -136,13 +151,5 @@ class SearchPlaceListScreen extends GetView<SearchPlaceListX> {
         }
       ).marginSymmetric(horizontal: 15) : controller.isLoading.value ? Container() : EmptyView(text: '검색 결과가 존재하지 않습니다.')
     );
-  }
-
-  ImageProvider _imageProvider(String? imagePath){
-    if(imagePath != null) {
-      return CachedNetworkImageProvider(imagePath);
-    } else {
-      return AssetImage(Asset.defaultProfile);   
-    }
   }
 }

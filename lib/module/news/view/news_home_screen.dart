@@ -124,16 +124,31 @@ class NewsHomeScreen extends GetView<NewsHomeX> {
               ],
             ).marginOnly(bottom: 10),
           ),
-          Container(
+          place.representImg != null ? Container(
             height: Get.width - 30,
             width: Get.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: _imageProvider(place.representImg)
+                image: CachedNetworkImageProvider(place.representImg!)
               )
             ),
+          ).marginOnly(bottom: 10) : Container(
+            height: Get.width - 30,
+            width: Get.width,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: MtColor.paleGrey.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              'No Image',
+              style: TextStyle(
+                fontSize: 20,
+                color: MtColor.grey.withOpacity(0.5)
+              )
+            )
           ).marginOnly(bottom: 10),
           Row(
             children: [
@@ -251,13 +266,5 @@ class NewsHomeScreen extends GetView<NewsHomeX> {
         ]
       ).marginSymmetric(horizontal: 15),
     );
-  }
-
-  ImageProvider _imageProvider(String? imagePath){
-    if(imagePath != null) {
-      return CachedNetworkImageProvider(imagePath);
-    } else {
-      return AssetImage(Asset.defaultProfile);
-    }
   }
 }
