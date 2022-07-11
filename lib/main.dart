@@ -12,7 +12,6 @@ import 'package:map_together/utils/constants.dart';
 import 'package:map_together/widget/bottom_nav.dart';
 
 void main() {
-  runApp(MapTogether());
   if(Platform.isAndroid) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
@@ -21,6 +20,12 @@ void main() {
       )
     );
   }
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
+  runApp(MapTogether());
 }
 
 class MapTogether extends StatelessWidget {
